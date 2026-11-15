@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PKSF Full-stack Exam Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a focused training console — calm, exact, encouraging, no fluff.
+   IDEA: a transit-style departure board for an exam: each topic is a line with its own progress.
+   PICTURE: a large readiness dial plus per-topic mastery lines; inside a quiz the question card is the picture.
+   COLOUR and TYPE: deep green field, lime-white and coral signals; Inter Tight 700 titles, Inter body, JetBrains Mono for code.
+   LAYOUT: green band header, then white bands; one column under 600px, cards grid above. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0c1613);--ink:light-dark(#10201c,#e8efe9);--mute:light-dark(#4d615b,#9fb3ac);
+--line:light-dark(#dde6e2,#22332e);--card:light-dark(#f5f8f6,#13211d);
+--g:#00463c;--g2:light-dark(#00634f,#3fae8c);--lime:#e6f5c8;--coral:#ff6f59;
+--ok:light-dark(#0b7a4b,#5fd39a);--okbg:light-dark(#e3f6ea,#123326);--bad:light-dark(#c4361f,#ff8a76);--badbg:light-dark(#fde8e4,#3a1a14);
+--code:light-dark(#0f2a24,#0a1210)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Inter Tight",Inter,sans-serif;line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,5vw,50px);font-weight:800}
+h2{font-size:clamp(24px,3vw,32px);font-weight:700}
+h3{font-size:19px;font-weight:700}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
+.green{background:var(--g);color:#fff}
+.green .mute{color:#b9d6cc}
+.mute{color:var(--mute)}
+.top{background:var(--g);color:#fff;padding:10px max(5vw,16px);position:sticky;top:0;z-index:10;border-bottom:1px solid #0a5a4d}
+.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font:800 18px "Inter Tight",sans-serif;text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:8px}
+.brand i{width:12px;height:12px;border-radius:50%;background:var(--lime);display:inline-block;box-shadow:0 0 0 4px #ffffff22}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{text-decoration:none;padding:10px 12px;border-radius:10px;font-weight:600;font-size:15px;color:#d6ebe3;min-height:44px;display:flex;align-items:center}
+.nav a.on,.nav a:hover{background:#ffffff1a;color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);font-weight:600;cursor:pointer;text-decoration:none;font-size:15px}
+.btn:hover{border-color:var(--g2)}
+.btn.pri{background:var(--lime);color:#00332b;border-color:var(--lime)}
+.btn.pri:hover{filter:brightness(.96)}
+.btn.dark{background:var(--g);color:#fff;border-color:var(--g)}
+.btn.ghost{background:transparent;color:#fff;border-color:#ffffff55}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center}
+.hero p{font-size:17px;max-width:60ch}
+.dial{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;background:#ffffff0f;border:1px solid #ffffff22;border-radius:22px;padding:22px}
+.dial svg{width:clamp(130px,18vw,180px);height:auto;display:block}
+.stat{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #ffffff1f;font-size:15px}
+.stat:last-child{border:0}
+.stat b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.lines{margin-top:18px;display:grid;gap:7px}
+.ln{display:grid;grid-template-columns:minmax(0,12em) minmax(0,1fr) 3em;gap:10px;align-items:center;font-size:13px}
+.ln span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.green .bar{background:#ffffff22}
+.bar i{display:block;height:100%;background:var(--g2);border-radius:9px;transition:width .5s}
+.green .bar i{background:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.card .meta{font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.card a.btn{margin-top:auto}
+.tcard{text-decoration:none;cursor:pointer;transition:transform .15s,border-color .15s}
+.tcard:hover{border-color:var(--g2);transform:translateY(-2px)}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--lime);color:#00332b;border-radius:14px;padding:12px 16px;margin-bottom:18px;font-weight:600}
+.tabs{display:flex;gap:6px;margin-top:20px;flex-wrap:wrap}
+.tabs button{min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid #ffffff44;background:transparent;color:#fff;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--lime);color:#00332b;border-color:var(--lime)}
+.qwrap{max-width:820px;margin:0 auto}
+.qhead{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-size:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip.warn{background:var(--badbg);color:var(--bad);border-color:transparent}
+.prog{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-bottom:22px}
+.prog i{display:block;height:100%;background:var(--coral);transition:width .3s}
+.qtext{font:600 clamp(19px,2.4vw,23px)/1.35 "Inter Tight",Inter,sans-serif;margin:0 0 18px}
+.qtext p{margin:0 0 10px}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:34px minmax(0,1fr) 22px;gap:12px;align-items:center;text-align:left;padding:12px 14px;min-height:56px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);cursor:pointer;font-size:16px;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--g2)}
+.opt .k{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--card);font-weight:700;font-size:14px}
+.opt.sel{border-color:var(--g2);background:var(--card)}
+.opt.sel .k{background:var(--g);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right .k{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.fb{margin-top:16px;border-radius:14px;padding:14px 16px;border-left:5px solid var(--ok);background:var(--okbg)}
+.fb.no{border-color:var(--bad);background:var(--badbg)}
+.fb b.v{display:block;margin-bottom:4px}
+.fb p{margin:0 0 6px}
+.qnav{display:flex;gap:10px;justify-content:space-between;margin-top:20px;flex-wrap:wrap}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin-top:22px}
+.pal button{min-height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600;cursor:pointer;font-variant-numeric:tabular-nums}
+.pal button.a{background:var(--card);border-color:var(--g2)}
+.pal button.c{outline:2px solid var(--coral)}
+code{font:500 .9em "JetBrains Mono",ui-monospace,monospace;background:var(--card);border:1px solid var(--line);padding:1px 5px;border-radius:6px;overflow-wrap:anywhere}
+pre{background:var(--code);color:#d7efe4;border-radius:12px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.55;margin:10px 0}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit;overflow-wrap:normal;white-space:pre}
+.ans p,.ans li{max-width:75ch}
+.ans ul,.ans ol{padding-left:22px;margin:8px 0}
+.ans li{margin:4px 0}
+details.w{border:1px solid var(--line);border-radius:14px;margin-top:10px;background:var(--card)}
+details.w>summary{cursor:pointer;padding:14px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:flex-start;min-height:44px}
+details.w>summary::before{content:"+";font:700 18px/1 "Inter Tight";color:var(--g2);width:16px;flex:none;margin-top:2px}
+details.w[open]>summary::before{content:"–"}
+details.w>.ans{padding:0 16px 14px 42px}
+.cheat{columns:2 340px;column-gap:28px;padding-left:20px}
+.cheat li{break-inside:avoid;margin:0 0 10px}
+.score{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center}
+.big{font:800 clamp(48px,8vw,84px)/1 "Inter Tight",sans-serif;font-variant-numeric:tabular-nums}
+.rv{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:10px}
+.rv.no{border-left:5px solid var(--bad)}.rv.ok{border-left:5px solid var(--ok)}
+.rv .qt p{margin:0 0 6px;font-weight:600}
+.rv .l{font-size:14px;margin:4px 0}
+.fc{min-height:300px;border-radius:22px;border:1px solid var(--line);background:var(--card);padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:14px}
+.fc .q{font:700 clamp(20px,2.6vw,26px)/1.25 "Inter Tight",sans-serif}
+select,input[type=search]{font:inherit;font-size:16px;min-height:44px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%}
+input[type=search]{width:100%}
+.opts-set{display:flex;gap:8px;flex-wrap:wrap}
+.opts-set label{display:flex;align-items:center;gap:8px;padding:8px 12px;min-height:44px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;font-size:15px}
+.opts-set input{width:18px;height:18px;accent-color:var(--g2)}
+.opts-set label:has(input:checked){border-color:var(--g2);background:var(--card)}
+.sec{margin-top:28px}
+.empty{padding:28px;text-align:center;border:1.5px dashed var(--line);border-radius:16px}
+.modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:30}
+.modal>div{background:var(--bg);border-radius:18px;padding:22px;max-width:420px;width:100%}
+.foot{font-size:13px;padding:24px max(5vw,16px);border-top:1px solid var(--line)}
+.kbd{font-size:13px}
+@media(max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.dial{grid-template-columns:minmax(0,1fr);justify-items:center}.dial>div{width:100%}.score{grid-template-columns:minmax(0,1fr)}.top{position:static}.nav{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none}.nav a{padding:8px 10px;font-size:14px;white-space:nowrap;min-height:40px}.brand{width:100%}.kbd{display:none}details.w>.ans{padding-left:16px}.ln{grid-template-columns:minmax(0,7.5em) minmax(0,1fr) 3em}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="#home"><i></i>PKSF Full-stack Prep</a>
+<nav class="nav" id="nav">
+<a href="#home" data-v="home">Topics</a>
+<a href="#mock" data-v="mock">Mock exam</a>
+<a href="#cards" data-v="cards">Flashcards</a>
+<a href="#weak" data-v="weak">Weak spots</a>
+</nav></div></header>
+<main id="app"></main>
+<div class="foot"><div class="wrap mute">Built from the PKSF ToR for Software Engineer Full-stack. The question bank covers every technology the ToR names plus CS fundamentals; it is practice material, not the actual exam paper. Progress is saved in this browser only.</div></div>
+<script>
+const TOPICS=[
+{id:"java",name:"Core Java",blurb:"OOP, collections, streams, concurrency, Java 17",
+mcq:String.raw`
+Q: Which feature is NOT part of Java 17 (it arrived as final in Java 21)?
+- Sealed classes
+- Records
+- Pattern matching for instanceof
+* Virtual threads
+E: Records (16), pattern matching for instanceof (16) and sealed classes (17) are all final in Java 17. Virtual threads (Project Loom) became final in Java 21.
+Q: How many null keys can a {{HashMap}} hold?
+- None
+* One
+- Unlimited
+- One, but only if there are no null values
+E: HashMap allows exactly one null key (stored in bucket 0) and any number of null values. Hashtable and ConcurrentHashMap allow no null keys or values.
+Q: Which Map is best for a heavily concurrent, read-and-write workload?
+- Hashtable
+- Collections.synchronizedMap(new HashMap())
+* ConcurrentHashMap
+- TreeMap
+E: ConcurrentHashMap uses fine-grained locking/CAS per bin, so many threads can read and write at once. Hashtable and synchronizedMap lock the whole map.
+Q: What does this print?
+~~~
+String a = "hi"; String b = "hi"; String c = new String("hi");
+System.out.println((a == b) + " " + (a == c));
+~~~
+* true false
+- true true
+- false false
+- false true
+E: Literals are interned in the string pool, so a and b reference the same object. new String() creates a separate heap object, so a == c is false (a.equals(c) is true).
+Q: Which statement about equals() and hashCode() is the required contract?
+- If hashCodes are equal, equals() must return true
+* If equals() returns true, the hashCodes must be equal
+- They are independent of each other
+- hashCode must be unique per object
+E: Equal objects must have equal hash codes. The reverse is not required: different objects may collide on hash code.
+Q: Which of these is a checked exception?
+- NullPointerException
+- ArithmeticException
+* IOException
+- IllegalArgumentException
+E: Checked exceptions extend Exception but not RuntimeException and must be declared or caught. IOException is checked; the others are RuntimeExceptions.
+Q: What does the {{volatile}} keyword guarantee?
+* Visibility of writes across threads (and ordering), but not atomicity of compound actions
+- Atomicity of count++
+- Mutual exclusion like synchronized
+- That the variable is stored on the stack
+E: volatile makes writes visible to other threads and prevents reordering. count++ is read-modify-write and still needs AtomicInteger or synchronized.
+Q: Which Stream operation is terminal?
+- map
+- filter
+- peek
+* collect
+E: Intermediate operations (map, filter, peek, sorted) are lazy and return a Stream. Terminal operations (collect, forEach, reduce, count) trigger processing.
+Q: What makes an interface a functional interface?
+- It has only default methods
+* It has exactly one abstract method
+- It is annotated with @Override
+- It has no methods
+E: A functional interface has exactly one abstract method (default and static methods don't count). @FunctionalInterface is optional but makes the compiler check it.
+Q: Time complexity of {{get(index)}} on ArrayList vs LinkedList?
+* O(1) vs O(n)
+- O(n) vs O(1)
+- O(1) vs O(1)
+- O(log n) vs O(n)
+E: ArrayList is backed by an array, so random access is O(1). LinkedList must walk nodes, so it is O(n).
+Q: What must a resource implement to be used in try-with-resources?
+- Serializable
+- Closeable only
+* AutoCloseable (Closeable extends it)
+- Runnable
+E: try-with-resources accepts anything implementing java.lang.AutoCloseable. Closeable is a sub-interface used by I/O classes.
+Q: Since Java 9, the default garbage collector in the HotSpot JVM is:
+- Serial GC
+- Parallel GC
+* G1 GC
+- ZGC
+E: G1 became the default in Java 9. ZGC and Shenandoah are low-latency options you enable explicitly.
+Q: In Java 8+ HashMap, when a single bucket grows long, it is converted to:
+- A linked list
+* A balanced red-black tree (when the bin has 8+ entries and table size is at least 64)
+- A new HashMap
+- An array
+E: Treeification turns worst-case bucket lookup from O(n) to O(log n). Below 6 entries it converts back to a list.
+Q: Which is the best way to avoid a NullPointerException when a value may be absent from a method result?
+- Return null and document it
+* Return Optional<T> and let the caller use orElse / map / ifPresent
+- Catch NullPointerException everywhere
+- Use assert statements
+E: Optional makes absence explicit in the API. Use Optional.ofNullable(x) to wrap a possibly-null value; don't use Optional for fields or parameters.
+Q: The {{final}} keyword on a class means:
+- Its fields cannot change
+* It cannot be subclassed
+- It cannot be instantiated
+- All methods are static
+E: A final class (e.g. String) cannot be extended. A final method cannot be overridden; a final variable cannot be reassigned.
+Q: Which ExecutorService is suited to running many short-lived async tasks with a bounded pool?
+- new Thread() for each task
+* Executors.newFixedThreadPool(n) (or a ThreadPoolExecutor with a bounded queue)
+- Runtime.exec()
+- Thread.sleep()
+E: Reusing a bounded pool avoids the cost and risk of creating unbounded threads. In production prefer a ThreadPoolExecutor with an explicit bounded queue and rejection policy.
+Q: Which Java collection keeps insertion order and rejects duplicates?
+- HashSet
+- TreeSet
+* LinkedHashSet
+- ArrayList
+E: LinkedHashSet = HashSet + a doubly-linked list for insertion order. TreeSet sorts; HashSet has no order.
+`,
+written:String.raw`
+## Explain the four pillars of OOP with Java examples.
+- **Encapsulation**: hide state behind methods. Private fields + getters/validated setters, e.g. a {{LoanAccount}} whose {{balance}} only changes through {{disburse()}} and {{repay()}}.
+- **Abstraction**: expose what, hide how. An interface {{PaymentGateway}} with {{pay()}}, implementations hide bank-specific details.
+- **Inheritance**: reuse and specialise. {{class SavingsAccount extends Account}}.
+- **Polymorphism**: one interface, many forms. Compile-time = method overloading; runtime = overriding, e.g. {{Account a = new SavingsAccount(); a.calculateInterest();}} calls the subclass method.
+
+Tip for the exam: give one tiny code line per pillar; examiners reward concrete examples.
+## Abstract class vs interface (Java 8+)?
+- An abstract class can have state (instance fields), constructors and any access modifiers; a class can extend only one.
+- An interface has no instance state; since Java 8 it can have {{default}} and {{static}} methods, since Java 9 {{private}} methods. A class can implement many.
+- Use an abstract class for a shared base with common state/behaviour ("is-a" with code reuse). Use an interface for a capability/contract ("can-do"), e.g. {{Comparable}}, {{Serializable}}.
+## How does HashMap work internally?
+1. {{put(k,v)}} computes {{k.hashCode()}}, spreads it ({{h ^ (h >>> 16)}}) and finds the bucket index {{(n-1) & hash}}.
+2. If the bucket is empty the node is stored; otherwise it walks the bin and uses {{equals()}} to replace an existing key or append a new node.
+3. Since Java 8 a bin with 8+ nodes (and table size at least 64) becomes a red-black tree, so worst case is O(log n).
+4. Default capacity 16, load factor 0.75: when size > capacity x 0.75 the table doubles and entries are redistributed (rehash).
+5. Not thread-safe; use ConcurrentHashMap for concurrency.
+## Write a Java method that returns the first non-repeating character in a string.
+~~~java
+public static Character firstUnique(String s) {
+    Map<Character, Integer> count = new LinkedHashMap<>();
+    for (char c : s.toCharArray()) count.merge(c, 1, Integer::sum);
+    for (Map.Entry<Character, Integer> e : count.entrySet())
+        if (e.getValue() == 1) return e.getKey();
+    return null; // none
+}
+// firstUnique("swiss") -> 'w'
+~~~
+LinkedHashMap keeps insertion order, so the first entry with count 1 is the answer. O(n) time, O(k) space.
+## Explain the SOLID principles.
+- **S**ingle responsibility: a class has one reason to change (separate {{ReportService}} from {{ReportPdfExporter}}).
+- **O**pen/closed: open for extension, closed for modification (add a new {{PaymentGateway}} implementation instead of editing a switch).
+- **L**iskov substitution: subtypes must be usable wherever the base type is expected without breaking behaviour.
+- **I**nterface segregation: many small interfaces over one fat one.
+- **D**ependency inversion: depend on abstractions; Spring's constructor injection of interfaces is the textbook example.
+## Write Java code using streams: group employees by department and get the average salary of each.
+~~~java
+Map<String, Double> avg = employees.stream()
+    .collect(Collectors.groupingBy(Employee::getDept,
+             Collectors.averagingDouble(Employee::getSalary)));
+
+// Highest-paid employee per department:
+Map<String, Optional<Employee>> top = employees.stream()
+    .collect(Collectors.groupingBy(Employee::getDept,
+             Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
+~~~
+## Thread vs Runnable vs ExecutorService vs CompletableFuture?
+- {{Thread}}: a raw OS-backed thread; creating many is expensive.
+- {{Runnable}}/{{Callable}}: the task; Callable returns a value and can throw checked exceptions.
+- {{ExecutorService}}: a managed thread pool that reuses threads and returns {{Future}}s.
+- {{CompletableFuture}}: composable async pipelines ({{supplyAsync().thenApply().thenCombine().exceptionally()}}) without blocking on {{get()}}.
+- Java 21 adds virtual threads for massive I/O concurrency, but the ToR targets Java 17 style code.
+`,
+cheat:String.raw`
+- Java 17 LTS: records, sealed classes, pattern matching instanceof, switch expressions, text blocks. Virtual threads = Java 21.
+- String is immutable; literals are pooled; compare with equals().
+- HashMap: 16 buckets, load factor 0.75, treeify at 8, 1 null key. ConcurrentHashMap: no nulls.
+- ArrayList get O(1); LinkedList get O(n); HashSet/HashMap ops O(1) average; TreeMap O(log n).
+- Checked = Exception (not Runtime). Unchecked = RuntimeException, Error.
+- volatile = visibility, not atomicity. Use AtomicInteger / synchronized / Lock.
+- Streams: lazy intermediate ops, one terminal op; a stream can be consumed once.
+- equals true implies same hashCode. Override both together.
+- Default GC since Java 9: G1.
+- Functional interface = exactly one abstract method (Function, Supplier, Consumer, Predicate).
+`},
+{id:"spring",name:"Spring Boot",blurb:"DI, auto-config, REST, transactions, validation",
+mcq:String.raw`
+Q: {{@SpringBootApplication}} is a combination of:
+* @Configuration, @EnableAutoConfiguration, @ComponentScan
+- @Controller, @Service, @Repository
+- @Configuration, @EnableWebMvc, @Bean
+- @Component, @Autowired, @Value
+E: It marks the configuration class, turns on auto-configuration, and scans the package and sub-packages for components.
+Q: The default scope of a Spring bean is:
+* singleton
+- prototype
+- request
+- session
+E: One instance per ApplicationContext. prototype gives a new instance each lookup; request/session exist only in web contexts.
+Q: Which dependency-injection style is recommended by the Spring team?
+- Field injection with @Autowired
+- Setter injection everywhere
+* Constructor injection
+- Static factory lookup
+E: Constructor injection makes dependencies explicit and final, works without reflection in tests, and fails fast if something is missing.
+Q: By default, {{@Transactional}} rolls back on:
+- Every exception
+* RuntimeException and Error only
+- Checked exceptions only
+- Nothing unless rollbackFor is set
+E: Checked exceptions commit by default. Use @Transactional(rollbackFor = Exception.class) to also roll back on checked exceptions.
+Q: A public method annotated with @Transactional is called from another method in the same class. What happens?
+- A new transaction always starts
+* The annotation is ignored, because the call bypasses the Spring proxy (self-invocation)
+- The application fails to start
+- It runs in a nested transaction
+E: Spring transactions use AOP proxies. Internal calls do not go through the proxy. Move the method to another bean or inject the proxy.
+Q: Default transaction propagation is:
+* REQUIRED
+- REQUIRES_NEW
+- NESTED
+- SUPPORTS
+E: REQUIRED joins an existing transaction or starts one. REQUIRES_NEW suspends the current transaction and starts an independent one (useful for audit logs).
+Q: {{@RestController}} is equivalent to:
+- @Component + @RequestMapping
+* @Controller + @ResponseBody
+- @Service + @ResponseBody
+- @Controller + @RequestBody
+E: Every handler method's return value is written directly to the HTTP response body (JSON via Jackson).
+Q: The default embedded server in spring-boot-starter-web is:
+- Jetty
+- Undertow
+* Tomcat
+- Netty
+E: Tomcat is default for the servlet stack. WebFlux (reactive) defaults to Netty.
+Q: How do you activate {{application-dev.yml}}?
+- Rename it to application.yml
+* Set spring.profiles.active=dev (property, env var SPRING_PROFILES_ACTIVE, or --spring.profiles.active=dev)
+- Annotate the main class with @Dev
+- It is loaded automatically always
+E: Profile-specific files override application.yml when the profile is active.
+Q: Which combination provides global exception handling for REST controllers?
+- @ControllerAdvice alone
+* @RestControllerAdvice with @ExceptionHandler methods
+- try/catch in every controller
+- @ResponseStatus on the main class
+E: A @RestControllerAdvice class centralises error responses (e.g. RFC 7807 ProblemDetail in Spring 6).
+Q: A @RequestBody annotated with @Valid fails validation. Which exception is thrown?
+- ConstraintViolationException
+* MethodArgumentNotValidException
+- BindException only
+- ValidationException
+E: Handle it in your @RestControllerAdvice to return field errors as 400 Bad Request. ConstraintViolationException comes from @Validated on method parameters like @PathVariable.
+Q: Two beans implement the same interface. How do you choose one at injection?
+- @Primary only
+- @Qualifier only
+* Either @Primary (a default) or @Qualifier("beanName") at the injection point
+- It is impossible
+E: Without one of these Spring throws NoUniqueBeanDefinitionException.
+Q: Which annotation enables {{@Scheduled}} methods?
+* @EnableScheduling
+- @EnableAsync
+- @EnableCron
+- @EnableBatchProcessing
+E: @EnableAsync is for @Async. Use cron, fixedRate or fixedDelay on @Scheduled.
+Q: Since Spring Boot 2.6, two beans that depend on each other through constructors will:
+- Work fine
+* Fail at startup, because circular references are prohibited by default
+- Be resolved lazily
+- Become prototype beans
+E: spring.main.allow-circular-references defaults to false. Fix the design (extract a third bean) rather than re-enabling it.
+Q: Which Actuator endpoint is exposed over HTTP by default?
+- /actuator/env
+- /actuator/beans
+* /actuator/health
+- /actuator/shutdown
+E: Only health is exposed over the web by default. Expose others with management.endpoints.web.exposure.include and secure them.
+Q: Which annotation binds a group of properties like {{app.mail.host}} to a typed class?
+- @Value on every field
+* @ConfigurationProperties(prefix = "app.mail")
+- @PropertySource only
+- @Bean
+E: @ConfigurationProperties gives type-safe, validated configuration; @Value suits single values.
+Q: Spring Boot 3 requires at least:
+- Java 8
+- Java 11
+* Java 17
+- Java 21
+E: Spring Boot 3 / Spring Framework 6 have a Java 17 baseline and moved from javax.* to jakarta.* packages.
+`,
+written:String.raw`
+## How does Spring Boot auto-configuration work?
+- {{@EnableAutoConfiguration}} loads candidate configuration classes listed in {{META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports}} (spring.factories in Boot 2).
+- Each class is guarded by conditions: {{@ConditionalOnClass}} (library on classpath), {{@ConditionalOnMissingBean}} (you haven't defined your own), {{@ConditionalOnProperty}}.
+- Example: H2 or PostgreSQL driver on the classpath plus {{spring.datasource.url}} = a HikariCP DataSource is created for you.
+- Your own beans win because of @ConditionalOnMissingBean. Debug with {{--debug}} or the {{/actuator/conditions}} endpoint.
+## Design a layered CRUD REST API in Spring Boot (show code).
+~~~java
+@Entity
+public class PartnerOrg {
+  @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) Long id;
+  @Column(nullable = false, unique = true) String code;
+  String name;
+}
+
+public record PartnerOrgDto(Long id, @NotBlank String code, @NotBlank String name) {}
+
+public interface PartnerOrgRepository extends JpaRepository<PartnerOrg, Long> {
+  boolean existsByCode(String code);
+}
+
+@Service @RequiredArgsConstructor
+public class PartnerOrgService {
+  private final PartnerOrgRepository repo;
+  @Transactional
+  public PartnerOrgDto create(PartnerOrgDto dto) {
+    if (repo.existsByCode(dto.code())) throw new DuplicateException("code exists");
+    PartnerOrg po = new PartnerOrg(); po.code = dto.code(); po.name = dto.name();
+    po = repo.save(po);
+    return new PartnerOrgDto(po.id, po.code, po.name);
+  }
+  @Transactional(readOnly = true)
+  public Page<PartnerOrgDto> list(Pageable p) {
+    return repo.findAll(p).map(x -> new PartnerOrgDto(x.id, x.code, x.name));
+  }
+}
+
+@RestController @RequestMapping("/api/v1/partner-orgs") @RequiredArgsConstructor
+public class PartnerOrgController {
+  private final PartnerOrgService service;
+  @PostMapping
+  public ResponseEntity<PartnerOrgDto> create(@Valid @RequestBody PartnerOrgDto dto) {
+    PartnerOrgDto saved = service.create(dto);
+    return ResponseEntity.created(URI.create("/api/v1/partner-orgs/" + saved.id())).body(saved);
+  }
+  @GetMapping
+  public Page<PartnerOrgDto> list(Pageable pageable) { return service.list(pageable); }
+}
+
+@RestControllerAdvice
+class ApiErrors {
+  @ExceptionHandler(DuplicateException.class)
+  ProblemDetail dup(DuplicateException e) {
+    return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
+  }
+}
+~~~
+Points to mention: DTOs instead of exposing entities, validation, 201 + Location header, pagination, central error handling, transactions in the service layer, versioned URL.
+## How does @Transactional work and what are its pitfalls?
+- Spring wraps the bean in a proxy (JDK dynamic or CGLIB). The proxy opens a transaction through the PlatformTransactionManager, calls the method, then commits or rolls back.
+- Pitfalls: self-invocation bypasses the proxy; it only applies to public methods (Spring 6 also supports protected/package-private with CGLIB, but stay public); checked exceptions don't roll back by default; catching an exception inside the method hides it from the proxy; long transactions holding DB locks; calling a remote API inside a transaction.
+- Use {{readOnly = true}} for queries (Hibernate skips dirty checking), {{REQUIRES_NEW}} for audit logs that must persist even when the main transaction fails.
+## Describe the Spring bean lifecycle.
+1. Instantiate (constructor) and inject dependencies.
+2. Aware callbacks ({{BeanNameAware}}, {{ApplicationContextAware}}).
+3. {{BeanPostProcessor.postProcessBeforeInitialization}}.
+4. Init: {{@PostConstruct}}, then {{InitializingBean.afterPropertiesSet()}}, then custom init-method.
+5. {{postProcessAfterInitialization}} (proxies for @Transactional/@Async are created here).
+6. Bean in use.
+7. On shutdown: {{@PreDestroy}}, {{DisposableBean.destroy()}}, custom destroy-method. (Prototype beans are not destroyed by the container.)
+## Explain how you'd use Spring Batch to process a bulk CSV upload of loan records.
+- **Job** made of **Steps**. A chunk-oriented step: {{ItemReader}} (FlatFileItemReader for CSV) to {{ItemProcessor}} (validate, map, enrich) to {{ItemWriter}} (JdbcBatchItemWriter / JpaItemWriter).
+- {{chunk(500)}}: reads and processes 500 items, then writes and commits them in one transaction.
+- {{JobRepository}} stores execution metadata (status, read/write/skip counts), so a failed job can **restart** from the last committed chunk.
+- Fault tolerance: {{.faultTolerant().skip(ValidationException.class).skipLimit(100).retry(DeadlockLoserDataAccessException.class)}}; write skipped rows to an error report.
+- Trigger asynchronously: the upload API saves the file, launches the job with a TaskExecutor-backed JobLauncher, returns 202 Accepted + a job id; the UI polls status.
+- Scale with partitioning (split the file by ranges) or multi-threaded steps.
+`,
+cheat:String.raw`
+- @SpringBootApplication = @Configuration + @EnableAutoConfiguration + @ComponentScan.
+- Stereotypes: @Component, @Service, @Repository (adds exception translation), @Controller/@RestController.
+- Bean scopes: singleton (default), prototype, request, session, application.
+- Prefer constructor injection; @Qualifier / @Primary for multiple candidates.
+- @Transactional: proxy-based; REQUIRED default; rolls back on unchecked only; self-invocation doesn't work.
+- Validation: @Valid + jakarta.validation annotations; MethodArgumentNotValidException = 400.
+- Errors: @RestControllerAdvice + @ExceptionHandler, ProblemDetail (RFC 7807).
+- Profiles: application-{profile}.yml, spring.profiles.active.
+- Actuator: /actuator/health exposed by default; Micrometer to /actuator/prometheus.
+- Boot 3: Java 17+, jakarta.* namespace. Default server Tomcat; pool HikariCP.
+`},
+{id:"sec",name:"Security & SSO",blurb:"Spring Security, OAuth2, JWT, Keycloak, OWASP",
+mcq:String.raw`
+Q: A JWT consists of:
+* Header, payload and signature, Base64URL-encoded and separated by dots
+- Username, password and expiry
+- An encrypted blob only the server can read
+- A session ID and a cookie
+E: A signed JWT (JWS) is header.payload.signature. Anyone can decode the payload; the signature only proves integrity.
+Q: Is the payload of a standard signed JWT encrypted?
+- Yes, always
+* No, it is only Base64URL-encoded; never put secrets in it (use JWE if you need encryption)
+- Only when using RS256
+- Only the exp claim is encrypted
+E: Treat JWT claims as readable by anyone holding the token.
+Q: Which OAuth2 flow is recommended for a React/Angular SPA or a mobile app?
+- Implicit flow
+- Resource Owner Password Credentials
+* Authorization Code with PKCE
+- Client Credentials
+E: Implicit and password grants are deprecated by current OAuth security best practice. PKCE protects public clients that cannot keep a secret.
+Q: Which OAuth2 grant fits service-to-service (machine-to-machine) calls?
+- Authorization Code
+* Client Credentials
+- Device Code
+- Implicit
+E: No user is involved; the service authenticates with its own client id and secret and gets an access token.
+Q: OpenID Connect adds what to OAuth2?
+- Encryption of all traffic
+* An identity layer: an ID token (JWT) and a userinfo endpoint for authentication
+- Database storage of tokens
+- Rate limiting
+E: OAuth2 is about authorization (delegated access). OIDC standardises login and user identity on top of it.
+Q: In Keycloak, a realm is:
+- A single user account
+* An isolated space that manages its own users, clients, roles and settings
+- A type of token
+- A database table
+E: Typically one realm per organisation or environment; clients (apps) live inside a realm.
+Q: Which is the right way to store user passwords?
+- MD5 hash
+- SHA-1 hash
+- Base64 encoding
+* An adaptive, salted hash such as BCrypt (or Argon2/PBKDF2)
+E: Spring Security's BCryptPasswordEncoder salts automatically and is deliberately slow to resist brute force.
+Q: In Spring Security 6, how do you configure HTTP security?
+- Extend WebSecurityConfigurerAdapter
+* Declare a SecurityFilterChain @Bean using HttpSecurity
+- Edit web.xml
+- Use @EnableWebMvc
+E: WebSecurityConfigurerAdapter was deprecated in 5.7 and removed in 6.0. The lambda DSL is the standard style.
+Q: For a stateless REST API authenticated by bearer tokens in the Authorization header, CSRF protection:
+* Can usually be disabled, because the browser does not attach the token automatically
+- Must always be enabled
+- Replaces the need for JWT
+- Is handled by CORS
+E: CSRF exploits automatically sent credentials like cookies. If you store tokens in cookies, keep CSRF protection on.
+Q: Difference between HS256 and RS256 JWT signing?
+- HS256 is asymmetric, RS256 is symmetric
+* HS256 uses one shared secret; RS256 signs with a private key and verifies with a public key
+- RS256 encrypts the payload
+- There is no difference
+E: Keycloak uses RS256 by default and publishes public keys at the JWKS endpoint, so resource servers can verify without sharing a secret.
+Q: HTTP 401 vs 403?
+* 401 = not authenticated (missing or invalid credentials); 403 = authenticated but not allowed
+- 401 = forbidden; 403 = unauthorized
+- Both mean server error
+- 403 means the token expired
+E: Expired or missing token gives 401. A valid user without the required role gives 403.
+Q: {{@PreAuthorize("hasRole('ADMIN')")}} actually checks for which authority?
+- ADMIN
+* ROLE_ADMIN
+- admin
+- AUTH_ADMIN
+E: hasRole adds the ROLE_ prefix. hasAuthority('ADMIN') checks the exact string. Method security needs @EnableMethodSecurity.
+Q: Which is the main defence against SQL injection?
+- Escaping quotes manually
+* Parameterised queries / prepared statements (JPA parameters, JdbcTemplate placeholders)
+- Hiding error messages
+- Using POST instead of GET
+E: Never concatenate user input into SQL. Validation and least-privilege DB accounts are extra layers.
+Q: CORS is enforced by:
+- The database
+- The Spring server only
+* The browser, based on Access-Control-* headers the server returns
+- The firewall
+E: CORS is a browser rule. Postman and curl ignore it. Configure allowed origins explicitly, never * with credentials.
+Q: What is a refresh token for?
+- Encrypting the access token
+* Getting a new short-lived access token without making the user log in again
+- Logging out
+- Signing requests
+E: Keep access tokens short-lived (minutes); refresh tokens are longer-lived, rotated and revocable.
+Q: AES is a ____ algorithm; RSA is a ____ algorithm.
+* symmetric; asymmetric
+- asymmetric; symmetric
+- hashing; symmetric
+- symmetric; hashing
+E: AES (one shared key) is used for bulk data encryption. RSA (key pair) is used for key exchange and signatures. SHA-256 is hashing (one-way).
+Q: Which is the primary defence against stored XSS in a web app?
+- Using HTTPS
+* Context-aware output encoding (React escapes by default) plus a Content-Security-Policy
+- Hashing passwords
+- Disabling CORS
+E: Avoid dangerouslySetInnerHTML / innerHTML with user data; sanitise rich text with a library like DOMPurify.
+Q: Which Spring Boot property makes an app a JWT resource server trusting a Keycloak realm?
+* spring.security.oauth2.resourceserver.jwt.issuer-uri=https://kc.example/realms/pksf
+- spring.keycloak.enabled=true
+- server.ssl.enabled=true
+- spring.jwt.secret
+E: With spring-boot-starter-oauth2-resource-server, Spring discovers the JWKS keys from the issuer and validates signature, exp and iss.
+`,
+written:String.raw`
+## Explain the JWT authentication flow in a Spring Boot + React app.
+1. User submits credentials (or is redirected to Keycloak for SSO).
+2. The auth server validates them and issues a short-lived **access token** (JWT, signed RS256) and a **refresh token**.
+3. React keeps the access token in memory (not localStorage, to limit XSS theft); refresh token in an HttpOnly, Secure, SameSite cookie.
+4. Each API call sends {{Authorization: Bearer <token>}}.
+5. Spring Security's {{BearerTokenAuthenticationFilter}} validates signature (public key from JWKS), {{exp}}, {{iss}}, {{aud}}, then builds an Authentication with authorities from the roles claim.
+6. {{@PreAuthorize}} / {{requestMatchers().hasRole()}} enforce RBAC.
+7. On 401 the client calls the refresh endpoint, gets a new access token, retries.
+8. Logout: revoke the refresh token / end the Keycloak session.
+~~~java
+@Bean
+SecurityFilterChain api(HttpSecurity http) throws Exception {
+  return http
+    .csrf(csrf -> csrf.disable())
+    .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    .authorizeHttpRequests(a -> a
+        .requestMatchers("/actuator/health", "/api/public/**").permitAll()
+        .requestMatchers(HttpMethod.POST, "/api/v1/loans/**").hasRole("LOAN_OFFICER")
+        .anyRequest().authenticated())
+    .oauth2ResourceServer(o -> o.jwt(Customizer.withDefaults()))
+    .build();
+}
+~~~
+## Explain OAuth2 roles and the Authorization Code + PKCE flow.
+- **Resource owner**: the user. **Client**: the app (React SPA). **Authorization server**: Keycloak. **Resource server**: the Spring Boot API.
+- Flow: client makes a random {{code_verifier}} and sends its SHA-256 {{code_challenge}} with the redirect to {{/authorize}}; user logs in; Keycloak redirects back with a one-time **code**; client exchanges code + code_verifier at {{/token}}; receives access, refresh and ID tokens.
+- PKCE stops an attacker who intercepts the code from redeeming it.
+## How would you integrate Keycloak SSO across several PKSF apps?
+- One realm (e.g. {{pksf}}); a client per app: public clients for SPAs (PKCE), confidential clients for backends, service accounts for machine-to-machine.
+- Realm roles (e.g. {{ADMIN}}, {{PO_USER}}) and client roles; groups per partner organisation; map roles into tokens.
+- Spring Boot: {{spring-boot-starter-oauth2-resource-server}} with {{issuer-uri}}; a {{JwtAuthenticationConverter}} that reads {{realm_access.roles}} and adds the {{ROLE_}} prefix.
+- React: keycloak-js or oidc-client-ts; Angular: angular-oauth2-oidc. Silent token refresh.
+- Benefits: single login across apps, central password policy, MFA, LDAP/AD federation, central user deprovisioning.
+## Design an RBAC data model.
+~~~sql
+users(id, username, password_hash, enabled, partner_org_id)
+roles(id, name)                 -- ADMIN, PO_MANAGER, FIELD_OFFICER
+permissions(id, code)           -- LOAN_READ, LOAN_APPROVE, REPORT_SUBMIT
+user_roles(user_id, role_id)
+role_permissions(role_id, permission_id)
+~~~
+Load permissions as authorities at login; protect endpoints with {{hasAuthority('LOAN_APPROVE')}}. Add **data-level** checks too (a PO user may only see their own PO's rows), e.g. filter queries by {{partner_org_id}} taken from the token, never from the request body.
+## Hashing vs encryption vs encoding?
+- **Encoding** (Base64, URL encoding): reversible format change, no key, no security.
+- **Encryption** (AES, RSA): reversible with a key; protects confidentiality (data at rest, TLS in transit).
+- **Hashing** (SHA-256; BCrypt/Argon2 for passwords): one-way, fixed length; used for integrity and password storage. Salt prevents rainbow-table attacks.
+## Name OWASP Top 10 risks and how you mitigate them in a Spring/React stack.
+- **Broken access control**: deny by default, method security, object-level ownership checks.
+- **Cryptographic failures**: TLS everywhere, BCrypt, encrypt sensitive columns, keys in a vault/K8s secrets.
+- **Injection**: parameterised queries/JPA, validation.
+- **Insecure design**: threat modelling, rate limits.
+- **Security misconfiguration**: lock down Actuator, no default creds, security headers.
+- **Vulnerable components**: dependency scanning (OWASP Dependency-Check, Dependabot, Trivy for images).
+- **Identification and authentication failures**: Keycloak, MFA, short token lifetimes.
+- **Software and data integrity failures**: signed artifacts, protected CI/CD.
+- **Logging and monitoring failures**: audit logs to ELK, alerts.
+- **SSRF**: allow-list outbound URLs.
+`,
+cheat:String.raw`
+- JWT = header.payload.signature; payload is readable; claims: iss, sub, aud, exp, iat, nbf, jti.
+- HS256 shared secret; RS256 private signs / public verifies (Keycloak JWKS).
+- OAuth2 grants: Auth Code + PKCE (SPA/mobile), Client Credentials (M2M), Refresh Token. Implicit and Password are deprecated.
+- OIDC = OAuth2 + ID token = authentication.
+- Keycloak: realm > clients, users, roles, groups. Default port 8080.
+- Spring Security 6: SecurityFilterChain bean; @EnableMethodSecurity; hasRole adds ROLE_.
+- 401 unauthenticated, 403 forbidden.
+- Passwords: BCrypt / Argon2. AES symmetric, RSA asymmetric, SHA-256 hash.
+- CSRF matters for cookie auth; CORS is enforced by the browser.
+- SQLi: prepared statements. XSS: output encoding + CSP.
+`},
+{id:"jpa",name:"JPA / Hibernate",blurb:"Entities, fetching, N+1, locking, caching",
+mcq:String.raw`
+Q: The best fix for the N+1 select problem when loading orders with their items is:
+- Make every association EAGER
+* Use JOIN FETCH in JPQL or an @EntityGraph (or batch fetching)
+- Increase the connection pool size
+- Use native SQL everywhere
+E: N+1 = 1 query for parents + 1 per parent for children. A fetch join loads both in one query. EAGER makes things worse elsewhere.
+Q: Default fetch type of {{@ManyToOne}} and {{@OneToMany}}?
+* @ManyToOne EAGER, @OneToMany LAZY
+- Both LAZY
+- Both EAGER
+- @ManyToOne LAZY, @OneToMany EAGER
+E: To-one associations default to EAGER, to-many to LAZY. Best practice: set @ManyToOne(fetch = LAZY) explicitly.
+Q: {{LazyInitializationException}} happens when:
+- The database is down
+* A lazy association is accessed after the persistence context (session) has closed
+- Two transactions update the same row
+- An entity has no @Id
+E: Typical cause: returning entities from a service and serialising them in the controller. Fix with fetch joins, DTO projections, or mapping inside the transaction. Avoid open-in-view in APIs.
+Q: The four entity states in JPA are:
+* Transient (new), managed, detached, removed
+- New, saved, flushed, committed
+- Open, closed, cached, evicted
+- Created, read, updated, deleted
+E: persist() makes a new entity managed; when the EntityManager closes, entities become detached; merge() re-attaches a copy.
+Q: In a bidirectional @OneToMany/@ManyToOne, {{mappedBy}} is placed on:
+- The owning side (with the foreign key)
+* The inverse (non-owning) side, usually the @OneToMany collection
+- Both sides
+- Neither side
+E: The @ManyToOne side owns the foreign key column. Only changes on the owning side are written to the DB, so keep both sides in sync with helper methods.
+Q: What does {{@Version}} on an entity field provide?
+- Audit history
+* Optimistic locking: an update fails with OptimisticLockException if someone else changed the row
+- Pessimistic row locks
+- Schema migration
+E: Hibernate adds WHERE version = ? to updates and increments it. Great for concurrent edits of the same loan or report.
+Q: Hibernate's first-level cache is:
+* Scoped to one Session/EntityManager and always enabled
+- Shared across the whole application
+- Disabled by default
+- Stored in Redis
+E: Within one persistence context, loading the same id twice returns the same instance without a second query. The second-level cache (Ehcache etc.) is optional and shared.
+Q: Which ID generation strategy disables Hibernate JDBC batch inserts?
+- SEQUENCE
+* IDENTITY
+- TABLE
+- UUID
+E: With IDENTITY the ID is only known after each INSERT executes, so Hibernate can't batch. Use SEQUENCE with an allocationSize on PostgreSQL/Oracle for bulk inserts.
+Q: Which Spring Data method name is valid for "find active users by email"?
+* findByEmailAndActiveTrue(String email)
+- getUsersWhereEmailAndActive(String email)
+- queryEmailActive(String email)
+- selectByEmail_Active(String email)
+E: Derived queries parse names like findBy, And, Or, Between, LessThan, Containing, OrderBy, True/False.
+Q: JPQL queries are written against:
+- Database tables and columns
+* Entity class names and their fields
+- XML mapping files
+- Stored procedures
+E: SELECT p FROM PartnerOrg p WHERE p.code = :code uses entity names. Use nativeQuery = true for raw SQL.
+Q: Recommended {{spring.jpa.hibernate.ddl-auto}} value in production:
+- create-drop
+- update
+* validate (or none), with schema changes managed by Flyway or Liquibase
+- create
+E: update can make unpredictable or destructive changes. Versioned migrations are reviewable and repeatable.
+Q: What does {{orphanRemoval = true}} do?
+- Deletes the parent when a child is removed
+* Deletes a child entity when it is removed from the parent's collection
+- Removes null fields
+- Drops unused tables
+E: Use it for composition (e.g. invoice lines). CascadeType.REMOVE only deletes children when the parent itself is deleted.
+Q: Dirty checking means:
+* Changes to a managed entity are detected and flushed automatically at flush/commit, without calling save()
+- Hibernate validates input data
+- Rows are locked while being edited
+- Unused entities are garbage-collected
+E: Hibernate compares the entity with its snapshot at flush time. readOnly transactions skip this for speed.
+Q: How do you return a page of 20 results sorted by name with Spring Data?
+- findAll().subList(0, 20)
+* repo.findAll(PageRequest.of(page, 20, Sort.by("name")))
+- LIMIT 20 in application.yml
+- @Page(20)
+E: Page<T> also returns totalElements and totalPages. For huge tables, consider Slice or keyset pagination.
+Q: Which locking mode issues SELECT ... FOR UPDATE?
+- @Version
+* @Lock(LockModeType.PESSIMISTIC_WRITE)
+- @Transactional(readOnly = true)
+- LockModeType.NONE
+E: Pessimistic locks block other writers until commit. Use them for short, high-contention operations like balance updates.
+`,
+written:String.raw`
+## Explain the N+1 problem with an example and three solutions.
+~~~java
+List<PartnerOrg> pos = repo.findAll();          // 1 query
+for (PartnerOrg po : pos) po.getBranches().size(); // N more queries, one per PO
+~~~
+Solutions:
+- **Fetch join**: {{@Query("select p from PartnerOrg p left join fetch p.branches")}} (watch out: fetch-joining a collection breaks DB-side pagination).
+- **@EntityGraph(attributePaths = "branches")** on the repository method.
+- **Batch fetching**: {{hibernate.default_batch_fetch_size=50}} loads children with IN (...) in a few queries.
+- **DTO projection**: select only the columns you need.
+Detect it with SQL logging ({{spring.jpa.show-sql}}, or better {{logging.level.org.hibernate.SQL=debug}}) or Hibernate statistics.
+## Optimistic vs pessimistic locking: when to use each?
+- **Optimistic** ({{@Version}}): no DB lock; the update checks the version and fails if it changed. Best for low-conflict, user-facing edits (two officers editing the same PO profile). Handle {{OptimisticLockException}} by showing "data changed, reload".
+- **Pessimistic** ({{@Lock(PESSIMISTIC_WRITE)}} = SELECT FOR UPDATE): locks the row until commit. Best for short, high-conflict operations like decrementing a fund balance. Risk: deadlocks and waiting; keep transactions short and lock rows in a consistent order.
+## How do you make bulk inserts fast with JPA?
+- Use SEQUENCE ids with {{allocationSize}} (not IDENTITY).
+- {{spring.jpa.properties.hibernate.jdbc.batch_size=500}}, {{order_inserts=true}}, {{order_updates=true}}.
+- Flush and clear the EntityManager every N records to keep memory flat.
+- For very large loads use JdbcTemplate {{batchUpdate}} or PostgreSQL {{COPY}}.
+- Add {{reWriteBatchedInserts=true}} to the PostgreSQL JDBC URL.
+## Entity vs DTO: why not return entities from controllers?
+- Entities expose internal structure and sensitive fields, cause lazy-loading exceptions or N+1 during JSON serialisation, and couple the API to the DB schema.
+- DTOs (Java records) give a stable API contract, validation per use case, and allow projections ({{select new com.x.PoSummary(p.id, p.name) from PartnerOrg p}}).
+- Mapping by hand or with MapStruct.
+`,
+cheat:String.raw`
+- Entity states: transient, managed, detached, removed. persist / merge / remove / detach.
+- Defaults: @ManyToOne/@OneToOne EAGER; @OneToMany/@ManyToMany LAZY. Make to-one LAZY.
+- N+1: JOIN FETCH, @EntityGraph, batch_fetch_size, DTO projections.
+- mappedBy = inverse side; @ManyToOne owns the FK.
+- @Version = optimistic; @Lock(PESSIMISTIC_WRITE) = SELECT FOR UPDATE.
+- 1st-level cache per EntityManager; 2nd-level optional, shared.
+- IDENTITY blocks batching; use SEQUENCE + allocationSize.
+- ddl-auto=validate in prod + Flyway/Liquibase.
+- orphanRemoval deletes children removed from the collection.
+- Pagination: PageRequest.of(page, size, Sort.by(...)).
+`}
+];
+TOPICS.push(
+{id:"sql",name:"SQL & PostgreSQL",blurb:"Queries, joins, indexes, PL/SQL, tuning",
+mcq:String.raw`
+Q: Difference between WHERE and HAVING?
+* WHERE filters rows before grouping; HAVING filters groups after GROUP BY
+- They are identical
+- HAVING filters before grouping
+- WHERE can use aggregate functions, HAVING cannot
+E: SELECT dept, AVG(salary) FROM emp WHERE active GROUP BY dept HAVING AVG(salary) > 50000.
+Q: Which query returns the second-highest distinct salary?
+* SELECT MAX(salary) FROM emp WHERE salary < (SELECT MAX(salary) FROM emp)
+- SELECT salary FROM emp ORDER BY salary LIMIT 2
+- SELECT MAX(salary) - 1 FROM emp
+- SELECT TOP 2 salary FROM emp
+E: Also valid: SELECT DISTINCT salary FROM emp ORDER BY salary DESC OFFSET 1 LIMIT 1, or DENSE_RANK() = 2.
+Q: The default index type in PostgreSQL is:
+* B-tree
+- Hash
+- GIN
+- BRIN
+E: B-tree supports =, <, >, BETWEEN, ORDER BY. GIN suits JSONB, arrays and full-text search; BRIN suits huge, naturally ordered tables like time series.
+Q: The default transaction isolation level in PostgreSQL is:
+- Read Uncommitted
+* Read Committed
+- Repeatable Read
+- Serializable
+E: Oracle's default is also Read Committed; MySQL InnoDB defaults to Repeatable Read.
+Q: According to the SQL standard, which isolation level prevents phantom reads?
+- Read Committed
+- Repeatable Read
+* Serializable
+- Read Uncommitted
+E: Standard anomalies: dirty read (fixed by Read Committed), non-repeatable read (Repeatable Read), phantom (Serializable). PostgreSQL's Repeatable Read also happens to block phantoms.
+Q: A LEFT JOIN B returns:
+- Only matching rows
+* All rows from A, with matching B columns or NULLs where there is no match
+- All rows from B
+- The Cartesian product
+E: To find A rows with no B: LEFT JOIN B ... WHERE B.id IS NULL (anti-join), or NOT EXISTS.
+Q: Third Normal Form (3NF) removes:
+- Repeating groups
+- Partial dependencies
+* Transitive dependencies (non-key column depending on another non-key column)
+- All redundancy
+E: 1NF atomic values; 2NF no partial dependency on part of a composite key; 3NF no transitive dependency; BCNF every determinant is a candidate key.
+Q: Which statement removes all rows fastest while keeping the table structure?
+- DELETE FROM t
+* TRUNCATE TABLE t
+- DROP TABLE t
+- UPDATE t SET id = NULL
+E: TRUNCATE deallocates pages instead of deleting row by row and fires no row triggers. In PostgreSQL TRUNCATE is transactional; in Oracle it is DDL with an implicit commit.
+Q: Which window function numbers rows per department by salary, leaving no gaps after ties?
+- ROW_NUMBER()
+- RANK()
+* DENSE_RANK()
+- NTILE()
+E: For salaries 100,100,90: ROW_NUMBER gives 1,2,3; RANK gives 1,1,3; DENSE_RANK gives 1,1,2.
+Q: What does {{EXPLAIN ANALYZE}} do in PostgreSQL?
+- Rebuilds statistics
+* Executes the query and shows the actual plan with real timings and row counts
+- Shows the plan without running it
+- Creates missing indexes
+E: Plain EXPLAIN only estimates. Look for Seq Scan on big tables, big gaps between estimated and actual rows, and slow nested loops.
+Q: For storing and indexing JSON in PostgreSQL you should use:
+- JSON
+* JSONB with a GIN index
+- TEXT
+- XML
+E: JSONB is stored in binary, supports containment operators (@>, ?) and GIN indexes. JSON keeps the raw text.
+Q: In PostgreSQL 11+, a stored procedure (CREATE PROCEDURE) is invoked with:
+- SELECT proc()
+* CALL proc()
+- EXEC proc
+- RUN proc()
+E: Procedures can COMMIT/ROLLBACK inside; functions (CREATE FUNCTION) are called in SELECT and return values.
+Q: In Oracle PL/SQL, a {{SELECT ... INTO}} that returns no row raises:
+* NO_DATA_FOUND
+- TOO_MANY_ROWS
+- VALUE_ERROR
+- ZERO_DIVIDE
+E: If it returns more than one row, it raises TOO_MANY_ROWS. Handle both in the EXCEPTION block.
+Q: A composite index on (branch_id, created_at) helps which query most?
+* WHERE branch_id = ? AND created_at > ?
+- WHERE created_at > ? only
+- WHERE LOWER(branch_id) = ?
+- ORDER BY created_at only
+E: Leftmost-prefix rule: the index is used efficiently when the first column is filtered. Put the equality column first, the range column second.
+Q: UNION vs UNION ALL?
+- UNION ALL removes duplicates
+* UNION removes duplicates (extra sort/hash work); UNION ALL keeps all rows and is faster
+- They are identical
+- UNION only works on one table
+E: Use UNION ALL when you know the sets don't overlap.
+Q: Spring Boot's default JDBC connection pool is:
+- c3p0
+- Apache DBCP
+* HikariCP
+- Tomcat JDBC
+E: Tune maximum-pool-size to what the DB can handle; more connections are not always faster.
+Q: In Oracle 12c+, how do you get the first 10 rows of a sorted query?
+- LIMIT 10
+- TOP 10
+* ORDER BY x FETCH FIRST 10 ROWS ONLY
+- WHERE ROWNUM > 10
+E: Older Oracle: wrap the ordered query and filter WHERE ROWNUM <= 10. PostgreSQL and MySQL use LIMIT.
+Q: Which index would make {{WHERE LOWER(email) = ?}} fast?
+- A normal index on email
+* An expression index: CREATE INDEX ON users (LOWER(email))
+- A hash index on id
+- No index can help
+E: Wrapping a column in a function prevents use of a plain index. Alternatives: citext type or storing a normalised column.
+Q: A deadlock happens when:
+* Two transactions each hold a lock the other needs, so neither can proceed
+- A query runs too long
+- The connection pool is empty
+- A table has no primary key
+E: The DB detects it and aborts one transaction. Prevent it by locking rows in a consistent order and keeping transactions short.
+Q: ACID "Isolation" means:
+- Data survives a crash
+- All or nothing
+* Concurrent transactions do not see each other's intermediate state
+- Constraints always hold
+E: Atomicity (all or nothing), Consistency (constraints hold), Isolation, Durability (committed data survives crashes, via WAL/redo log).
+`,
+written:String.raw`
+## Write a query for the highest-paid employee in each department.
+~~~sql
+SELECT dept_id, emp_id, name, salary
+FROM (
+  SELECT e.*, DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk
+  FROM employee e
+) t
+WHERE rnk = 1;
+
+-- PostgreSQL-only shortcut (one row per dept):
+SELECT DISTINCT ON (dept_id) dept_id, emp_id, name, salary
+FROM employee ORDER BY dept_id, salary DESC;
+~~~
+DENSE_RANK keeps ties; use ROW_NUMBER if you need exactly one row.
+## Find duplicate records and delete them, keeping one.
+~~~sql
+-- find
+SELECT nid, COUNT(*) FROM member GROUP BY nid HAVING COUNT(*) > 1;
+
+-- delete all but the lowest id (PostgreSQL)
+DELETE FROM member m
+USING member d
+WHERE m.nid = d.nid AND m.id > d.id;
+~~~
+Then add {{UNIQUE (nid)}} so it can't happen again.
+## Write a PL/pgSQL function: total loan disbursed by a partner organisation within a date range.
+~~~sql
+CREATE OR REPLACE FUNCTION total_disbursed(p_po_id BIGINT, p_from DATE, p_to DATE)
+RETURNS NUMERIC
+LANGUAGE plpgsql STABLE AS $$
+DECLARE
+  v_total NUMERIC := 0;
+BEGIN
+  IF p_from > p_to THEN
+    RAISE EXCEPTION 'from date % is after to date %', p_from, p_to;
+  END IF;
+  SELECT COALESCE(SUM(amount), 0) INTO v_total
+  FROM loan_disbursement
+  WHERE partner_org_id = p_po_id
+    AND disbursed_on BETWEEN p_from AND p_to;
+  RETURN v_total;
+END;
+$$;
+
+SELECT total_disbursed(101, '2026-01-01', '2026-06-30');
+~~~
+Index to support it: {{CREATE INDEX ON loan_disbursement (partner_org_id, disbursed_on);}}
+## Write the Oracle PL/SQL equivalent with exception handling.
+~~~sql
+CREATE OR REPLACE FUNCTION get_po_name(p_id IN NUMBER) RETURN VARCHAR2 IS
+  v_name partner_org.name%TYPE;
+BEGIN
+  SELECT name INTO v_name FROM partner_org WHERE id = p_id;
+  RETURN v_name;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN RETURN NULL;
+  WHEN TOO_MANY_ROWS THEN RAISE_APPLICATION_ERROR(-20001, 'Duplicate PO id ' || p_id);
+END;
+/
+~~~
+## Explain normalisation (1NF to BCNF) with an example.
+Unnormalised: {{loan(loan_id, member_name, member_phone, po_name, po_district, installments "1,2,3")}}.
+- **1NF**: atomic values, no repeating groups: move installments to their own rows.
+- **2NF**: (with composite keys) no column depends on only part of the key.
+- **3NF**: no transitive dependency: {{po_district}} depends on {{po_name}}, not on {{loan_id}}, so split into {{partner_org(id, name, district)}}, {{member(id, name, phone)}}, {{loan(id, member_id, po_id)}}.
+- **BCNF**: every determinant is a candidate key.
+Denormalise deliberately for reporting (materialised views, summary tables).
+## A report query has become slow. How do you tune it?
+1. Reproduce and measure: {{EXPLAIN (ANALYZE, BUFFERS)}}; check {{pg_stat_statements}} for top queries.
+2. Look for sequential scans on large tables, wrong row estimates (run {{ANALYZE}}), nested loops over large sets, sorts spilling to disk.
+3. Add the right index (composite, matching WHERE then ORDER BY; partial index; covering index with INCLUDE).
+4. Rewrite: avoid functions on indexed columns, SELECT only needed columns, replace correlated subqueries with joins, use keyset pagination instead of large OFFSET.
+5. For reporting: materialised views refreshed on schedule, partition big tables by date.
+6. Check the app side: N+1 from ORM, pool size, missing JDBC batching; cache hot results in Redis.
+7. Verify with before/after timings and watch Grafana latency panels.
+`,
+cheat:String.raw`
+- Order of execution: FROM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY > LIMIT.
+- ROW_NUMBER 1,2,3 / RANK 1,1,3 / DENSE_RANK 1,1,2.
+- Isolation: RU < RC (PG & Oracle default) < RR (MySQL default) < Serializable.
+- Anomalies: dirty read, non-repeatable read, phantom read, lost update.
+- PG indexes: B-tree (default), Hash, GIN (JSONB/arrays/FTS), GiST, BRIN.
+- Composite index: leftmost-prefix rule; equality columns first.
+- DELETE (row-by-row, WHERE ok) / TRUNCATE (fast, all rows) / DROP (removes table).
+- PG: CREATE PROCEDURE + CALL (11+); functions in SELECT; $$ body; RAISE EXCEPTION.
+- Oracle: NO_DATA_FOUND, TOO_MANY_ROWS, %TYPE, %ROWTYPE, RAISE_APPLICATION_ERROR(-20000..-20999).
+- Ports: PostgreSQL 5432, MySQL 3306, Oracle 1521, MongoDB 27017, Redis 6379.
+`},
+{id:"nosql",name:"MongoDB & Redis",blurb:"Documents, caching, sessions, CAP",
+mcq:String.raw`
+Q: MongoDB stores documents in which format?
+- XML
+- CSV
+* BSON (binary JSON)
+- YAML
+E: BSON adds types like ObjectId, Date and Decimal128. Max document size is 16 MB.
+Q: Which aggregation stage groups documents and computes sums?
+- $match
+* $group
+- $project
+- $lookup
+E: Typical pipeline: $match (filter early) > $group > $sort > $project. $lookup performs a left outer join.
+Q: In MongoDB, high availability is achieved with ____ and horizontal scaling with ____.
+* replica sets; sharding
+- sharding; replica sets
+- indexes; views
+- GridFS; capped collections
+E: A replica set has one primary and secondaries with automatic failover. Sharding splits data across shards by a shard key.
+Q: Which Redis data type best fits a leaderboard or ranking?
+- List
+- Hash
+* Sorted Set (ZSET)
+- String
+E: ZADD / ZRANGE / ZREVRANK give O(log n) ranked access.
+Q: In the cache-aside pattern:
+* The app reads the cache first; on a miss it reads the DB and puts the result in the cache
+- The cache writes to the DB automatically
+- The DB pushes changes to the cache
+- Every write goes only to the cache
+E: This is what Spring's @Cacheable does. On updates, evict or update the cache entry.
+Q: Which Spring annotation removes an entry from the cache when data changes?
+- @Cacheable
+* @CacheEvict
+- @CachePut only
+- @EnableCaching
+E: @Cacheable reads through, @CachePut always executes and updates the cache, @CacheEvict deletes. @EnableCaching turns caching on.
+Q: Which Redis command sets a time-to-live on a key?
+- TTL
+* EXPIRE (or SET key value EX seconds)
+- PERSIST
+- DEL
+E: TTL reads the remaining time; PERSIST removes the expiry.
+Q: How do you share HTTP sessions across several Spring Boot instances behind a load balancer?
+- Sticky sessions only
+* Spring Session with Redis as the session store
+- Store sessions in a static HashMap
+- Increase the session timeout
+E: Any instance can then serve any request, which also makes rolling deployments safe.
+Q: CAP theorem says that during a network partition a distributed system must choose between:
+* Consistency and availability
+- Consistency and durability
+- Partition tolerance and latency
+- Atomicity and isolation
+E: Partitions will happen, so P is a given; you trade C vs A while partitioned.
+Q: Redis persistence options are:
+- None, Redis is memory only
+* RDB snapshots and AOF (append-only file), or both
+- WAL and redo logs
+- Binlog only
+E: RDB = periodic point-in-time snapshots; AOF logs every write and can be fsynced every second.
+Q: The default type of MongoDB's {{_id}} field is:
+- Auto-increment integer
+- UUID
+* ObjectId (12 bytes including a timestamp)
+- String
+E: ObjectId embeds creation time, so it is roughly time-ordered.
+Q: Which Redis eviction policy removes least-recently-used keys across the whole keyspace when memory is full?
+- noeviction
+- volatile-ttl
+* allkeys-lru
+- allkeys-random
+E: Set maxmemory and maxmemory-policy for a cache. noeviction (the default) returns errors on writes when full.
+Q: A cache stampede is:
+- Too many keys in Redis
+* Many requests missing the same expired hot key at once and all hitting the DB
+- Redis crashing on restart
+- A replica falling behind
+E: Mitigate with locks/single-flight, early refresh, jittered TTLs, or serving stale data while refreshing.
+`,
+written:String.raw`
+## When would you choose MongoDB over PostgreSQL?
+- **PostgreSQL**: relational data with strong integrity (loans, repayments, accounts), multi-row ACID transactions, complex joins and reporting. Financial records belong here.
+- **MongoDB**: flexible or evolving schemas (survey forms with varying fields, field-collected data, activity logs, content), large write volumes, natural document aggregates read together, easy horizontal scaling.
+- PostgreSQL JSONB often covers the flexible-field case without a second database.
+## Explain caching strategies and invalidation.
+- **Cache-aside** (lazy loading): most common; @Cacheable.
+- **Read-through / write-through**: the cache layer loads from and writes to the DB itself.
+- **Write-behind**: write to cache, flush to DB asynchronously (risk of loss).
+- Invalidation: TTLs, explicit eviction on update (@CacheEvict), versioned keys, events (publish change messages).
+- Pitfalls: stale data, stampede, caching per-user data under a shared key, unbounded memory. Never cache sensitive data without thinking about who can read it.
+~~~java
+@Cacheable(cacheNames = "po", key = "#id")
+public PartnerOrgDto get(Long id) { ... }
+
+@CacheEvict(cacheNames = "po", key = "#dto.id")
+public PartnerOrgDto update(PartnerOrgDto dto) { ... }
+~~~
+## Redis use cases in a Spring Boot system.
+- Cache for reference data and expensive report results.
+- Distributed session store (Spring Session).
+- Rate limiting (INCR + EXPIRE per user/IP).
+- Distributed locks (Redisson, SET key value NX PX) so only one instance runs a scheduled job.
+- Token blacklist for revoked JWTs until their exp.
+- Pub/Sub or Streams for lightweight messaging.
+`,
+cheat:String.raw`
+- Mongo: BSON, 16 MB doc max, _id ObjectId, replica set (HA), sharding (scale), aggregation $match/$group/$sort/$project/$lookup.
+- Redis types: String, List, Hash, Set, Sorted Set, Stream, Bitmap, HyperLogLog.
+- Redis persistence: RDB + AOF. Port 6379. Main command loop is single-threaded.
+- EXPIRE / TTL / PERSIST. Eviction: allkeys-lru for caches.
+- Spring: @EnableCaching, @Cacheable, @CachePut, @CacheEvict. Spring Session Redis for shared sessions.
+- Cache-aside = read cache, on miss read DB and fill cache.
+- CAP: under partition, pick consistency or availability.
+`},
+{id:"api",name:"REST, SOAP & Microservices",blurb:"HTTP semantics, patterns, messaging",
+mcq:String.raw`
+Q: Which HTTP methods are idempotent?
+* GET, PUT, DELETE (and HEAD, OPTIONS)
+- POST, PUT, PATCH
+- Only GET
+- POST and DELETE
+E: Repeating an idempotent request leaves the same server state. POST is not idempotent; use an Idempotency-Key header for safe payment retries.
+Q: The correct status for a successfully created resource is:
+- 200 OK
+* 201 Created (with a Location header)
+- 202 Accepted
+- 204 No Content
+E: 202 means accepted for async processing; 204 means success with no body (common for DELETE).
+Q: PUT vs PATCH?
+* PUT replaces the whole resource; PATCH applies a partial update
+- PATCH replaces the whole resource
+- They are identical
+- PUT is only for files
+E: PATCH is not guaranteed idempotent (e.g. "increment by 1").
+Q: SOAP web services describe their contract using:
+- OpenAPI
+* WSDL, with messages in an XML SOAP envelope
+- GraphQL schema
+- JSON Schema only
+E: SOAP adds WS-Security and strict contracts. In Java: Spring Web Services or JAX-WS (contract-first from XSD/WSDL).
+Q: Which pattern stops a failing downstream service from being called repeatedly?
+- Saga
+* Circuit breaker (e.g. Resilience4j)
+- CQRS
+- Strangler fig
+E: States: closed > open (fail fast) > half-open (trial calls). Combine with timeouts, retries with backoff and fallbacks.
+Q: An API gateway in microservices mainly:
+* Provides one entry point for routing, authentication, rate limiting and aggregation
+- Stores the data of all services
+- Replaces the message broker
+- Compiles services
+E: Examples: Spring Cloud Gateway, Kong, NGINX.
+Q: How do microservices typically manage a business transaction that spans several services?
+- A two-phase commit across all databases
+* A saga: a sequence of local transactions with compensating actions (choreography or orchestration)
+- A shared database
+- A global lock
+E: Pair it with the transactional outbox so the DB change and the published event never disagree.
+Q: Which status means "too many requests" (rate limited)?
+- 403
+- 409
+* 429
+- 503
+E: 409 = conflict (e.g. duplicate or version clash); 422 = semantically invalid input; 503 = service unavailable.
+Q: Which principle is recommended for microservice data?
+- One shared database for all services
+* Database per service; other services access data only via its API or events
+- No database at all
+- One table per service in a shared schema
+E: This keeps services independently deployable. Use events or API composition for cross-service queries.
+Q: Which is a valid way to version a REST API?
+* URI versioning like /api/v1/... (or a header/media-type version)
+- Changing the HTTP method
+- Renaming the server
+- Adding the version in the request body only
+E: Never break existing clients; add fields compatibly and introduce v2 for breaking changes.
+Q: Which tool documents and tests REST APIs from annotations in Spring Boot?
+- WSDL
+* springdoc-openapi (OpenAPI 3 / Swagger UI)
+- Javadoc only
+- JMeter
+E: Swagger UI is served at /swagger-ui.html by springdoc.
+Q: In service discovery, services register and find each other through:
+- DNS only, always
+* A registry such as Eureka or Consul (or Kubernetes Services)
+- The API gateway's database
+- Hard-coded IPs
+E: On Kubernetes, the built-in Service DNS usually replaces Eureka.
+Q: RabbitMQ routes messages from an exchange to queues using:
+* Bindings and routing keys (direct, topic, fanout, headers exchanges)
+- Partitions and offsets
+- Shards
+- Cron expressions
+E: Kafka uses topics with partitions and consumer offsets; RabbitMQ uses exchanges, bindings and acknowledgements.
+Q: Where should failed messages go after max retries in RabbitMQ?
+- They should be deleted silently
+* A dead-letter exchange/queue (DLX/DLQ) for inspection and replay
+- Back to the head of the same queue forever
+- The application log only
+E: Infinite redelivery of a "poison message" blocks the consumer.
+Q: Which data format is required by SOAP?
+- JSON
+* XML
+- Protobuf
+- YAML
+E: REST commonly uses JSON but can use XML; SOAP messages are always XML envelopes.
+`,
+written:String.raw`
+## Monolith vs microservices: trade-offs, and which would you choose for PKSF?
+- **Monolith**: simple to build, test, deploy and debug; one database and ACID transactions; scales as a whole. Risk: tight coupling as it grows.
+- **Microservices**: independent deploys and scaling, team autonomy, fault isolation, tech flexibility. Cost: network calls, distributed transactions, observability, DevOps maturity.
+- A sensible answer: start with a **modular monolith** with clear boundaries (members, loans, reporting, identity), extract services where scaling or team needs justify it (e.g. report generation, notifications), with Keycloak, a gateway and centralised logging in place first.
+## List REST API design best practices.
+- Nouns and plural resources: {{GET /api/v1/partner-orgs/{id}/branches}}.
+- Correct methods and status codes (201 + Location, 204, 400, 401, 403, 404, 409, 422, 429).
+- Pagination, filtering, sorting: {{?page=0&size=20&sort=name,asc&district=Dhaka}}.
+- Consistent error body (ProblemDetail: type, title, status, detail, errors).
+- Versioning; backward compatibility; idempotency keys for POST payments.
+- Security: HTTPS, OAuth2/JWT, input validation, rate limiting, no sensitive data in URLs.
+- Documentation with OpenAPI; ETags for caching/concurrency.
+## How do you keep data consistent across services (distributed transaction)?
+- Avoid 2PC; use a **saga**. Example: Disbursement service reserves funds > Loan service creates the loan > Notification service sends SMS. If the loan step fails, a compensating action releases the funds.
+- **Choreography**: services react to each other's events. **Orchestration**: one orchestrator tells each step what to do (easier to follow).
+- **Transactional outbox**: write the business row and an outbox event in the same local transaction; a relay publishes the outbox to RabbitMQ/Kafka. Consumers must be **idempotent** (dedupe by event id).
+## REST vs SOAP?
+- **REST**: architectural style over HTTP, resources and verbs, usually JSON, lightweight, cacheable, OpenAPI docs.
+- **SOAP**: protocol, XML envelope, WSDL contract, WS-Security / WS-ReliableMessaging, works over HTTP/SMTP; common in banking and government integrations.
+- Choose SOAP when integrating with systems that require it (e.g. some bank or government gateways); REST for new web/mobile APIs.
+`,
+cheat:String.raw`
+- Idempotent: GET, PUT, DELETE, HEAD, OPTIONS. Safe: GET, HEAD, OPTIONS.
+- 200 OK, 201 Created, 202 Accepted, 204 No Content, 301/302 redirect, 304 Not Modified.
+- 400 Bad Request, 401, 403, 404, 405 Method Not Allowed, 409 Conflict, 415 Unsupported Media Type, 422, 429.
+- 500 Internal, 502 Bad Gateway, 503 Unavailable, 504 Gateway Timeout.
+- SOAP: XML envelope (Envelope, Header, Body, Fault), WSDL, WS-Security.
+- Patterns: API gateway, service discovery, circuit breaker, saga, outbox, CQRS, database per service, strangler fig.
+- RabbitMQ: exchange (direct/topic/fanout/headers) > binding > queue; ack; DLQ; port 5672, UI 15672.
+- Kafka: topics, partitions, offsets, consumer groups.
+`},
+{id:"react",name:"React",blurb:"Hooks, rendering, state, performance",
+mcq:String.raw`
+Q: {{useEffect(fn, [])}} runs:
+* Once after the first render (mount); its cleanup runs on unmount
+- On every render
+- Before the first render
+- Never
+E: In development StrictMode React 18 mounts, unmounts and remounts once to surface missing cleanups.
+Q: Why do list items need a stable {{key}}?
+- For CSS styling
+* So React's reconciliation can match items between renders and keep their state correctly
+- To make them clickable
+- Keys are optional and have no effect
+E: Use a stable id, not the array index, when items can be reordered, inserted or deleted.
+Q: useMemo vs useCallback?
+* useMemo memoises a computed value; useCallback memoises a function reference
+- They are identical
+- useCallback memoises values
+- useMemo is for side effects
+E: useCallback(fn, deps) equals useMemo(() => fn, deps). Useful with React.memo children and effect dependencies.
+Q: Updating state with {{setCount(count + 1)}} three times in one click handler gives:
+- count + 3
+* count + 1, because each call uses the same stale value; use setCount(c => c + 1) to get +3
+- An error
+- An infinite loop
+E: State updates are batched and the closure holds the value from the current render.
+Q: Which hook stores a mutable value that does NOT trigger a re-render when changed?
+- useState
+* useRef
+- useEffect
+- useReducer
+E: useRef is also used to access DOM nodes (inputRef.current.focus()).
+Q: A "controlled component" is:
+* A form input whose value is driven by React state via value + onChange
+- A component wrapped in React.memo
+- An input read with a ref
+- A component with no props
+E: Uncontrolled inputs keep their own DOM state and are read via refs. Form libraries like React Hook Form mix both.
+Q: The Context API mainly solves:
+- Server-side rendering
+* Prop drilling: passing data through many intermediate components
+- Styling
+- Routing
+E: Good for theme, auth user, locale. For complex, frequently changing global state consider Redux Toolkit, Zustand, or React Query for server state.
+Q: Which is a Rule of Hooks?
+* Call hooks only at the top level of function components or custom hooks, never in loops or conditions
+- Hooks must be called inside class components
+- Hooks can be called conditionally
+- Each component may use only one hook
+E: React relies on call order to match state to hooks between renders.
+Q: React.memo:
+- Caches API responses
+* Skips re-rendering a component when its props are shallowly equal to last time
+- Memoises a value inside a component
+- Replaces useEffect
+E: It helps only if parent passes stable props (memoised objects/functions).
+Q: In React Router v6, programmatic navigation uses:
+- useHistory()
+* useNavigate()
+- this.props.history
+- window.go()
+E: v6 replaced useHistory with useNavigate, Switch with Routes, and component prop with element.
+Q: In Redux, reducers must be:
+* Pure functions that return new state without mutating the old state or causing side effects
+- Async functions that call APIs
+- Classes
+- Allowed to mutate state directly in any setup
+E: Redux Toolkit's createSlice uses Immer, so "mutating" syntax inside it produces immutable updates safely.
+Q: How should an effect that fetches data avoid setting state after the component unmounts or a newer request starts?
+- Ignore it
+* Use an AbortController (or an ignore flag) in the cleanup function
+- Use setTimeout
+- Call the API twice
+E: Libraries like TanStack Query handle caching, cancellation, retries and de-duplication for you.
+Q: The Virtual DOM is:
+- The browser's real DOM
+* A lightweight in-memory representation React diffs to compute minimal real DOM updates
+- A CSS framework
+- A server
+E: The diffing process is called reconciliation.
+Q: JSX is compiled to:
+- HTML files
+* JavaScript function calls (React.createElement / the jsx runtime)
+- Web Components
+- Templates evaluated at runtime by the browser
+E: That's why you write className instead of class and must return a single root (or a fragment).
+Q: Which is the right place to lazy-load a heavy route component?
+* React.lazy(() => import('./Reports')) inside <Suspense fallback={...}>
+- useEffect with require()
+- A global variable
+- index.html
+E: Code splitting shrinks the initial bundle, helping slow mobile networks for field users.
+`,
+written:String.raw`
+## Explain the component lifecycle using hooks.
+- **Mount**: function runs, JSX rendered, DOM committed, then {{useLayoutEffect}} and then {{useEffect}} callbacks run.
+- **Update**: state/props/context change causes re-render; effects whose dependencies changed run their cleanup then the effect again.
+- **Unmount**: cleanup functions run (clear timers, unsubscribe, abort fetches).
+- Class equivalents: componentDidMount = effect with [], componentDidUpdate = effect with deps, componentWillUnmount = cleanup.
+## Write a custom hook {{useFetch}}.
+~~~jsx
+import { useEffect, useState } from "react";
+
+export function useFetch(url, token) {
+  const [state, setState] = useState({ data: null, error: null, loading: true });
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    setState(s => ({ ...s, loading: true }));
+    fetch(url, { signal: ctrl.signal, headers: { Authorization: "Bearer " + token } })
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(data => setState({ data, error: null, loading: false }))
+      .catch(err => { if (err.name !== "AbortError") setState({ data: null, error: err, loading: false }); });
+    return () => ctrl.abort();
+  }, [url, token]);
+
+  return state;
+}
+
+// usage
+function PoList() {
+  const { data, error, loading } = useFetch("/api/v1/partner-orgs", token);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p role="alert">{error.message}</p>;
+  return <ul>{data.content.map(po => <li key={po.id}>{po.name}</li>)}</ul>;
+}
+~~~
+## How do you optimise a slow React app?
+- Measure first with React DevTools Profiler and Lighthouse.
+- Avoid unnecessary renders: split components, lift state only as high as needed, React.memo + useCallback/useMemo for expensive children.
+- Virtualise long lists (react-window); paginate on the server.
+- Code split routes with React.lazy/Suspense; tree-shake; compress images.
+- Cache server state with TanStack Query; debounce search inputs.
+- Avoid creating context values inline that change every render.
+## How should a SPA store and send auth tokens securely?
+- Prefer the Authorization Code + PKCE flow via Keycloak.
+- Keep the access token in memory; avoid localStorage (readable by any XSS).
+- Refresh token in an HttpOnly, Secure, SameSite cookie or use a backend-for-frontend (BFF) that holds tokens server-side.
+- Attach tokens through an axios/fetch interceptor; on 401 refresh once, then redirect to login.
+- Defend XSS: no dangerouslySetInnerHTML with user input, CSP header, dependency audits.
+`,
+cheat:String.raw`
+- Hooks: useState, useEffect, useContext, useReducer, useRef, useMemo, useCallback, useLayoutEffect.
+- Effect deps: [] once; [a] when a changes; none = every render. Return cleanup.
+- Functional updates: setX(prev => prev + 1). React 18 batches all updates automatically.
+- Keys: stable ids, not indexes.
+- Router v6: Routes, Route element, useNavigate, useParams, Outlet.
+- State: local (useState) > Context > Redux Toolkit/Zustand; server state: TanStack Query.
+- Performance: React.memo, useMemo, useCallback, lazy + Suspense, virtualised lists.
+- Testing: Jest/Vitest + React Testing Library.
+`},
+{id:"ng",name:"Angular & Material UI",blurb:"Angular, RxJS, Material Design, accessibility",
+mcq:String.raw`
+Q: Angular two-way binding syntax is:
+- \{\{value\}\}
+- [value]
+- (value)
+* [(ngModel)]
+E: [ ] is property binding (component to DOM), ( ) is event binding (DOM to component), [( )] "banana in a box" combines both. ngModel needs FormsModule.
+Q: How do you make a service a singleton available app-wide in Angular?
+* @Injectable({ providedIn: 'root' })
+- Declare it in every component
+- Use a global variable
+- @Component({ singleton: true })
+E: providedIn: 'root' registers it with the root injector and allows tree-shaking.
+Q: Angular's HttpClient methods return:
+- Promises
+* RxJS Observables (cold: nothing is sent until you subscribe)
+- Callbacks
+- Plain objects
+E: Use the async pipe in templates to subscribe and auto-unsubscribe.
+Q: Which Angular feature is best for attaching a JWT to every outgoing request?
+- A pipe
+- A directive
+* An HttpInterceptor
+- A route guard
+E: Interceptors can also handle 401 refresh logic and global error toasts.
+Q: Which guard prevents unauthenticated users from opening a route?
+* CanActivate (functional guard CanActivateFn in modern Angular)
+- CanDeactivate
+- Resolve
+- CanLoad only
+E: CanDeactivate asks before leaving (unsaved changes); Resolve pre-fetches data.
+Q: The lifecycle hook used for initial data loading after inputs are set is:
+- constructor
+* ngOnInit
+- ngAfterViewInit
+- ngOnDestroy
+E: Keep the constructor for DI only. Clean up subscriptions in ngOnDestroy (or use takeUntilDestroyed).
+Q: In RxJS, which operator cancels the previous inner request when a new value arrives (ideal for type-ahead search)?
+- mergeMap
+- concatMap
+* switchMap
+- exhaustMap
+E: mergeMap runs in parallel, concatMap queues, exhaustMap ignores new values while busy (good for submit buttons).
+Q: Angular's OnPush change detection strategy:
+* Re-checks a component only when its @Input references change, an event fires inside it, an async pipe emits, or it is marked manually
+- Disables change detection completely
+- Runs change detection more often
+- Is only for services
+E: Combine with immutable data for big performance gains.
+Q: Material Design is a design system created by:
+- Apple
+- Microsoft
+* Google
+- Meta
+E: Angular Material implements it for Angular; MUI implements it for React.
+Q: Material Design's spacing is built on a grid of:
+- 5 px
+* 8 dp (with 4 dp for small adjustments)
+- 10 px
+- 12 dp
+E: Consistent spacing, elevation, typography scale and colour roles make components feel uniform.
+Q: Which is the main way to communicate from a child component to its parent in Angular?
+- @Input
+* @Output with EventEmitter
+- ngModel only
+- A pipe
+E: Parent to child: @Input. Siblings or distant components: a shared service with a Subject/signal.
+Q: An Angular pipe is used to:
+* Transform values in templates, e.g. \{\{ amount | currency:'BDT' \}\} or date formatting
+- Make HTTP calls
+- Define routes
+- Inject services
+E: Pure pipes run only when inputs change; write custom pipes for formatting (e.g. Bangla digits).
+Q: Which approach makes an interface responsive across phones and desktops?
+- Fixed pixel widths
+* Fluid layouts with CSS Flexbox/Grid, relative units and media queries (mobile-first)
+- Separate websites per device
+- Tables for layout
+E: Angular Material's BreakpointObserver or MUI's breakpoints help switch layouts.
+Q: WCAG accessibility guidance requires that:
+- Colour alone conveys meaning
+* Content is perceivable, operable, understandable and robust: e.g. text alternatives, keyboard access, sufficient contrast
+- All text is under 12px
+- Forms have no labels
+E: Minimum contrast for normal text is 4.5:1 (AA). Use semantic HTML and ARIA only when needed.
+Q: Angular reactive forms are built with:
+* FormGroup, FormControl and Validators (often via FormBuilder)
+- ngModel only
+- jQuery
+- Template refs only
+E: Reactive forms are explicit, testable and good for complex dynamic forms such as PO data entry.
+`,
+written:String.raw`
+## Angular vs React?
+- **Angular**: full framework (router, forms, HttpClient, DI, testing) in TypeScript, opinionated structure, RxJS, great for large enterprise teams wanting consistency.
+- **React**: UI library; you choose router, state, data-fetching; JSX; huge ecosystem; flexible, lighter learning curve.
+- Both are component-based and support SPAs; the ToR accepts either. Show you can work in both: components, state, forms, HTTP + interceptors, guards/protected routes, and testing.
+## How would you build a reusable component library following Material Design?
+- Base it on Angular Material or MUI; define a **theme** (colour roles, typography scale, 8dp spacing, shape, elevation) once.
+- Build composite components on top: {{DataTable}} (server-side pagination/sort/filter), {{FormField}} with validation messages, {{ConfirmDialog}}, {{FileUpload}} with progress, {{StatusChip}}.
+- Props/inputs for content, events for actions; no business logic inside.
+- Accessibility (labels, focus, keyboard, contrast), responsive behaviour, loading/empty/error states.
+- Document in Storybook; unit-test; version the library.
+## How do Angular components communicate?
+- Parent to child: {{@Input()}} (or signal inputs).
+- Child to parent: {{@Output() saved = new EventEmitter<Po>()}}.
+- Template reference / {{@ViewChild}} for direct access.
+- Unrelated components: a shared {{@Injectable}} service holding a {{BehaviorSubject}} or signal.
+- App-wide state: NgRx for complex flows.
+`,
+cheat:String.raw`
+- Bindings: \{\{x\}\} interpolation, [prop], (event), [(ngModel)].
+- Building blocks: components, directives (*ngIf/*ngFor or @if/@for), pipes, services, modules or standalone components.
+- DI: @Injectable({providedIn:'root'}).
+- Router: guards CanActivate/CanDeactivate, Resolve, lazy-loaded routes.
+- HttpClient returns Observables; HttpInterceptor for JWT.
+- RxJS: switchMap (cancel), mergeMap (parallel), concatMap (queue), exhaustMap (ignore), debounceTime, takeUntil.
+- Lifecycle: ngOnChanges, ngOnInit, ngAfterViewInit, ngOnDestroy.
+- Material Design: Google; 8dp grid; elevation; Angular Material / MUI.
+- WCAG AA contrast 4.5:1; keyboard access; labels.
+`}
+);
+TOPICS.push(
+{id:"devops",name:"Docker, K8s & CI/CD",blurb:"Containers, orchestration, pipelines, Git",
+mcq:String.raw`
+Q: Image vs container?
+* An image is a read-only template of layers; a container is a running instance of an image with a writable layer
+- They are the same
+- A container is built from a Dockerfile; an image runs it
+- Images run on Kubernetes only
+E: docker build creates an image; docker run starts a container from it.
+Q: In a Dockerfile, CMD vs ENTRYPOINT?
+* ENTRYPOINT fixes the executable; CMD supplies default arguments that docker run can override
+- CMD cannot be overridden
+- ENTRYPOINT is only for Windows
+- They are identical
+E: Common Java pattern: ENTRYPOINT ["java","-jar","/app/app.jar"].
+Q: Why use a multi-stage Docker build for a Spring Boot app?
+- To run two apps in one container
+* To compile with a full JDK/Maven image, then copy only the jar into a small JRE runtime image
+- To support multiple architectures
+- It is required by Kubernetes
+E: Smaller images mean faster pulls and a smaller attack surface; no build tools or source code in production.
+Q: Which tool defines and runs a multi-container app (API + PostgreSQL + Redis) locally from one YAML file?
+- kubectl
+* Docker Compose
+- Helm
+- Maven
+E: docker compose up -d. The ToR explicitly values docker-compose files in your public repos.
+Q: The smallest deployable unit in Kubernetes is a:
+- Container
+* Pod
+- Node
+- Deployment
+E: A Pod holds one or more tightly coupled containers sharing network and storage.
+Q: Which Kubernetes object manages replicas and rolling updates of a stateless app?
+* Deployment (which manages ReplicaSets)
+- StatefulSet
+- DaemonSet
+- Job
+E: StatefulSet is for stable identity/storage (databases); DaemonSet runs one pod per node (log agents); Job/CronJob run to completion.
+Q: Which Service type is reachable only inside the cluster?
+* ClusterIP
+- NodePort
+- LoadBalancer
+- ExternalName
+E: ClusterIP is the default. NodePort opens a port on every node; LoadBalancer asks the cloud for an external LB. Ingress handles HTTP routing by host/path.
+Q: Kubernetes Secrets are, by default:
+- Strongly encrypted everywhere
+* Only base64-encoded; enable encryption at rest and RBAC (or use Vault / Sealed Secrets)
+- Stored in the container image
+- Visible only to root on the node
+E: ConfigMaps hold non-sensitive config; Secrets hold passwords and keys, injected as env vars or files.
+Q: Readiness probe vs liveness probe?
+* Readiness decides if a pod receives traffic; liveness decides if the container must be restarted
+- They are the same
+- Liveness controls traffic; readiness restarts
+- Both only run at startup
+E: Spring Boot exposes /actuator/health/readiness and /actuator/health/liveness. A startupProbe protects slow-starting JVMs.
+Q: Which command rolls a Deployment back to the previous version?
+- kubectl delete deployment api
+* kubectl rollout undo deployment/api
+- kubectl apply --previous
+- docker rollback
+E: kubectl rollout status / history help monitor rollouts.
+Q: What does a HorizontalPodAutoscaler do?
+* Adds or removes pod replicas based on metrics like CPU, memory or custom metrics
+- Adds nodes to the cluster
+- Increases CPU of one pod
+- Balances disks
+E: Requires resource requests to be set and metrics-server installed.
+Q: git merge vs git rebase?
+* Merge preserves history with a merge commit; rebase replays your commits on top of the target for a linear history
+- Rebase deletes branches
+- Merge rewrites history
+- They are identical
+E: Don't rebase commits already pushed to a shared branch.
+Q: To undo a commit that is already pushed to a shared branch, use:
+- git reset --hard and force push
+* git revert <commit> (creates a new commit that undoes it)
+- git stash
+- git checkout
+E: reset rewrites history and breaks teammates' clones; revert is safe for shared history.
+Q: Where do GitHub Actions workflow files live?
+- Jenkinsfile in the root
+- .gitlab-ci.yml
+* .github/workflows/*.yml
+- pom.xml
+E: GitLab CI uses .gitlab-ci.yml; Jenkins uses a Jenkinsfile (declarative pipeline).
+Q: Which deployment strategy runs the new version alongside the old and switches all traffic at once, allowing instant rollback?
+- Recreate
+* Blue-green
+- Canary
+- Rolling
+E: Canary shifts a small percentage of traffic first; rolling replaces pods gradually (the Kubernetes default).
+Q: Data written inside a container's filesystem is lost when the container is removed unless you use:
+- A bigger image
+* A volume (or bind mount)
+- docker commit
+- ENV variables
+E: Named volumes persist DB data across container recreation, e.g. postgres-data:/var/lib/postgresql/data.
+Q: Which object should run PostgreSQL in Kubernetes (if not using a managed DB)?
+- Deployment
+* StatefulSet with PersistentVolumeClaims
+- DaemonSet
+- ConfigMap
+E: StatefulSets give stable pod names and per-pod persistent storage.
+`,
+written:String.raw`
+## Write a multi-stage Dockerfile for a Spring Boot app.
+~~~dockerfile
+# ---- build stage ----
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -q dependency:go-offline
+COPY src ./src
+RUN mvn -q package -DskipTests
+
+# ---- runtime stage ----
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+RUN useradd -r -u 1001 spring
+COPY --from=build /src/target/*.jar app.jar
+USER spring
+EXPOSE 8080
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
+~~~
+Points: dependency layer cached separately, JRE-only runtime, non-root user, container-aware memory flag.
+## Write a docker-compose.yml for API + PostgreSQL + Redis.
+~~~yaml
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: pksf
+      POSTGRES_USER: pksf
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pksf"]
+      interval: 5s
+  redis:
+    image: redis:7
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pksf
+      SPRING_DATASOURCE_USERNAME: pksf
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+volumes:
+  pgdata:
+~~~
+Services reach each other by service name (db, redis) on the compose network.
+## Write a Kubernetes Deployment and Service for the API.
+~~~yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: po-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app: po-api }
+  template:
+    metadata:
+      labels: { app: po-api }
+    spec:
+      containers:
+        - name: po-api
+          image: registry.pksf.local/po-api:1.4.2
+          ports: [{ containerPort: 8080 }]
+          envFrom:
+            - configMapRef: { name: po-api-config }
+            - secretRef: { name: po-api-secrets }
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits: { memory: 1Gi }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8080 }
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: po-api
+spec:
+  selector: { app: po-api }
+  ports: [{ port: 80, targetPort: 8080 }]
+~~~
+Expose externally with an Ingress (host/path routing, TLS).
+## Describe a CI/CD pipeline for a full-stack app.
+1. **Trigger** on push/merge request.
+2. **Build**: mvn package / npm ci && npm run build.
+3. **Test**: unit + integration (Testcontainers), frontend tests; publish JaCoCo coverage.
+4. **Quality and security**: SonarQube, dependency scan, image scan (Trivy).
+5. **Package**: build Docker image tagged with git SHA/version, push to registry.
+6. **Deploy to staging**: kubectl/Helm/Argo CD; run DB migrations (Flyway); smoke tests.
+7. **Approve and deploy to production**: rolling/blue-green; automatic rollback on failed health checks.
+8. **Secrets** from the CI secret store, never in the repo.
+~~~yaml
+# .github/workflows/ci.yml (sketch)
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17", cache: maven }
+      - run: mvn -B verify
+      - run: docker build -t po-api:latest .
+~~~
+`,
+cheat:String.raw`
+- Docker: image (template) vs container (instance). Layers cached; order Dockerfile from least to most changing.
+- CMD = default args; ENTRYPOINT = executable. COPY vs ADD (ADD can extract tar/URLs; prefer COPY).
+- Multi-stage builds, non-root user, .dockerignore, volumes for data.
+- Compose: services, networks, volumes, depends_on, healthcheck.
+- K8s: Pod, ReplicaSet, Deployment, StatefulSet, DaemonSet, Job/CronJob, Service (ClusterIP/NodePort/LoadBalancer), Ingress, ConfigMap, Secret, PV/PVC, HPA, Namespace.
+- Probes: readiness (traffic), liveness (restart), startup.
+- kubectl get/describe/logs/apply/rollout undo/scale/exec.
+- Git: merge vs rebase; revert (safe) vs reset (rewrites); cherry-pick; GitFlow / trunk-based.
+- CI files: .github/workflows/*.yml, .gitlab-ci.yml, Jenkinsfile.
+- Strategies: rolling (K8s default), blue-green, canary, recreate.
+`},
+{id:"obs",name:"Observability & Async",blurb:"ELK, Prometheus, Grafana, batch & queues",
+mcq:String.raw`
+Q: ELK stands for:
+* Elasticsearch, Logstash, Kibana
+- Elastic, Linux, Kafka
+- Event, Log, Key
+- Elasticsearch, Loki, Kubernetes
+E: Beats/Filebeat often ship logs; with Beats it's called the Elastic Stack. Kibana (port 5601) visualises; Elasticsearch listens on 9200.
+Q: How does Prometheus collect metrics?
+- Applications push to it by default
+* It pulls (scrapes) HTTP endpoints like /actuator/prometheus on an interval
+- From log files
+- Through SQL queries
+E: Spring Boot exposes metrics via Micrometer + micrometer-registry-prometheus. Pushgateway exists for short-lived jobs.
+Q: Grafana is primarily:
+- A log shipper
+- A metrics database
+* A dashboard and visualisation/alerting tool on top of data sources like Prometheus, Elasticsearch, Loki
+- A CI tool
+E: Default port 3000. Prometheus itself runs on 9090.
+Q: The three pillars of observability are:
+* Logs, metrics, traces
+- CPU, memory, disk
+- Alerts, dashboards, emails
+- Unit, integration, E2E
+E: Traces follow a request across services with a trace ID (OpenTelemetry, Micrometer Tracing, Zipkin, Jaeger).
+Q: Log levels from most to least verbose are:
+* TRACE, DEBUG, INFO, WARN, ERROR
+- ERROR, WARN, INFO, DEBUG, TRACE
+- DEBUG, TRACE, INFO, ERROR, WARN
+- INFO, DEBUG, TRACE, WARN, ERROR
+E: Production usually runs at INFO; change a package's level with logging.level.com.pksf=DEBUG.
+Q: How do you attach a correlation/request ID to every log line for one request?
+- Pass it manually to each log call
+* Put it in the SLF4J MDC (Mapped Diagnostic Context) in a filter, and print it in the log pattern
+- Use System.out
+- Store it in a static variable
+E: Micrometer Tracing does this automatically with traceId/spanId. Clear the MDC after the request.
+Q: In a Spring Batch chunk-oriented step with chunk size 100:
+* Items are read and processed one by one, then written and committed together every 100 items
+- The whole file is one transaction
+- Each item is its own transaction
+- Writing happens before reading
+E: The commit interval balances throughput and rollback size.
+Q: Spring Batch's JobRepository stores:
+- The input files
+* Job and step execution metadata (status, counts, parameters) so jobs can be monitored and restarted
+- Business data
+- User sessions
+E: Its tables (BATCH_JOB_INSTANCE, BATCH_JOB_EXECUTION, BATCH_STEP_EXECUTION ...) live in your database.
+Q: For {{@Async}} methods to run asynchronously you need:
+* @EnableAsync, a public method called from another bean, and ideally a configured TaskExecutor
+- Nothing else
+- @EnableScheduling
+- A static method
+E: Return CompletableFuture<T> to get results. Same proxy limitation as @Transactional.
+Q: Which PromQL expression gives the per-second request rate over 5 minutes?
+- sum(http_requests)
+* rate(http_server_requests_seconds_count[5m])
+- avg(http_requests)
+- count_over_time(5m)
+E: rate() works on counters. Use histogram_quantile() over histogram buckets for p95 latency.
+Q: Which component sends Prometheus alerts to email/Slack and handles grouping and silencing?
+- Grafana Loki
+* Alertmanager
+- Logstash
+- Kibana
+E: Alert rules are evaluated by Prometheus; Alertmanager routes notifications.
+Q: A user uploads a 200 MB CSV of PO financial data. Best API design?
+- Process it inside the HTTP request and return when done
+* Store the file, return 202 Accepted with a job id, process asynchronously (batch/queue), let the client poll or get notified
+- Reject files over 1 MB
+- Load it all into memory with one JPA saveAll()
+E: Long synchronous requests time out and block threads. Stream the file, validate per row, and report errors per row.
+Q: In RabbitMQ, a consumer should acknowledge a message:
+- Before processing starts
+* After processing succeeds (manual ack), so failures can be redelivered or dead-lettered
+- Never
+- Only on Sundays
+E: Auto-ack loses messages if the consumer crashes mid-processing.
+`,
+written:String.raw`
+## Design bulk upload and asynchronous processing of monthly financial reports from Partner Organisations.
+1. **Upload**: React/Angular uploads the file (multipart, or a pre-signed URL to object storage); show progress.
+2. **API** validates type/size, stores the file (MinIO/S3/disk), inserts an {{upload_job}} row (PENDING), publishes a message to RabbitMQ (or launches a Spring Batch job), returns **202** + job id.
+3. **Worker**: Spring Batch chunk step reads rows (streaming), validates (mandatory fields, totals, PO ownership), writes with JDBC batching; invalid rows go to an error table.
+4. **Status**: job row updated (RUNNING, COMPLETED, FAILED; counts); UI polls {{GET /jobs/{id}}} or receives a WebSocket/STOMP push; a downloadable error report.
+5. **Reliability**: idempotency (file checksum, unique per PO + month), retries, DLQ, restartable jobs.
+6. **Security**: PO users may only upload for their own PO; audit log; virus scan.
+7. **Observability**: metrics on job duration and failures, alerts in Grafana.
+## Production DB latency is spiking. How do you troubleshoot it?
+1. **Confirm** in Grafana: which endpoints are slow (p95/p99), since when, correlated with deploys or traffic.
+2. **Trace** a slow request (trace ID) to see time spent in DB vs app vs external calls.
+3. **DB side**: pg_stat_statements top queries, {{pg_stat_activity}} for locks/long transactions, EXPLAIN ANALYZE, missing indexes, bloat/vacuum, CPU/IO of the DB host.
+4. **App side**: HikariCP metrics (active, pending connections, acquire time), N+1 queries, transactions held open during remote calls.
+5. **Logs** in Kibana filtered by correlation ID and error level.
+6. **Fix and verify**: index/query fix, pool sizing, caching, then watch the dashboard return to baseline; add an alert so it's caught earlier next time.
+## Set up monitoring for a Spring Boot microservice.
+- Add {{spring-boot-starter-actuator}} and {{micrometer-registry-prometheus}}; expose {{health,info,prometheus}}.
+- Prometheus scrape config (or a ServiceMonitor in Kubernetes) for {{/actuator/prometheus}}.
+- Grafana dashboards: JVM (heap, GC), HTTP (rate, errors, duration: RED method), HikariCP, custom business metrics ({{Counter}} for reports submitted).
+- Logs: JSON logs to stdout, Filebeat/Fluent Bit to Logstash/Elasticsearch, Kibana searches.
+- Traces: Micrometer Tracing + OpenTelemetry exporter to Zipkin/Jaeger/Tempo.
+- Alerts: error rate > 5%, p95 > 1s, pod restarts, DB connections exhausted.
+`,
+cheat:String.raw`
+- Logs (ELK: Elasticsearch 9200, Logstash, Kibana 5601), metrics (Prometheus 9090 + Grafana 3000), traces (OpenTelemetry, Zipkin, Jaeger).
+- Prometheus pulls /actuator/prometheus; PromQL rate(), sum by(), histogram_quantile(); Alertmanager routes alerts.
+- RED: Rate, Errors, Duration. USE: Utilisation, Saturation, Errors.
+- MDC for correlation IDs; structured JSON logs.
+- Spring Batch: Job > Step > chunk(Reader, Processor, Writer); JobRepository; JobLauncher; skip/retry; restartable.
+- @Async + @EnableAsync; @Scheduled + @EnableScheduling; return CompletableFuture.
+- Long jobs: 202 Accepted + job id + polling/WebSocket.
+- RabbitMQ: manual ack after success, DLQ for poison messages, idempotent consumers.
+`},
+{id:"test",name:"Testing & Agile",blurb:"JUnit, Mockito, test slices, Scrum, SDLC",
+mcq:String.raw`
+Q: Which framework is the standard for mocking dependencies in Java unit tests?
+- JUnit
+* Mockito
+- Selenium
+- JMeter
+E: JUnit 5 runs tests and assertions; Mockito creates mocks/stubs (when(...).thenReturn(...), verify(...)).
+Q: Which Spring Boot test annotation loads only the web/MVC layer for controller tests?
+- @SpringBootTest
+* @WebMvcTest
+- @DataJpaTest
+- @JsonTest
+E: Combine with MockMvc and mocked services. @DataJpaTest loads only JPA components; @SpringBootTest loads the full context.
+Q: Testcontainers is used to:
+* Run real dependencies like PostgreSQL, Redis or Keycloak in Docker during integration tests
+- Mock HTTP calls
+- Measure code coverage
+- Deploy to Kubernetes
+E: Tests against the real database catch dialect and migration issues that H2 hides.
+Q: TDD follows which cycle?
+- Code, test, deploy
+* Red (failing test), Green (make it pass), Refactor
+- Plan, do, check, act
+- Design, build, release
+E: Write the smallest failing test first, then the simplest code to pass, then clean up.
+Q: The test pyramid recommends:
+* Many fast unit tests, fewer integration tests, and the fewest end-to-end UI tests
+- Mostly end-to-end tests
+- Equal numbers of each
+- Only manual testing
+E: E2E tests are slow and brittle; unit tests give fast feedback.
+Q: Which tool measures Java code coverage?
+- Mockito
+* JaCoCo
+- Lombok
+- Flyway
+E: SonarQube can import JaCoCo reports and enforce quality gates.
+Q: In Spring Boot 3.4+, the replacement for @MockBean is:
+* @MockitoBean (from Spring Framework 6.2)
+- @Mock
+- @InjectMocks
+- @SpyBean only
+E: @Mock + @InjectMocks are for plain unit tests without a Spring context.
+Q: Which library is recommended for testing React components the way users interact with them?
+- Enzyme
+* React Testing Library (with Jest or Vitest)
+- Selenium only
+- Mocha only
+E: Query by role/label/text, not implementation details. Cypress or Playwright for E2E.
+Q: The three Scrum accountabilities (roles) are:
+* Product Owner, Scrum Master, Developers
+- Manager, Tester, Developer
+- Architect, Analyst, Programmer
+- Client, Vendor, User
+E: Events: Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective. Artifacts: Product Backlog, Sprint Backlog, Increment.
+Q: The Daily Scrum is time-boxed to:
+- 5 minutes
+* 15 minutes
+- 30 minutes
+- 1 hour
+E: A Sprint is one month or less; Sprint Planning is at most 8 hours for a one-month sprint.
+Q: Under Semantic Versioning (MAJOR.MINOR.PATCH), a backward-incompatible API change bumps:
+* MAJOR
+- MINOR
+- PATCH
+- None
+E: MINOR = new backward-compatible features; PATCH = backward-compatible bug fixes.
+Q: Which change to a REST response keeps backward compatibility?
+* Adding a new optional field
+- Renaming an existing field
+- Removing a field
+- Changing a field's type from number to string
+E: Clients should ignore unknown fields; breaking changes need a new version.
+Q: Regression testing means:
+- Testing performance under load
+* Re-running tests to make sure existing features still work after a change
+- Testing only new code
+- User acceptance testing
+E: Automated test suites in CI are your regression safety net.
+Q: Which SDLC model fits evolving requirements best?
+- Waterfall
+* Agile/iterative (e.g. Scrum, Kanban)
+- V-model
+- Big bang
+E: Waterfall suits fixed, well-understood requirements; Agile delivers increments and adapts.
+`,
+written:String.raw`
+## Write a unit test for a service using JUnit 5 and Mockito.
+~~~java
+@ExtendWith(MockitoExtension.class)
+class PartnerOrgServiceTest {
+
+  @Mock PartnerOrgRepository repo;
+  @InjectMocks PartnerOrgService service;
+
+  @Test
+  void create_savesNewPartnerOrg() {
+    var dto = new PartnerOrgDto(null, "PO-101", "Shakti Foundation");
+    when(repo.existsByCode("PO-101")).thenReturn(false);
+    when(repo.save(any())).thenAnswer(inv -> { PartnerOrg p = inv.getArgument(0); p.id = 1L; return p; });
+
+    var saved = service.create(dto);
+
+    assertEquals(1L, saved.id());
+    verify(repo).save(argThat(p -> p.code.equals("PO-101")));
+  }
+
+  @Test
+  void create_rejectsDuplicateCode() {
+    when(repo.existsByCode("PO-101")).thenReturn(true);
+    assertThrows(DuplicateException.class,
+        () -> service.create(new PartnerOrgDto(null, "PO-101", "X")));
+    verify(repo, never()).save(any());
+  }
+}
+~~~
+Arrange-Act-Assert; test the happy path and the failure path; name tests by behaviour.
+## Write a controller test with MockMvc.
+~~~java
+@WebMvcTest(PartnerOrgController.class)
+class PartnerOrgControllerTest {
+  @Autowired MockMvc mvc;
+  @MockitoBean PartnerOrgService service;
+
+  @Test
+  void invalidBody_returns400() throws Exception {
+    mvc.perform(post("/api/v1/partner-orgs")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{\"code\":\"\",\"name\":\"\"}"))
+       .andExpect(status().isBadRequest());
+  }
+}
+~~~
+(If security is on the classpath, add {{@WithMockUser}} or import the security config.)
+## Explain Scrum events and how a sprint runs.
+- **Sprint** (1 to 4 weeks) contains everything.
+- **Sprint Planning**: pick backlog items, set a sprint goal, break into tasks.
+- **Daily Scrum** (15 min): progress toward the goal, impediments.
+- **Sprint Review**: demo the increment to stakeholders, adapt the backlog.
+- **Retrospective**: improve how the team works.
+- Artifacts: Product Backlog (Product Goal), Sprint Backlog (Sprint Goal), Increment (Definition of Done).
+## What is technical debt and how do you manage it?
+Shortcuts that make future change slower (duplicated code, missing tests, outdated libraries). Manage it by making it visible in the backlog, refactoring in small steps covered by tests, the "boy scout rule", code reviews, static analysis (SonarQube), and reserving sprint capacity for it. Preserve backward compatibility while refactoring APIs (deprecate first, then remove in a new major version).
+`,
+cheat:String.raw`
+- JUnit 5: @Test, @BeforeEach, @ParameterizedTest, assertEquals/assertThrows.
+- Mockito: @Mock, @InjectMocks, when().thenReturn(), verify(), ArgumentCaptor.
+- Spring slices: @WebMvcTest (MockMvc), @DataJpaTest, @SpringBootTest; @MockitoBean (Boot 3.4+), was @MockBean.
+- Testcontainers for real PostgreSQL/Redis/Keycloak.
+- Frontend: Jest/Vitest + React Testing Library; Cypress/Playwright E2E.
+- Pyramid: unit > integration > E2E. TDD: red-green-refactor. Coverage: JaCoCo.
+- Scrum: PO, SM, Developers; Sprint ≤ 1 month; Daily Scrum 15 min; Review; Retro.
+- SemVer MAJOR.MINOR.PATCH.
+`},
+{id:"cs",name:"CS Fundamentals",blurb:"DSA, complexity, OS, networks, coding",
+mcq:String.raw`
+Q: Time complexity of binary search on a sorted array?
+- O(n)
+* O(log n)
+- O(n log n)
+- O(1)
+E: Each step halves the search range. The array must be sorted.
+Q: Which sort guarantees O(n log n) in the worst case?
+- Quick sort
+* Merge sort (also heap sort)
+- Insertion sort
+- Bubble sort
+E: Quick sort averages O(n log n) but degrades to O(n²) with bad pivots. Merge sort is stable and needs O(n) extra space.
+Q: BFS uses which data structure?
+* Queue
+- Stack
+- Heap
+- Hash table
+E: DFS uses a stack (or recursion). BFS finds shortest paths in unweighted graphs.
+Q: Average-case lookup in a hash table is:
+* O(1)
+- O(log n)
+- O(n)
+- O(n²)
+E: Worst case is O(n) with many collisions (O(log n) for Java 8 tree bins).
+Q: Which is NOT one of the four necessary conditions for deadlock?
+- Mutual exclusion
+- Hold and wait
+- No preemption
+* Starvation
+E: The fourth condition is circular wait. Break any one to prevent deadlock.
+Q: Process vs thread?
+* A process has its own address space; threads within a process share memory but have their own stacks
+- Threads have separate memory; processes share
+- They are the same
+- Processes are lighter than threads
+E: Context switching between threads is cheaper; shared memory needs synchronisation.
+Q: TCP vs UDP?
+* TCP is connection-oriented, reliable and ordered; UDP is connectionless, faster, no delivery guarantee
+- UDP is reliable; TCP is not
+- Both are application-layer protocols
+- TCP is used for DNS only
+E: HTTP/1.1 and HTTP/2 use TCP; DNS queries and video streaming often use UDP; HTTP/3 runs over QUIC (UDP).
+Q: The default port of HTTPS is:
+- 80
+- 8080
+* 443
+- 22
+E: HTTP 80, SSH 22, FTP 21, SMTP 25, DNS 53, PostgreSQL 5432, MySQL 3306.
+Q: The transport layer is which OSI layer?
+- 2
+- 3
+* 4
+- 7
+E: Physical 1, Data link 2, Network 3 (IP), Transport 4 (TCP/UDP), Session 5, Presentation 6, Application 7 (HTTP).
+Q: Complexity of two nested loops, each over n items?
+- O(n)
+* O(n²)
+- O(2n)
+- O(log n)
+E: Constants are dropped: O(2n) = O(n).
+Q: Which algorithm finds the shortest paths from one source in a graph with non-negative weights?
+* Dijkstra's algorithm
+- Kruskal's algorithm
+- DFS
+- Bellman-Ford is the only option
+E: Bellman-Ford handles negative weights; Kruskal and Prim build minimum spanning trees.
+Q: A stack follows ____ and a queue follows ____.
+* LIFO; FIFO
+- FIFO; LIFO
+- LIFO; LIFO
+- FIFO; FIFO
+E: Stack: push/pop (undo, call stack). Queue: enqueue/dequeue (job queues, BFS).
+Q: Naive recursive Fibonacci runs in exponential time. Which technique makes it O(n)?
+- Recursion depth limits
+* Dynamic programming (memoisation or bottom-up)
+- Binary search
+- Sorting
+E: Store already-computed sub-results instead of recomputing them.
+Q: Height of a balanced binary search tree with n nodes is:
+- O(n)
+* O(log n)
+- O(1)
+- O(n²)
+E: An unbalanced BST can degrade to O(n), like a linked list. Red-black and AVL trees stay balanced.
+Q: DNS is used to:
+* Resolve domain names to IP addresses
+- Encrypt traffic
+- Assign IP addresses (that's DHCP)
+- Route packets
+E: Records: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT.
+Q: Virtual memory lets a process:
+* Use an address space larger than physical RAM, with pages swapped to disk as needed
+- Run without an OS
+- Share CPU registers
+- Avoid page faults entirely
+E: A page fault occurs when a needed page isn't in RAM. Thrashing = constant paging.
+`,
+written:String.raw`
+## Reverse a singly linked list (Java).
+~~~java
+ListNode reverse(ListNode head) {
+  ListNode prev = null, cur = head;
+  while (cur != null) {
+    ListNode next = cur.next;
+    cur.next = prev;
+    prev = cur;
+    cur = next;
+  }
+  return prev;
+}
+~~~
+O(n) time, O(1) space.
+## Two Sum: return indices of two numbers adding to target.
+~~~java
+int[] twoSum(int[] nums, int target) {
+  Map<Integer, Integer> seen = new HashMap<>();
+  for (int i = 0; i < nums.length; i++) {
+    Integer j = seen.get(target - nums[i]);
+    if (j != null) return new int[]{j, i};
+    seen.put(nums[i], i);
+  }
+  return new int[0];
+}
+~~~
+O(n) time with a hash map instead of O(n²) nested loops.
+## Check whether brackets in a string are balanced.
+~~~java
+boolean balanced(String s) {
+  Deque<Character> st = new ArrayDeque<>();
+  for (char c : s.toCharArray()) {
+    if (c == '(' || c == '[' || c == '{') st.push(c);
+    else if (c == ')' || c == ']' || c == '}') {
+      if (st.isEmpty()) return false;
+      char o = st.pop();
+      if ((c == ')' && o != '(') || (c == ']' && o != '[') || (c == '}' && o != '{')) return false;
+    }
+  }
+  return st.isEmpty();
+}
+~~~
+## Check if a string is a palindrome (ignore case and non-alphanumerics).
+~~~java
+boolean isPalindrome(String s) {
+  int i = 0, j = s.length() - 1;
+  while (i < j) {
+    while (i < j && !Character.isLetterOrDigit(s.charAt(i))) i++;
+    while (i < j && !Character.isLetterOrDigit(s.charAt(j))) j--;
+    if (Character.toLowerCase(s.charAt(i++)) != Character.toLowerCase(s.charAt(j--))) return false;
+  }
+  return true;
+}
+~~~
+## FizzBuzz, factorial and prime check (quick warm-ups often asked).
+~~~java
+for (int i = 1; i <= 100; i++)
+  System.out.println(i % 15 == 0 ? "FizzBuzz" : i % 3 == 0 ? "Fizz" : i % 5 == 0 ? "Buzz" : String.valueOf(i));
+
+long factorial(int n) { return n <= 1 ? 1 : n * factorial(n - 1); }
+
+boolean isPrime(int n) {
+  if (n < 2) return false;
+  for (int i = 2; (long) i * i <= n; i++) if (n % i == 0) return false;
+  return true;
+}
+~~~
+## What happens when you type a URL into the browser and press Enter?
+1. Browser parses the URL; checks HSTS and caches.
+2. **DNS** resolution (browser, OS, resolver, root, TLD, authoritative) gives an IP.
+3. **TCP** handshake (SYN, SYN-ACK, ACK) to port 443, then **TLS** handshake (certificate verification, key exchange).
+4. HTTP request sent; it may pass a CDN, load balancer, API gateway/NGINX to the app server.
+5. Server runs the app (Spring Boot: filters, security, controller, service, DB) and returns a response.
+6. Browser parses HTML, fetches CSS/JS, builds DOM and CSSOM, lays out and paints; JS (React) hydrates/renders.
+`,
+cheat:String.raw`
+- Big-O: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2^n).
+- Sorting: merge O(n log n) stable; quick avg O(n log n) worst O(n²); heap O(n log n); bubble/insertion O(n²).
+- Structures: array, linked list, stack (LIFO), queue (FIFO), hash map, heap (priority queue), BST, graph, trie.
+- Graphs: BFS (queue), DFS (stack), Dijkstra (non-negative), Bellman-Ford (negative), Kruskal/Prim (MST).
+- Deadlock: mutual exclusion, hold & wait, no preemption, circular wait.
+- OSI: Physical, Data link, Network, Transport, Session, Presentation, Application.
+- Ports: 20/21 FTP, 22 SSH, 25 SMTP, 53 DNS, 80 HTTP, 443 HTTPS.
+- Coding tricks: hash map for lookups, two pointers, sliding window, stack for brackets, DP for overlapping subproblems.
+`},
+{id:"cloud",name:"Cloud & Architecture",blurb:"AWS/GCP/Azure basics, scaling, design",
+mcq:String.raw`
+Q: Which is an example of IaaS?
+* Amazon EC2 virtual machines
+- Gmail
+- Heroku
+- Salesforce
+E: IaaS = raw compute/network/storage; PaaS = platform you deploy code to (Heroku, Elastic Beanstalk, App Engine); SaaS = finished software (Gmail).
+Q: Horizontal scaling means:
+* Adding more instances/machines
+- Adding more CPU/RAM to one machine
+- Splitting the code into modules
+- Using a faster disk
+E: Horizontal scaling needs stateless services (sessions in Redis, files in object storage). Vertical scaling has a ceiling.
+Q: AWS S3 is:
+- A relational database
+* Object storage for files and blobs
+- A virtual machine service
+- A DNS service
+E: Azure equivalent: Blob Storage; GCP: Cloud Storage. Managed relational DBs: RDS / Azure SQL / Cloud SQL.
+Q: A load balancer's "round robin" algorithm:
+* Sends each new request to the next server in turn
+- Sends all traffic to the fastest server
+- Sends requests based on the user's IP only
+- Randomly drops requests
+E: Others: least connections, IP hash (sticky), weighted.
+Q: A CDN improves performance by:
+- Speeding up the database
+* Caching static content at edge locations close to users
+- Compressing Java bytecode
+- Replacing the load balancer
+E: Examples: CloudFront, Cloudflare, Azure CDN.
+Q: According to the Twelve-Factor App, configuration should be stored in:
+- The source code
+* Environment variables (external to the build)
+- A hard-coded properties file in the jar
+- The database only
+E: The same build artefact moves through dev, staging and production with different config.
+Q: Which AWS service is the managed Kubernetes offering?
+- ECS
+* EKS
+- Lambda
+- EC2 Auto Scaling
+E: Azure: AKS; GCP: GKE. ECS is AWS's own container orchestrator; Lambda is serverless functions.
+Q: RPO and RTO in disaster recovery mean:
+* RPO = maximum acceptable data loss (time); RTO = maximum acceptable downtime to restore
+- Both mean backup frequency
+- RPO = restore time; RTO = data loss
+- They measure CPU usage
+E: Financial systems typically need low RPO: frequent backups, WAL archiving/point-in-time recovery, and replicas.
+`,
+written:String.raw`
+## Design a high-level architecture for a PO financial reporting system.
+- **Clients**: React/Angular web app (Material UI) for PKSF staff and PO users; responsive for field use.
+- **Edge**: NGINX/Ingress with TLS, API gateway (rate limit, routing), Keycloak for SSO.
+- **Services** (Spring Boot): Identity/PO management, Report submission, Validation & processing (Spring Batch workers via RabbitMQ), Notifications, Reporting/analytics.
+- **Data**: PostgreSQL (transactional, partitioned by period), Redis (cache, sessions), object storage for files, read replica or warehouse for analytics.
+- **Ops**: Docker images, Kubernetes, GitLab CI/GitHub Actions, Flyway migrations, Prometheus + Grafana, ELK, backups with PITR.
+- **Security**: RBAC + PO-level data isolation, encryption in transit and at rest, audit trail of who changed what.
+## How do you make a service stateless and horizontally scalable?
+- No in-memory sessions (JWT or Spring Session in Redis).
+- Files in object storage, not local disk.
+- Scheduled jobs guarded by a distributed lock (ShedLock/Redis) so only one replica runs them.
+- Idempotent handlers; externalised config; health probes; graceful shutdown.
+`,
+cheat:String.raw`
+- IaaS (EC2, Azure VM, Compute Engine), PaaS (Beanstalk, App Engine, App Service), SaaS.
+- Storage: S3 / Blob / Cloud Storage. DB: RDS / Azure SQL / Cloud SQL. K8s: EKS / AKS / GKE.
+- Scale out (horizontal) vs up (vertical). Stateless services scale out.
+- LB: round robin, least connections, IP hash. CDN caches static assets at the edge.
+- 12-factor: config in env, logs to stdout, disposable processes, dev/prod parity.
+- DR: RPO (data loss), RTO (downtime). Backups + replicas + PITR.
+`},
+{id:"pksf",name:"Know the job (ToR)",blurb:"Facts from the ToR and viva prep",
+mcq:String.raw`
+Q: PKSF was established by:
+* The Government of Bangladesh (in 1990)
+- The World Bank
+- A private bank consortium
+- Bangladesh Bank
+E: The ToR describes PKSF as an apex development organisation founded by the Government of Bangladesh, mandated for poverty alleviation through sustainable employment generation.
+Q: How does PKSF implement its programmes, according to the ToR?
+- Directly through its own branch offices only
+* As a second-tier organisation, through more than 200 Partner Organisations (POs)
+- Through commercial banks
+- Through district councils
+E: That's why the ToR stresses interfaces for PO field users and reports submitted by Partner Organisations.
+Q: Which department will the Full-stack Software Engineer work under?
+- Finance and Accounts
+- Human Resources
+* Information Technology and Digital Solutions Department (ITDSD)
+- Research Department
+E: The ToR says ITDSD is expanding its software development capacity.
+Q: What is the initial employment duration?
+- 1 year
+- 2 years
+* 4 years, subject to annual renewal based on performance
+- Permanent from day one
+E: Renewal depends on performance and "demonstrated dynamism".
+Q: What is the consolidated monthly salary in the ToR?
+- BDT 80,000
+- BDT 1,00,000
+* BDT 1,20,000 (inclusive of all taxes) plus admissible benefits
+- BDT 1,50,000
+E: Benefits listed: annual increments, festival allowances, Bangla Noboborsho allowance, mobile allowance, group insurance.
+Q: What is the age limit?
+- 30 years
+* Maximum 32 years on the last date of application
+- 35 years
+- 40 years
+E: Calculated on the last date of application.
+Q: Minimum professional experience required?
+- 1 year
+* 2 years in full-stack software development
+- 3 years
+- 5 years
+E: Plus hands-on Java (Spring Boot) and React and/or Angular as the mandatory core stack.
+Q: What academic record rule does the ToR set?
+* At least three First Divisions/Classes or equivalent CGPAs; any Third Division/Class is not acceptable
+- At least two First Divisions
+- Only the Bachelor's result matters
+- No academic requirement
+E: First Class is determined based on the candidate's regular degree, considering the first four degrees only.
+Q: Which frontend design principle does the ToR name for reusable components?
+- Fluent Design
+- Human Interface Guidelines
+* Material Design
+- Bootstrap
+E: For consistent, accessible, responsive interfaces for PO field users.
+Q: Which monitoring and logging tools does the ToR list?
+- Splunk and New Relic
+* ELK Stack, Prometheus, Grafana
+- Datadog only
+- Nagios and Zabbix
+E: Used to troubleshoot application performance and database latency.
+Q: Which tool does the ToR name for in-memory caching and session management?
+- Memcached
+- Hazelcast
+* Redis
+- Ehcache
+E: Also listed under "Caching & Queue Management" as a preferred qualification.
+Q: Which authentication protocols/products does the ToR list for API security and SSO?
+* OAuth2, JWT, Keycloak SSO
+- LDAP and Kerberos only
+- SAML only
+- Basic auth
+E: Applied across both RESTful and SOAP web services, with RBAC and encryption.
+Q: Which background processing approach does the ToR mention for bulk uploads and financial reports?
+- Cron jobs in the database
+* Spring Batch and task queues
+- Excel macros
+- Manual processing
+E: For bulk file uploads and financial report generation submitted by POs.
+Q: Which databases does the ToR list?
+- MySQL only
+* PostgreSQL, Oracle, MySQL and MongoDB
+- SQL Server and Cassandra
+- SQLite
+E: With optimised SQL (queries, stored procedures, functions) and ORM tuning (JPA/Hibernate) targeting PostgreSQL first.
+Q: Which CI/CD tools are named in the ToR?
+* GitLab CI/CD, GitHub Actions, Jenkins
+- Bamboo and TeamCity
+- CircleCI only
+- Azure DevOps only
+E: Along with Docker containerisation and Kubernetes orchestration.
+Q: What does the ToR prefer as a "verifiable code portfolio"?
+- A printed CV
+* A public GitHub/GitLab/Bitbucket repo with modular full-stack projects, unit/integration tests, README.md and docker-compose
+- A personal blog
+- Certificates only
+E: Make sure your best repo has a clear README, tests and a working docker-compose before the interview.
+Q: Cloud familiarity in the ToR is:
+- Mandatory
+* Optional (AWS, GCP or Azure, or associate-level developer certifications)
+- Not mentioned
+- Required for AWS only
+E: Listed as "Cloud & Relevant Certifications (Optional)".
+`,
+written:String.raw`
+## "Tell us about yourself." (viva opener)
+Structure in about 60 to 90 seconds: present role, core stack, one strong result, why this job.
+
+Template to adapt: "I'm a full-stack software engineer with a CSE degree from AIUB, currently working at One Direction Companies Limited, where I was promoted to Senior Assistant Executive Officer. I build Spring Boot microservices with Spring Security, JPA and PostgreSQL, and React/Next.js frontends, with RabbitMQ and WebSockets for async and real-time features, deployed with Docker and Kubernetes through CI/CD. [One concrete result: what you built, for whom, measurable impact.] I'm also doing the Professional Masters in AI and Data Engineering at the University of Dhaka. PKSF's work of serving 200+ partner organisations with secure, reliable digital systems is exactly the kind of high-impact, data-sensitive engineering I want to do."
+## "Why do you want to join PKSF?"
+- Mission: national-scale poverty alleviation; software here reaches POs and the people they serve.
+- Engineering fit: the ToR's stack (Spring Boot, React/Angular, PostgreSQL, Redis, Keycloak, Docker/K8s, ELK/Prometheus) matches what you already use.
+- Scale and sensitivity of financial and partner data: a chance to build secure, high-performance systems properly.
+- Growth: ITDSD is expanding its software capacity, so you can help shape standards from the start.
+## Walk us through a full-stack project you built (use STAR).
+- **Situation**: the business problem and users.
+- **Task**: your responsibility.
+- **Action**: architecture (diagram in words), key technical decisions and why (e.g. RabbitMQ for async, Redis cache, JWT/Keycloak, Docker/K8s), a hard bug you solved.
+- **Result**: numbers (response time cut from X to Y, N users, uptime, fewer manual steps).
+Prepare 2 such stories; be ready to draw the architecture on paper.
+## How would you secure sensitive financial data of Partner Organisations?
+- **Identity**: Keycloak SSO, MFA for admins, short-lived tokens.
+- **Authorisation**: RBAC + data-level isolation (PO users only see their PO's rows); deny by default.
+- **Transport/storage**: TLS everywhere; encryption at rest; encrypt highly sensitive columns; secrets in K8s Secrets/Vault.
+- **Application**: validation, parameterised queries, OWASP checks, dependency scanning.
+- **Audit**: who did what and when, immutable logs shipped to ELK; alerts on anomalies.
+- **Ops**: backups with point-in-time recovery, tested restores, least-privilege DB accounts, network policies.
+## Questions you can ask the panel at the end.
+- What does the current tech landscape look like: which systems are legacy (Oracle/SOAP) and which are being modernised?
+- How do POs currently submit reports, and what are the biggest pain points?
+- How is the ITDSD team structured, and how do you run sprints and code reviews?
+- What would success look like for this role in the first 6 months?
+`,
+cheat:String.raw`
+- PKSF: apex development org founded by GoB (1990); second-tier; 200+ Partner Organisations; poverty alleviation via financing, skill training.
+- Role: Software Engineer Full-stack, ITDSD, PKSF Bhaban, Agargaon, Dhaka (occasional field visits).
+- 4 years initially, annual renewal; BDT 1,20,000 consolidated + benefits; age max 32; 2+ years experience.
+- Academic: CSE/IT/SE or related degree; at least three First Divisions/Classes; no Third Division.
+- Mandatory stack: Java (Spring Boot) + React and/or Angular.
+- Named tech: Material Design, Spring Batch, JPA/Hibernate, PostgreSQL/Oracle/MySQL/MongoDB, Redis, OAuth2/JWT/Keycloak, REST + SOAP, Docker, Kubernetes, GitLab CI/GitHub Actions/Jenkins, ELK/Prometheus/Grafana.
+- Preferred: public repo with tests, README, docker-compose; microservices; PL/SQL; cloud (optional).
+`}
+);
+
+</script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function inl(s){
+  s=String(s).replace(/\\\{/g,'\u0001').replace(/\\\}/g,'\u0002');
+  s=esc(s).replace(/\{\{(.+?)\}\}/g,'<code>$1</code>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  return s.replace(/\u0001/g,'{').replace(/\u0002/g,'}');
+}
+function md(s){
+  const L=String(s).replace(/^\n+|\n+$/g,'').split('\n');let h='',i=0;
+  const isLi=l=>/^\s*- /.test(l),isOl=l=>/^\d+\. /.test(l);
+  while(i<L.length){
+    const l=L[i];
+    if(l.startsWith('~~~')){const b=[];i++;while(i<L.length&&!L[i].startsWith('~~~')){b.push(L[i]);i++}i++;h+='<pre><code>'+esc(b.join('\n'))+'</code></pre>';continue}
+    if(isLi(l)){h+='<ul>';while(i<L.length&&isLi(L[i])){h+='<li>'+inl(L[i].replace(/^\s*- /,''))+'</li>';i++}h+='</ul>';continue}
+    if(isOl(l)){h+='<ol>';while(i<L.length&&isOl(L[i])){h+='<li>'+inl(L[i].replace(/^\d+\. /,''))+'</li>';i++}h+='</ol>';continue}
+    if(!l.trim()){i++;continue}
+    const b=[];while(i<L.length&&L[i].trim()&&!L[i].startsWith('~~~')&&!isLi(L[i])&&!isOl(L[i])){b.push(L[i]);i++}
+    h+='<p>'+inl(b.join(' '))+'</p>';
+  }
+  return h;
+}
+// ---- parse bank ----
+function parseMCQ(t){
+  const out=[];let cur=null,mode=null,inCode=false;
+  for(const raw of t.mcq.split('\n')){
+    const l=raw.replace(/\s+$/,'');
+    if(!inCode&&l.startsWith('Q: ')){if(cur)out.push(cur);cur={q:l.slice(3),o:[],a:-1,e:''};mode='q';continue}
+    if(!cur)continue;
+    if(mode==='q'&&l.startsWith('~~~')){inCode=!inCode;cur.q+='\n'+l;continue}
+    if(inCode){cur.q+='\n'+raw;continue}
+    if(/^[-*] /.test(l)&&mode!=='e'){if(l[0]==='*')cur.a=cur.o.length;cur.o.push(l.slice(2));mode='o';continue}
+    if(l.startsWith('E: ')){cur.e=l.slice(3);mode='e';continue}
+    if(!l.trim())continue;
+    if(mode==='q')cur.q+='\n'+l;else if(mode==='e')cur.e+=' '+l;
+  }
+  if(cur)out.push(cur);
+  return out.map((x,i)=>Object.assign(x,{id:t.id+'-'+i,topic:t.id}));
+}
+function parseW(t){
+  return t.written.split(/\n(?=## )/).map(b=>b.trim()).filter(b=>b.startsWith('## ')).map((b,i)=>{
+    const nl=b.indexOf('\n');return{id:t.id+'-w'+i,topic:t.id,q:b.slice(3,nl<0?undefined:nl).trim(),a:nl<0?'':b.slice(nl+1)};
+  });
+}
+const TM={};
+TOPICS.forEach(t=>{t.qs=parseMCQ(t);t.ws=parseW(t);t.cs=t.cheat.trim().split('\n').filter(l=>l.startsWith('- ')).map(l=>l.slice(2));TM[t.id]=t});
+const ALLQ=TOPICS.flatMap(t=>t.qs),ALLW=TOPICS.flatMap(t=>t.ws),QM={};ALLQ.forEach(q=>QM[q.id]=q);
+// ---- storage ----
+let S={q:{},f:{},mocks:[]};
+try{const raw=localStorage.getItem('pksf-prep-v1');if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+const save=()=>{try{localStorage.setItem('pksf-prep-v1',JSON.stringify(S))}catch(e){}};
+const mastered=t=>t.qs.filter(q=>S.q[q.id]===1).length;
+const wrongs=()=>ALLQ.filter(q=>S.q[q.id]===0);
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let sess=null,timer=null,topicTab='quiz',deck=null,searchQ='';
+// ---- views ----
+function ring(p){
+  const r=52,c=2*Math.PI*r;
+  return `<svg viewBox="0 0 130 130" role="img" aria-label="Readiness ${p}%"><circle cx="65" cy="65" r="${r}" fill="none" stroke="#ffffff22" stroke-width="12"/><circle cx="65" cy="65" r="${r}" fill="none" stroke="#e6f5c8" stroke-width="12" stroke-linecap="${p?'round':'butt'}" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 65 65)"/><text x="65" y="66" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-family="Inter Tight, Inter, sans-serif" font-weight="800" font-size="30">${p}%</text><text x="65" y="92" text-anchor="middle" fill="#b9d6cc" font-family="Inter, sans-serif" font-size="11">ready</text></svg>`;
+}
+function resumeBanner(){
+  return sess&&!sess.done?`<div class="banner"><span>Unfinished: ${esc(sess.title)} (question ${sess.i+1} of ${sess.qs.length})</span><a class="btn dark" href="#quiz">Resume</a></div>`:'';
+}
+function home(){
+  const tot=ALLQ.length,ok=ALLQ.filter(q=>S.q[q.id]===1).length,seen=ALLQ.filter(q=>q.id in S.q).length,w=wrongs().length;
+  const last=S.mocks[S.mocks.length-1];
+  app.innerHTML=`<section class="band green"><div class="wrap">${resumeBanner()}<div class="hero">
+  <div><h1>Score full marks on the PKSF full-stack exam</h1>
+  <p class="mute">${tot} exam-style MCQs with explanations, ${ALLW.length} written and coding answers, and a cheat sheet for every technology in the Terms of Reference, from Spring Boot and Keycloak to Kubernetes and Grafana.</p>
+  <div class="row" style="margin-top:18px"><a class="btn pri" href="#mock">Take a mock exam</a><a class="btn ghost" href="#cards">Flashcards</a>${w?`<a class="btn ghost" href="#weak">Fix ${w} weak spots</a>`:''}</div></div>
+  <div class="dial">${ring(pct(ok,tot))}<div>
+   <div class="stat"><span>Questions mastered</span><b>${ok} / ${tot}</b></div>
+   <div class="stat"><span>Attempted</span><b>${seen}</b></div>
+   <div class="stat"><span>Currently wrong</span><b>${w}</b></div>
+   <div class="stat"><span>Last mock</span><b>${last?last.s+' / '+last.n+' ('+pct(last.s,last.n)+'%)':'not taken'}</b></div>
+  </div></div></div>
+  <div class="lines">${TOPICS.map(t=>{const m=pct(mastered(t),t.qs.length);return `<div class="ln"><span>${esc(t.name)}</span><span class="bar"><i style="width:${m}%"></i></span><span>${m}%</span></div>`}).join('')}</div>
+  </div></section>
+  <section class="band"><div class="wrap"><h2>Topics</h2><p class="mute">Each topic has a quiz, model written answers and a one-page cheat sheet. Aim for 100% on every line above.</p>
+  <div class="grid">${TOPICS.map(t=>{const m=mastered(t);return `<a class="card tcard" href="#t-${t.id}"><h3>${esc(t.name)}</h3><span class="mute" style="font-size:14px">${esc(t.blurb)}</span><div class="bar"><i style="width:${pct(m,t.qs.length)}%"></i></div><div class="meta mute"><span>${m} / ${t.qs.length} mastered</span><span>${t.ws.length} written</span></div></a>`}).join('')}</div>
+  <div class="sec"><h2>Search everything</h2><p class="mute">Look up any term, e.g. "N+1", "PKCE", "StatefulSet".</p><input type="search" id="srch" placeholder="Search questions and answers" value="${esc(searchQ)}" aria-label="Search questions and answers"><div id="sres"></div></div>
+  </div></section>`;
+  const inp=$('#srch');let to;inp.addEventListener('input',()=>{clearTimeout(to);to=setTimeout(()=>{searchQ=inp.value;doSearch()},180)});doSearch();
+}
+function doSearch(){
+  const box=$('#sres');if(!box)return;const s=searchQ.trim().toLowerCase();
+  if(s.length<2){box.innerHTML='';return}
+  const mq=ALLQ.filter(q=>(q.q+' '+q.o.join(' ')+' '+q.e).toLowerCase().includes(s)).slice(0,25);
+  const mw=ALLW.filter(w=>(w.q+' '+w.a).toLowerCase().includes(s)).slice(0,15);
+  if(!mq.length&&!mw.length){box.innerHTML='<p class="empty mute">No matches.</p>';return}
+  box.innerHTML=`<p class="mute">${mq.length} questions, ${mw.length} written answers</p>`+
+   mq.map(q=>`<div class="rv"><div class="qt">${md(q.q)}</div><div class="l"><b>Answer:</b> ${inl(q.o[q.a])}</div><div class="l mute">${inl(q.e)}</div><div class="l mute">${esc(TM[q.topic].name)}</div></div>`).join('')+
+   mw.map(w=>`<details class="w"><summary>${inl(w.q)}</summary><div class="ans">${md(w.a)}</div></details>`).join('');
+}
+function topic(id){
+  const t=TM[id];if(!t)return home();
+  const m=mastered(t),un=t.qs.filter(q=>S.q[q.id]!==1).length;
+  let body='';
+  if(topicTab==='quiz')body=`<h2>Practice quiz</h2><p class="mute">Instant feedback and an explanation after every answer. Options are shuffled each time.</p>
+   <div class="row" style="margin-top:14px"><button class="btn dark" data-act="tq" data-only="0">All ${t.qs.length} questions</button><button class="btn" data-act="tq" data-only="1" ${un?'':'disabled'}>Only not-yet-mastered (${un})</button></div>
+   <div class="sec"><h3>Question list</h3>${t.qs.map((q,i)=>`<div class="rv ${S.q[q.id]===1?'ok':S.q[q.id]===0?'no':''}"><div class="qt">${md((i+1)+'. '+q.q)}</div><div class="l mute">${S.q[q.id]===1?'Mastered':S.q[q.id]===0?'Answered wrong last time':'Not attempted'}</div></div>`).join('')}</div>`;
+  else if(topicTab==='written')body=`<h2>Written and viva answers</h2><p class="mute">Model answers for descriptive and coding questions. Try answering on paper first, then open.</p>${t.ws.map(w=>`<details class="w"><summary>${inl(w.q)}</summary><div class="ans">${md(w.a)}</div></details>`).join('')}`;
+  else body=`<h2>Cheat sheet</h2><p class="mute">Read this the night before.</p><ul class="cheat ans" style="margin-top:16px">${t.cs.map(c=>`<li>${inl(c)}</li>`).join('')}</ul>`;
+  app.innerHTML=`<section class="band green"><div class="wrap">${resumeBanner()}<a href="#home" class="mute" style="text-decoration:none">← All topics</a>
+  <h1 style="margin-top:10px">${esc(t.name)}</h1><p class="mute">${esc(t.blurb)}</p>
+  <div class="row" style="max-width:520px"><div class="bar" style="flex:1"><i style="width:${pct(m,t.qs.length)}%"></i></div><b>${m} / ${t.qs.length}</b></div>
+  <div class="tabs" role="tablist">${[['quiz','Quiz ('+t.qs.length+')'],['written','Written ('+t.ws.length+')'],['cheat','Cheat sheet']].map(([k,l])=>`<button role="tab" aria-selected="${topicTab===k}" class="${topicTab===k?'on':''}" data-act="tab" data-k="${k}">${l}</button>`).join('')}</div>
+  </div></section><section class="band"><div class="wrap">${body}</div></section>`;
+}
+function start(qs,mode,title,mins){
+  stopTimer();
+  sess={mode,title,qs:qs.map(q=>Object.assign({},q,{order:shuffle(q.o.map((_,i)=>i))})),i:0,ans:qs.map(()=>null),done:false,end:mins?Date.now()+mins*60000:0};
+  if(mins)timer=setInterval(tick,1000);
+  if(location.hash==='#quiz')render();else location.hash='quiz';
+}
+function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function fmt(ms){ms=Math.max(0,ms);const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function tick(){
+  if(!sess||sess.done){stopTimer();return}
+  const left=sess.end-Date.now(),el=$('#timer');
+  if(el){el.textContent=fmt(left)+' left';el.classList.toggle('warn',left<120000)}
+  if(left<=0)finish();
+}
+function quiz(){
+  if(!sess){location.hash='home';return}
+  if(sess.done)return results();
+  const q=sess.qs[sess.i],a=sess.ans[sess.i],ex=sess.mode==='exam',locked=!ex&&a!==null,n=sess.qs.length;
+  const answered=sess.ans.filter(x=>x!==null).length;
+  const opts=q.order.map((oi,k)=>{
+    let c='';if(locked){if(oi===q.a)c='right';else if(oi===a)c='wrong'}else if(a===oi)c='sel';
+    const mark=c==='right'?'✓':c==='wrong'?'✗':'';
+    return `<button class="opt ${c}" data-act="pick" data-oi="${oi}" ${locked?'disabled':''}><span class="k">${'ABCDEF'[k]}</span><span>${inl(q.o[oi])}</span><span aria-hidden="true">${mark}</span></button>`;
+  }).join('');
+  const fb=locked?`<div class="fb ${a===q.a?'':'no'}" role="status"><b class="v">${a===q.a?'Correct.':'Not quite. Correct answer: '+inl(q.o[q.a])}</b><p>${inl(q.e)}</p></div>`:'';
+  const last=sess.i===n-1;
+  app.innerHTML=`<section class="band"><div class="qwrap">
+  <div class="qhead"><b>${esc(sess.title)}</b><span class="row">${ex?`<span class="chip" id="timer">${fmt(sess.end-Date.now())} left</span>`:''}<span class="chip">${sess.i+1} / ${n}</span><span class="chip mute">${esc(TM[q.topic].name)}</span></span></div>
+  <div class="prog"><i style="width:${pct(ex?answered:sess.i+(locked?1:0),n)}%"></i></div>
+  <div class="qtext">${md(q.q)}</div><div class="opts">${opts}</div>${fb}
+  <div class="qnav">${ex?`<button class="btn" data-act="prev" ${sess.i?'':'disabled'}>← Previous</button>`:`<button class="btn" data-act="quit">End session</button>`}
+  ${ex?(last?`<button class="btn dark" data-act="submit">Submit exam</button>`:`<button class="btn dark" data-act="next">Next →</button>`):(locked?`<button class="btn dark" data-act="next" id="nxt">${last?'See results':'Next →'}</button>`:`<span class="mute kbd" style="align-self:center">Press 1–4 or A–D to answer</span>`)}</div>
+  ${ex?`<div class="pal" aria-label="Question palette">${sess.qs.map((_,i)=>`<button class="${sess.ans[i]!==null?'a':''} ${i===sess.i?'c':''}" data-act="go" data-i="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join('')}</div><div class="row" style="margin-top:16px;justify-content:space-between"><span class="mute">${answered} of ${n} answered</span><button class="btn" data-act="submit">Submit exam</button></div>`:''}
+  </div></section>`;
+  if(locked){const b=$('#nxt');if(b)b.focus({preventScroll:true})}
+}
+function pick(oi){
+  const ex=sess.mode==='exam';if(!ex&&sess.ans[sess.i]!==null)return;
+  sess.ans[sess.i]=oi;
+  if(!ex){const q=sess.qs[sess.i];S.q[q.id]=oi===q.a?1:0;save()}
+  quiz();
+}
+function finish(){
+  if(!sess||sess.done)return;stopTimer();sess.done=true;
+  let s=0;sess.qs.forEach((q,i)=>{const a=sess.ans[i];if(a===q.a)s++;if(sess.mode==='exam')S.q[q.id]=a===q.a?1:0});
+  sess.score=s;
+  if(sess.mode==='exam'){S.mocks.push({s,n:sess.qs.length,d:Date.now()});S.mocks=S.mocks.slice(-20)}
+  save();if(location.hash==='#quiz')render();else location.hash='quiz';
+}
+function results(){
+  const n=sess.qs.length,s=sess.score,p=pct(s,n);
+  const by={};sess.qs.forEach((q,i)=>{const b=by[q.topic]||(by[q.topic]={n:0,s:0});b.n++;if(sess.ans[i]===q.a)b.s++});
+  const wrongIdx=sess.qs.map((q,i)=>i).filter(i=>sess.ans[i]!==sess.qs[i].a);
+  const verdict=p===100?'Perfect score. Keep it that way with another mock tomorrow.':p>=85?'Very strong. Clear the few misses below and you are there.':p>=65?'Good base. Review the wrong answers and retake the weak topics.':'Keep going: read the cheat sheets for the weak topics, then practise them one by one.';
+  app.innerHTML=`<section class="band green"><div class="wrap score"><div class="big">${p}%</div><div><h2>${s} of ${n} correct</h2><p class="mute">${esc(sess.title)}. ${verdict}</p>
+  <div class="row"><button class="btn pri" data-act="retry" ${wrongIdx.length?'':'disabled'}>Retry the ${wrongIdx.length} missed</button><a class="btn ghost" href="#mock">New mock</a><a class="btn ghost" href="#home">Topics</a></div></div></div>
+  <div class="wrap lines" style="margin-top:22px">${Object.keys(by).map(k=>{const b=by[k];return `<div class="ln"><span>${esc(TM[k].name)}</span><span class="bar"><i style="width:${pct(b.s,b.n)}%"></i></span><span>${b.s}/${b.n}</span></div>`}).join('')}</div></section>
+  <section class="band"><div class="qwrap"><h2>Review</h2><p class="mute">${wrongIdx.length?'Missed questions first, then the rest.':'Every answer was right.'}</p>
+  ${[...wrongIdx,...sess.qs.map((q,i)=>i).filter(i=>!wrongIdx.includes(i))].map(i=>{const q=sess.qs[i],a=sess.ans[i],ok=a===q.a;
+   return `<div class="rv ${ok?'ok':'no'}"><div class="qt">${md((i+1)+'. '+q.q)}</div>${ok?'':`<div class="l"><b>Your answer:</b> ${a===null?'<i>skipped</i>':inl(q.o[a])}</div>`}<div class="l"><b>Correct:</b> ${inl(q.o[q.a])}</div><div class="l mute">${inl(q.e)}</div></div>`}).join('')}
+  </div></section>`;
+  window.scrollTo(0,0);
+}
+function mock(){
+  const max=ALLQ.length;
+  app.innerHTML=`<section class="band green"><div class="wrap">${resumeBanner()}<h1>Mock exam</h1><p class="mute">Random questions across the topics you pick, one minute per question, no feedback until you submit, like the real written test.</p></div></section>
+  <section class="band"><div class="qwrap">
+  <h3>Number of questions</h3><div class="opts-set" style="margin-top:10px">${[25,50,100,max].filter((v,i,a)=>v<=max&&a.indexOf(v)===i).map((v,i)=>`<label><input type="radio" name="cnt" value="${v}" ${i===1?'checked':''}>${v===max?'All '+v:v}</label>`).join('')}</div>
+  <h3 class="sec">Topics</h3><div class="row" style="margin:10px 0"><button class="btn" data-act="allt" data-v="1">Select all</button><button class="btn" data-act="allt" data-v="0">Clear</button></div>
+  <div class="opts-set">${TOPICS.map(t=>`<label><input type="checkbox" name="tp" value="${t.id}" checked>${esc(t.name)}</label>`).join('')}</div>
+  <h3 class="sec">Timer</h3><div class="opts-set" style="margin-top:10px"><label><input type="radio" name="tm" value="1" checked>1 min per question</label><label><input type="radio" name="tm" value="0.6">Hard: 36 s per question</label><label><input type="radio" name="tm" value="0">No timer</label></div>
+  <div class="row sec"><button class="btn dark" data-act="startmock">Start mock exam</button><span class="mute" id="mockinfo"></span></div>
+  ${S.mocks.length?`<div class="sec"><h3>Past mocks</h3><div class="lines">${S.mocks.slice(-8).reverse().map(m=>`<div class="ln"><span>${new Date(m.d).toLocaleDateString(undefined,{day:'numeric',month:'short'})} · ${m.s}/${m.n}</span><span class="bar"><i style="width:${pct(m.s,m.n)}%"></i></span><span>${pct(m.s,m.n)}%</span></div>`).join('')}</div></div>`:''}
+  </div></section>`;
+}
+function startMock(){
+  const tps=[...document.querySelectorAll('input[name=tp]:checked')].map(x=>x.value);
+  if(!tps.length){$('#mockinfo').textContent='Pick at least one topic.';return}
+  const pool=ALLQ.filter(q=>tps.includes(q.topic));
+  const cnt=Math.min(+document.querySelector('input[name=cnt]:checked').value,pool.length);
+  const per=+document.querySelector('input[name=tm]:checked').value;
+  // balanced sample: round-robin across chosen topics
+  const buckets=tps.map(id=>shuffle(pool.filter(q=>q.topic===id)));const pick=[];
+  while(pick.length<cnt){let added=false;for(const b of buckets){if(b.length&&pick.length<cnt){pick.push(b.pop());added=true}}if(!added)break}
+  start(shuffle(pick),'exam','Mock exam · '+cnt+' questions',per?Math.ceil(cnt*per):0);
+}
+function weak(){
+  const w=wrongs(),by={};w.forEach(q=>(by[q.topic]=by[q.topic]||[]).push(q));
+  const untried=ALLQ.filter(q=>!(q.id in S.q)).length;
+  app.innerHTML=`<section class="band green"><div class="wrap">${resumeBanner()}<h1>Weak spots</h1><p class="mute">Every question you got wrong last time lands here until you answer it correctly.</p>
+  <div class="row" style="margin-top:14px"><button class="btn pri" data-act="weakall" ${w.length?'':'disabled'}>Practise all ${w.length}</button>${untried?`<button class="btn ghost" data-act="untried">Practise ${untried} never-tried</button>`:''}</div></div></section>
+  <section class="band"><div class="wrap">${w.length?`<div class="grid">${Object.keys(by).map(k=>`<div class="card"><h3>${esc(TM[k].name)}</h3><div class="meta mute"><span>${by[k].length} wrong</span></div><button class="btn dark" data-act="weakt" data-t="${k}">Practise these</button></div>`).join('')}</div>`:`<p class="empty mute">No weak spots recorded yet. Take a quiz or a mock exam and any misses will show up here.</p>`}
+  <div class="sec"><h3>Reset</h3><p class="mute">Clear all saved progress in this browser.</p><button class="btn" data-act="reset">Reset progress</button></div></div></section>`;
+}
+function cards(){
+  if(!deck)newDeck('all',false);
+  const c=deck.list[deck.i];
+  const known=ALLW.filter(w=>S.f[w.id]===1).length;
+  app.innerHTML=`<section class="band green"><div class="wrap">${resumeBanner()}<h1>Flashcards</h1><p class="mute">Written, coding and viva questions. Answer aloud or on paper, then reveal the model answer. ${known} of ${ALLW.length} marked as known.</p>
+  <div class="row" style="margin-top:14px"><select id="dtop" aria-label="Deck topic"><option value="all">All topics</option>${TOPICS.map(t=>`<option value="${t.id}" ${deck.t===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select>
+  <label class="row" style="gap:8px;min-height:44px"><input type="checkbox" id="dunk" ${deck.unk?'checked':''} style="width:18px;height:18px">Only cards not yet known</label></div></div></section>
+  <section class="band"><div class="qwrap">${c?`<div class="qhead"><span class="chip">${deck.i+1} / ${deck.list.length}</span><span class="chip mute">${esc(TM[c.topic].name)}</span></div>
+  <div class="fc"><div class="q">${inl(c.q)}</div>${deck.shown?`<div class="ans">${md(c.a)}</div><div class="row" style="margin-top:auto"><button class="btn dark" data-act="fk" data-v="1">I knew it</button><button class="btn" data-act="fk" data-v="0">Review again</button></div>`:`<div class="row" style="margin-top:auto"><button class="btn dark" data-act="show">Show answer</button><button class="btn" data-act="skip">Skip</button></div>`}</div>`
+  :`<div class="empty"><h3>Deck finished</h3><p class="mute">Shuffle again or pick another topic.</p><button class="btn dark" data-act="redeck">Shuffle again</button></div>`}</div></section>`;
+  $('#dtop').addEventListener('change',e=>{newDeck(e.target.value,$('#dunk').checked);cards()});
+  $('#dunk').addEventListener('change',e=>{newDeck($('#dtop').value,e.target.checked);cards()});
+}
+function newDeck(t,unk){
+  let l=ALLW.filter(w=>t==='all'||w.topic===t);if(unk)l=l.filter(w=>S.f[w.id]!==1);
+  deck={t,unk,list:shuffle(l),i:0,shown:false};
+}
+function confirmBox(msg,yes){
+  const d=document.createElement('div');d.className='modal';
+  d.innerHTML=`<div role="dialog" aria-modal="true"><h3>${esc(msg)}</h3><div class="row" style="margin-top:18px;justify-content:flex-end"><button class="btn" data-x="0">Cancel</button><button class="btn dark" data-x="1">Yes</button></div></div>`;
+  document.body.appendChild(d);d.querySelector('[data-x="1"]').focus();
+  d.addEventListener('click',e=>{const b=e.target.closest('[data-x]');if(e.target===d||b){d.remove();if(b&&b.dataset.x==='1')yes()}});
+}
+// ---- router ----
+function render(){
+  const h=location.hash.slice(1)||'home';
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===h||(h.startsWith('t-')&&a.dataset.v==='home')));
+  if(h==='quiz')quiz();else if(h==='mock')mock();else if(h==='cards')cards();else if(h==='weak')weak();else if(h.startsWith('t-'))topic(h.slice(2));else home();
+}
+let lastHash='';
+window.addEventListener('hashchange',()=>{const h=location.hash;if(h.startsWith('#t-')&&lastHash!==h&&!lastHash.startsWith('#quiz'))topicTab='quiz';lastHash=h;render();if(h!=='#quiz')window.scrollTo(0,0)});
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  if(a==='tab'){topicTab=b.dataset.k;render()}
+  else if(a==='tq'){const t=TM[location.hash.slice(3)];const qs=b.dataset.only==='1'?t.qs.filter(q=>S.q[q.id]!==1):t.qs;start(shuffle(qs),'practice',t.name+' practice',0)}
+  else if(a==='pick')pick(+b.dataset.oi);
+  else if(a==='next'){if(sess.i<sess.qs.length-1){sess.i++;quiz();window.scrollTo(0,0)}else finish()}
+  else if(a==='prev'){if(sess.i>0){sess.i--;quiz()}}
+  else if(a==='go'){sess.i=+b.dataset.i;quiz()}
+  else if(a==='submit'){const un=sess.ans.filter(x=>x===null).length;confirmBox(un?`Submit with ${un} unanswered?`:'Submit your exam now?',finish)}
+  else if(a==='quit'){const n=sess.ans.filter(x=>x!==null).length;if(!n){sess=null;history.back();return}finish()}
+  else if(a==='retry'){const qs=sess.qs.filter((q,i)=>sess.ans[i]!==q.a).map(q=>QM[q.id]);start(shuffle(qs),'practice','Retry missed questions',0)}
+  else if(a==='allt')document.querySelectorAll('input[name=tp]').forEach(x=>x.checked=b.dataset.v==='1');
+  else if(a==='startmock')startMock();
+  else if(a==='weakall')start(shuffle(wrongs()),'practice','Weak spots',0);
+  else if(a==='weakt')start(shuffle(wrongs().filter(q=>q.topic===b.dataset.t)),'practice',TM[b.dataset.t].name+' weak spots',0);
+  else if(a==='untried')start(shuffle(ALLQ.filter(q=>!(q.id in S.q))),'practice','Never-tried questions',0);
+  else if(a==='reset')confirmBox('Erase all saved progress?',()=>{S={q:{},f:{},mocks:[]};save();deck=null;render()});
+  else if(a==='show'){deck.shown=true;cards()}
+  else if(a==='skip'){deck.i++;deck.shown=false;cards()}
+  else if(a==='fk'){S.f[deck.list[deck.i].id]=+b.dataset.v;if(b.dataset.v==='0')deck.list.push(deck.list[deck.i]);save();deck.i++;deck.shown=false;cards();window.scrollTo(0,0)}
+  else if(a==='redeck'){newDeck(deck.t,deck.unk);cards()}
+});
+document.addEventListener('keydown',e=>{
+  if(location.hash!=='#quiz'||!sess||sess.done||document.querySelector('.modal'))return;
+  if(e.target.matches('input,select,textarea'))return;
+  const k=e.key.toLowerCase(),q=sess.qs[sess.i];
+  let idx='1234'.indexOf(k);if(idx<0)idx='abcd'.indexOf(k);
+  if(idx>=0&&idx<q.order.length){pick(q.order[idx]);return}
+  if(k==='enter'||k==='arrowright'){const nb=app.querySelector('[data-act=next]');if(nb){e.preventDefault();nb.click()}}
+  if(k==='arrowleft'&&sess.mode==='exam'&&sess.i>0){sess.i--;quiz()}
+});
+lastHash=location.hash;render();
+}
+
+</script>
+</body>
+</html>
