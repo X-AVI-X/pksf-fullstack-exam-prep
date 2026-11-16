@@ -1,0 +1,61 @@
+Q: TCP vs UDP?
+* TCP is connection-oriented, reliable and ordered; UDP is connectionless, faster, no delivery guarantee
+- UDP is reliable; TCP is not
+- Both are application-layer protocols
+- TCP is used for DNS only
+E: HTTP/1.1 and HTTP/2 use TCP; DNS queries and video streaming often use UDP; HTTP/3 runs over QUIC (UDP).
+Q: The default port of HTTPS is:
+- 80
+- 8080
+* 443
+- 22
+E: HTTP 80, SSH 22, FTP 21, SMTP 25, DNS 53, PostgreSQL 5432, MySQL 3306.
+Q: The transport layer is which OSI layer?
+- 2
+- 3
+* 4
+- 7
+E: Physical 1, Data link 2, Network 3 (IP), Transport 4 (TCP/UDP), Session 5, Presentation 6, Application 7 (HTTP).
+Q: DNS is used to:
+* Resolve domain names to IP addresses
+- Encrypt traffic
+- Assign IP addresses (that's DHCP)
+- Route packets
+E: Records: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT.
+Q: TCP connection setup sequence?
+* SYN → SYN-ACK → ACK (three-way handshake)
+- ACK → SYN → FIN
+- SYN → ACK
+- HELLO → OK
+E: TCP is connection-oriented, reliable and ordered (HTTP/1.1, HTTP/2 and DB connections use it); UDP is connectionless (DNS, video). Teardown uses FIN/ACK in both directions.
+Q: Default ports: HTTP, HTTPS, PostgreSQL, Redis, MySQL?
+* 80, 443, 5432, 6379, 3306
+- 8080, 8443, 5432, 6379, 1521
+- 80, 443, 3306, 6379, 5432
+- 21, 22, 5432, 27017, 3306
+E: Others worth knowing: SSH 22, Oracle 1521, MongoDB 27017, Spring Boot 8080, Elasticsearch 9200, Kibana 5601, Prometheus 9090 and Grafana 3000.
+Q: How many usable host addresses does a /24 IPv4 subnet have?
+- 256
+* 254
+- 255
+- 128
+E: 2^(32-24) = 256 addresses, minus the network and broadcast addresses, leaves 254. A /26 gives 62 hosts.
+
+Q: Which HTTP status means "authenticated but not allowed"?
+- 401
+* 403
+- 404
+- 409
+E: 401 Unauthorized really means unauthenticated (missing or invalid token). 403 Forbidden means the identity is known but lacks permission.
+Q: What does a router use to forward packets between networks?
+* Destination IP address and its routing table
+- MAC address only
+- Port number
+- DNS name
+E: Switches forward by MAC address (L2), routers by IP (L3), and L4 load balancers by IP and port.
+Q: NAT allows:
+* Many private IPs (192.168.x.x, 10.x.x.x) to share one public IP
+- Encrypting traffic
+- Resolving names
+- Assigning MAC addresses
+E: DHCP assigns IP addresses automatically, DNS resolves names to IPs, and ARP resolves an IP to a MAC address on a LAN.

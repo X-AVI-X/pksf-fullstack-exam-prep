@@ -1,0 +1,48 @@
+Q: The CIA triad stands for:
+* Confidentiality, Integrity, Availability
+- Control, Identity, Access
+- Cryptography, Integrity, Authentication
+- Confidentiality, Identity, Authorization
+E: Encryption protects confidentiality, hashes and signatures protect integrity, and redundancy plus DDoS protection protect availability.
+Q: Symmetric vs asymmetric encryption?
+* Symmetric uses one shared key (AES) and is fast; asymmetric uses a public/private key pair (RSA, ECC) for key exchange and signatures
+- Asymmetric is faster for bulk data
+- Symmetric uses two keys
+- They are the same
+E: TLS uses asymmetric crypto to agree a session key, then symmetric AES-GCM for the data.
+Q: Authentication vs authorization?
+* Authentication verifies who you are; authorization decides what you may do
+- They are the same
+- Authorization comes first
+- Authentication assigns roles
+E: Keycloak login is authentication. RBAC checks such as @PreAuthorize("hasRole('ADMIN')") are authorization. HTTP 401 means not authenticated; 403 means authenticated but forbidden.
+Q: A digital signature provides:
+* Integrity, authenticity and non-repudiation: signed with the private key, verified with the public key
+- Confidentiality only
+- Compression
+- Availability
+E: A JWT signed with RS256 works this way: Keycloak signs with its private key and services verify with the public JWKS.
+Q: Which attack tricks a logged-in user's browser into sending an unwanted state-changing request?
+- XSS
+* CSRF
+- SQL injection
+- Brute force
+E: Defend against CSRF with SameSite cookies, CSRF tokens, or bearer tokens in headers instead of cookies. XSS injects script into pages; defend with output encoding and CSP.
+Q: Why add a salt before hashing a password?
+* So identical passwords produce different hashes, defeating precomputed rainbow tables
+- To make hashing reversible
+- To encrypt the password
+- To shorten the hash
+E: BCrypt and Argon2 generate and store a salt automatically and are deliberately slow.
+Q: The principle of least privilege means:
+* Each user, service and DB account gets only the permissions it needs
+- Admins get all rights by default
+- Everyone shares one account
+- Permissions are granted for life
+E: Example: the reporting service connects with a read-only DB role, and Kubernetes service accounts have minimal RBAC.
+Q: MFA combines factors from different categories, such as:
+* Something you know (password) + something you have (OTP device) + something you are (biometric)
+- Two passwords
+- Password and username
+- Two security questions
+E: Two items from the same category is not true MFA. Keycloak supports OTP and WebAuthn.

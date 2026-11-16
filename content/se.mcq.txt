@@ -1,0 +1,54 @@
+Q: Which SOLID principle says "depend on abstractions, not concretions"?
+- Single Responsibility
+- Open/Closed
+- Liskov Substitution
+* Dependency Inversion
+E: DIP: high-level modules depend on interfaces, and Spring DI injects the implementation. SRP: one reason to change. OCP: open to extension, closed to modification. LSP: subtypes must be substitutable. ISP: small, focused interfaces.
+Q: Which design pattern does Spring's ApplicationEventPublisher / @EventListener implement?
+- Singleton
+- Factory
+* Observer
+- Adapter
+E: Observer means subscribers are notified of events. Spring beans are singletons by default, BeanFactory is a factory, and AOP proxies use the Proxy pattern.
+Q: Which SDLC model suits PKSF's evolving requirements with sprint deliveries?
+* Agile/Scrum (iterative and incremental)
+- Pure Waterfall
+- Big Bang
+- V-model only
+E: Waterfall is sequential and suits fixed, well-known requirements. The ToR names Agile collaboration and sprint goals.
+Q: Boundary value analysis for a loan amount field valid from 1,000 to 500,000 tests:
+* 999, 1000, 1001, 499999, 500000, 500001
+- Only 1000 and 500000
+- Random values
+- Only invalid values
+E: Bugs cluster at edges. Combine it with equivalence partitioning: one value each from below range, in range and above range.
+Q: Black-box vs white-box testing?
+* Black-box tests behaviour against the specification without seeing the code; white-box designs tests from the internal structure (branches, paths)
+- Black-box needs source code
+- White-box is done only by users
+- They are the same
+E: Black-box techniques are equivalence partitioning, BVA and decision tables. White-box measures statement and branch coverage.
+Q: The correct order of test levels is:
+* Unit → Integration → System → Acceptance (UAT)
+- System → Unit → Acceptance → Integration
+- Acceptance → Unit → System → Integration
+- Integration → Unit → System → Acceptance
+E: Acceptance testing is done by users or the business, for example PO staff validating a report.
+Q: Verification vs validation?
+* Verification: "are we building the product right?" (reviews, against the spec). Validation: "are we building the right product?" (meets user needs)
+- They are the same
+- Validation happens before coding only
+- Verification is done by end users
+E: Static reviews and inspections are verification; UAT is validation.
+Q: Coupling and cohesion in good design should be:
+* Low coupling, high cohesion
+- High coupling, low cohesion
+- High both
+- Low both
+E: High cohesion means one module does one related job; low coupling means minimal dependencies between modules. SOLID and microservice boundaries aim for both.
+Q: Which pattern ensures only one instance and global access?
+* Singleton
+- Builder
+- Strategy
+- Decorator
+E: Spring beans are singleton-scoped per container by default. Builder handles complex construction, Strategy makes algorithms interchangeable (for example interest calculation), and Decorator adds behaviour by wrapping.

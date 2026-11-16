@@ -1,0 +1,7 @@
+- Four pillars: encapsulation, abstraction, inheritance, polymorphism.
+- Overloading means compile time and a different parameter list; overriding means runtime, the same signature, and @Override.
+- Composition (owned lifecycle, filled diamond) vs aggregation (independent, hollow diamond) vs association.
+- Access: private < default < protected < public.
+- Immutable: final class, private final fields, no setters, defensive copies; records.
+- equals/hashCode contract: equal objects must have equal hash codes.
+- Prefer composition over inheritance; use inheritance only for a Liskov-safe "is-a".

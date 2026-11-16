@@ -12,6 +12,11 @@ ListNode reverse(ListNode head) {
 }
 ~~~
 O(n) time, O(1) space.
++ 4 | Iterative three-pointer (prev, curr, next) reversal | prev, next
++ 1.5 | Handles empty and single-node lists | null
++ 1.5 | O(n) time, O(1) space | O(1)
++ 1 | Returns the new head | head
+
 ## Two Sum: return indices of two numbers adding to target.
 ~~~java
 int[] twoSum(int[] nums, int target) {
@@ -25,6 +30,11 @@ int[] twoSum(int[] nums, int target) {
 }
 ~~~
 O(n) time with a hash map instead of O(n²) nested loops.
++ 4 | HashMap of value → index, check complement in one pass | HashMap, complement
++ 1.5 | Handles no solution / duplicates | duplicate/not found
++ 1.5 | O(n) time vs O(n²) brute force | O(n)
++ 1 | Clean code | return
+
 ## Check whether brackets in a string are balanced.
 ~~~java
 boolean balanced(String s) {
@@ -40,6 +50,11 @@ boolean balanced(String s) {
   return st.isEmpty();
 }
 ~~~
++ 4 | Stack push on opener, pop and match on closer | stack/Deque
++ 2 | Returns false on mismatch or empty stack, checks empty at end | isEmpty
++ 1 | Ignores non-bracket characters | ignore
++ 1 | O(n) complexity | O(n)
+
 ## Check if a string is a palindrome (ignore case and non-alphanumerics).
 ~~~java
 boolean isPalindrome(String s) {
@@ -52,6 +67,11 @@ boolean isPalindrome(String s) {
   return true;
 }
 ~~~
++ 4 | Two pointers from both ends | two pointers/i < j
++ 2 | Skips non-alphanumerics and ignores case | isLetterOrDigit, toLowerCase
++ 1 | Handles empty string | empty
++ 1 | O(n) time, O(1) space | O(1)
+
 ## FizzBuzz, factorial and prime check (quick warm-ups often asked).
 ~~~java
 for (int i = 1; i <= 100; i++)
@@ -65,14 +85,9 @@ boolean isPrime(int n) {
   return true;
 }
 ~~~
-## What happens when you type a URL into the browser and press Enter?
-1. Browser parses the URL; checks HSTS and caches.
-2. **DNS** resolution (browser, OS, resolver, root, TLD, authoritative) gives an IP.
-3. **TCP** handshake (SYN, SYN-ACK, ACK) to port 443, then **TLS** handshake (certificate verification, key exchange).
-4. HTTP request sent; it may pass a CDN, load balancer, API gateway/NGINX to the app server.
-5. Server runs the app (Spring Boot: filters, security, controller, service, DB) and returns a response.
-6. Browser parses HTML, fetches CSS/JS, builds DOM and CSSOM, lays out and paints; JS (React) hydrates/renders.
-
++ 3 | FizzBuzz with the 15 case checked first | 15
++ 2.5 | Factorial (iterative, long/BigInteger overflow noted) | BigInteger/overflow
++ 2.5 | Prime check up to sqrt(n), handles n < 2 | sqrt
 
 ## Binary search (iterative) and its complexity.
 ~~~java
@@ -87,6 +102,10 @@ int binarySearch(int[] a, int key) {
 }
 ~~~
 - O(log n) time, O(1) space. The array must be sorted.
++ 4 | Correct lo/hi loop with mid and bounds update | mid
++ 1.5 | Overflow-safe mid | lo + (hi - lo)
++ 1.5 | O(log n) and requires sorted input | log n, sorted
++ 1 | Returns -1 when absent | -1
 
 ## Check whether two strings are anagrams; find the second-largest number in an array.
 ~~~java
@@ -106,19 +125,7 @@ int secondLargest(int[] a) {
   return second;                        // one pass, O(n)
 }
 ~~~
-
-## Explain deadlock and how to prevent it in a Java/DB application.
-- **Deadlock:** two or more threads or transactions each hold a resource the other needs, so none can proceed.
-- **Four conditions** (all must hold): mutual exclusion, hold and wait, no preemption, circular wait.
-- **Prevention in Java:** acquire locks in a global fixed order, use {{tryLock(timeout)}}, keep critical sections small, prefer java.util.concurrent structures.
-- **In the DB:** update rows in a consistent order (for example by id), keep transactions short, use appropriate isolation, and retry on deadlock errors (PostgreSQL 40P01).
-
-## Explain the OSI model and where HTTP, TCP, IP and Ethernet sit.
-1. Physical: cables and signals
-2. Data Link: Ethernet, MAC addresses, switches
-3. Network: IP, routing, routers
-4. Transport: TCP/UDP, ports
-5. Session
-6. Presentation: encoding, TLS (often placed here)
-7. Application: HTTP, DNS, SMTP
-- The TCP/IP model folds layers 5–7 into Application. A load balancer works at L4 (TCP) or L7 (HTTP paths, headers).
++ 3 | Anagram via 26-count array or sorting | count/sort
++ 1 | Length check early exit | length
++ 3 | Second largest in one pass with distinct handling | second
++ 1 | Complexities stated | O(n)

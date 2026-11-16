@@ -1,0 +1,7 @@
+- SDLC: requirements → design → implementation → testing → deployment → maintenance.
+- Models: Waterfall, V-model, Spiral (risk), Incremental, Agile/Scrum, Kanban.
+- SOLID; DRY; KISS; YAGNI; low coupling and high cohesion.
+- Patterns: Singleton, Factory, Builder, Strategy, Observer, Adapter, Decorator, Proxy, Template Method.
+- Test levels: unit → integration → system → acceptance. Types: functional, regression, smoke, sanity, performance, security.
+- Black-box (EP, BVA, decision table) vs white-box (statement and branch coverage).
+- Verification = built right; validation = right thing built.

@@ -1,0 +1,43 @@
+Q: Which is NOT one of the four necessary conditions for deadlock?
+- Mutual exclusion
+- Hold and wait
+- No preemption
+* Starvation
+E: The fourth condition is circular wait. Break any one to prevent deadlock.
+Q: Process vs thread?
+* A process has its own address space; threads within a process share memory but have their own stacks
+- Threads have separate memory; processes share
+- They are the same
+- Processes are lighter than threads
+E: Context switching between threads is cheaper; shared memory needs synchronisation.
+Q: Virtual memory lets a process:
+* Use an address space larger than physical RAM, with pages swapped to disk as needed
+- Run without an OS
+- Share CPU registers
+- Avoid page faults entirely
+E: A page fault occurs when a needed page isn't in RAM. Thrashing = constant paging.
+Q: Mutex vs semaphore?
+* A mutex is a lock with ownership that one thread holds at a time; a counting semaphore allows up to N concurrent holders and has no ownership
+- They are identical
+- A semaphore can only be 0 or 1
+- A mutex allows N threads
+E: A binary semaphore behaves like a mutex but without ownership. Java has ReentrantLock/synchronized (mutex) and java.util.concurrent.Semaphore (for example to limit 10 concurrent DB exports).
+
+Q: Which CPU scheduling algorithm can starve long jobs?
+* Shortest Job First (SJF)
+- Round Robin
+- First-Come First-Served
+- FIFO with aging
+E: SJF minimises average waiting time but may postpone long jobs forever; aging fixes this. Round Robin uses a time quantum and is fair.
+Q: A race condition occurs when:
+* The result depends on the unsynchronised interleaving of threads accessing shared data
+- Two processes run on different machines
+- A thread sleeps
+- A program has an infinite loop
+E: count++ is read-modify-write, so it is not atomic. Fix it with synchronized, AtomicInteger, locks, or in the DB with row locks or optimistic versioning.
+Q: The kernel vs user mode distinction exists to:
+* Protect the system: user programs can't run privileged instructions directly and must use system calls
+- Speed up user programs
+- Allow direct hardware access by apps
+- Save memory
+E: System calls such as read, write, fork and mmap switch into kernel mode.

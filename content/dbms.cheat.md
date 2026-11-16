@@ -1,0 +1,7 @@
+- Keys: super, candidate (minimal), primary, alternate, foreign, composite, surrogate vs natural.
+- Normal forms: 1NF atomic; 2NF no partial dependency; 3NF no transitive dependency; BCNF every determinant is a key.
+- ACID: atomicity, consistency, isolation, durability (WAL).
+- Isolation: read uncommitted < read committed < repeatable read < serializable; anomalies are dirty read, non-repeatable read, phantom.
+- Joins: INNER, LEFT, RIGHT, FULL, CROSS, self; anti-join with LEFT JOIN … IS NULL or NOT EXISTS.
+- SQL types: DDL, DML, DCL, TCL.
+- Indexes: B-tree (equality, range, sort), hash, GIN (JSONB, full text, trigram), composite with the leftmost-prefix rule.

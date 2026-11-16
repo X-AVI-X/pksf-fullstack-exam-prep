@@ -1,0 +1,48 @@
+Q: Which OOP principle hides internal state behind methods?
+* Encapsulation
+- Inheritance
+- Polymorphism
+- Abstraction
+E: Encapsulation means private fields and public methods that guard invariants (for example, a loan balance changes only through repay()). Abstraction hides complexity behind an interface; the two are related but different.
+Q: Runtime polymorphism in Java is achieved through:
+* Method overriding with dynamic dispatch on the object's actual type
+- Method overloading
+- Static methods
+- Constructors
+E: Account a = new SavingsAccount(); a.interest() calls SavingsAccount's override at runtime. Overloading is compile-time polymorphism.
+Q: "Favour composition over inheritance" because:
+* Inheritance tightly couples the subclass to the parent's implementation; composition lets you swap behaviour and avoids fragile base classes
+- Composition is faster at runtime
+- Java forbids inheritance
+- Inheritance cannot reuse code
+E: Use inheritance only for a true "is-a" relationship that obeys Liskov substitution. Use composition ("has-a"), for example injecting a NotificationSender.
+Q: Which relationship is composition rather than aggregation?
+* A Loan and its RepaymentSchedule lines: the lines cannot exist without the loan
+- A Team and its Members
+- A Department and its Employees who can move departments
+- A Library and Books that can be donated elsewhere
+E: In composition the part's lifecycle is owned by the whole (strong); in aggregation parts exist independently (weak). In UML, a filled diamond means composition and a hollow diamond means aggregation.
+Q: Can a constructor be inherited or overridden in Java?
+- Yes, both
+* Neither; a subclass constructor calls super(...) explicitly or implicitly
+- Inherited but not overridden
+- Overridden but not inherited
+E: Constructors are not members, so they are not inherited. If the parent has no no-arg constructor, the child must call super(args) as its first statement.
+Q: Which access modifier allows access within the same package and from subclasses in other packages?
+- private
+- default (package-private)
+* protected
+- public
+E: The order from most to least restrictive is private < default < protected < public.
+Q: An immutable class in Java should:
+* Be final, have private final fields, no setters, and make defensive copies of mutable fields
+- Have only static methods
+- Use synchronized getters
+- Extend String
+E: Records give shallow immutability for free. Immutable objects are thread-safe and make good HashMap keys.
+Q: Which violates the Liskov Substitution Principle?
+* A Square subclass of Rectangle whose setWidth also changes the height, breaking callers that expect independent sides
+- An interface with two implementations
+- A subclass that adds a new method
+- A final class
+E: Subtypes must honour the parent's contract (preconditions no stronger, postconditions no weaker).

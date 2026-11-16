@@ -1,9 +1,17 @@
-import { ALLQ, ALLW, shuffle } from './bank.js';
+import { ALLQ, ALLW, QM, WM, shuffle } from './bank.js';
+import LEGACY from './legacy-ids.json';
 const K = 'pksf-prep-v1';
-const init = { q: {}, f: {}, mocks: [] };
+const init = { q: {}, f: {}, mocks: [], w: {}, wd: {}, wx: null, wxh: [] }; // w: written scores, wd: drafts, wx: written exam in progress, wxh: exam history
 try { Object.assign(init, JSON.parse(localStorage.getItem(K) || '{}')) } catch {}
+// v1 stored progress under positional ids ("cs-4"); v2 uses stable text-hash ids. Migrate once, keeping every answer that still exists.
+if ((init.v ?? 1) < 2) {
+  const mv = o => Object.fromEntries(Object.entries(o || {}).map(([k, v]) => [LEGACY[k] ?? k, v]).filter(([k]) => QM[k] || WM[k]));
+  Object.assign(init, { q: mv(init.q), f: mv(init.f), w: mv(init.w), wd: mv(init.wd), wx: null, v: 2 });
+}
+if (init.wx && !init.wx.items?.every(x => QM[x.id] || WM[x.id])) init.wx = null; // a paper whose questions were since edited can't be resumed
 export const S = $state(init); // q: {id: 1 right | 0 wrong}, f: {flashcard id: 1 known}, mocks: [{s,n,d}]
 export const save = () => { try { localStorage.setItem(K, JSON.stringify($state.snapshot(S))) } catch {} };
+save(); // persist the migrated/initialised state
 export const ui = $state({ sess: null, deck: null, tab: 'quiz', search: '', confirm: null, now: Date.now() });
 export const go = h => { location.hash = h };
 export const mastered = t => t.qs.filter(q => S.q[q.id] === 1).length;
@@ -21,7 +29,12 @@ export function finish() {
   if (s.mode === 'exam') { s.qs.forEach((q, i) => S.q[q.id] = s.ans[i] === q.a ? 1 : 0); S.mocks = [...S.mocks, { s: s.score, n: s.qs.length, d: Date.now() }].slice(-20) }
   save(); go('quiz');
 }
-setInterval(() => { ui.now = Date.now(); const s = ui.sess; if (s && !s.done && s.end && ui.now >= s.end) finish() }, 1000);
+setInterval(() => {
+  ui.now = Date.now(); const s = ui.sess; if (s && !s.done && s.end && ui.now >= s.end) finish();
+  if (S.wx?.phase === 'run' && ui.now >= S.wx.end) submitWx(); // automatic submission when time is up
+}, 1000);
+export function submitWx() { S.wx.phase = 'mark'; S.wx.i = S.wx.items.findIndex(x => x.k === 'w'); S.wx.submitted = Date.now(); save(); go('wexam') }
+let st; export const saveSoon = () => { clearTimeout(st); st = setTimeout(save, 400) };
 
 export function newDeck(t = 'all', unk = false) {
   let l = ALLW.filter(w => t === 'all' || w.topic === t); if (unk) l = l.filter(w => S.f[w.id] !== 1);

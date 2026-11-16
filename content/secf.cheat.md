@@ -1,0 +1,6 @@
+- CIA triad; AAA (authentication, authorization, accounting).
+- Symmetric (AES) vs asymmetric (RSA/ECC); hashing (SHA-256, BCrypt) vs encryption vs encoding.
+- Digital signature: sign with the private key, verify with the public key → integrity, authenticity, non-repudiation.
+- TLS: certificate → verify CA → key exchange → symmetric session.
+- Attacks: SQLi, XSS, CSRF, MITM, phishing, brute force, DoS; OWASP Top 10.
+- Least privilege, defence in depth, MFA, secure defaults, audit logs.

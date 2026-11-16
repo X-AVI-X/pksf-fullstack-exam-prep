@@ -1,20 +1,21 @@
 <script>
   import { ui } from './lib/state.svelte.js';
   import Home from './views/Home.svelte'; import Topic from './views/Topic.svelte'; import Quiz from './views/Quiz.svelte';
-  import Mock from './views/Mock.svelte'; import Cards from './views/Cards.svelte'; import Weak from './views/Weak.svelte';
+  import Mock from './views/Mock.svelte'; import Write from './views/Write.svelte'; import WriteHub from './views/WriteHub.svelte'; import WExam from './views/WExam.svelte'; import Cards from './views/Cards.svelte'; import Weak from './views/Weak.svelte';
   const cur = () => location.hash.slice(1) || 'home';
   let h = $state(cur());
   addEventListener('hashchange', () => { const n = cur(); if (n.startsWith('t-') && n !== h && h !== 'quiz') ui.tab = 'quiz'; h = n; if (n !== 'quiz') scrollTo(0, 0) });
-  const nav = [['home', 'Topics'], ['mock', 'Mock exam'], ['cards', 'Flashcards'], ['weak', 'Weak spots']];
+  const nav = [['home', 'Topics'], ['write', 'Written practice'], ['wexam', 'Written exam'], ['mock', 'MCQ mock'], ['cards', 'Flashcards'], ['weak', 'Weak spots']];
   const close = yes => { const c = ui.confirm; ui.confirm = null; if (yes) c.yes() };
 </script>
 
 <header class="top"><div class="wrap">
   <a class="brand" href="#home"><i></i>PKSF Full-stack Prep</a>
-  <nav class="nav">{#each nav as [v, l]}<a href="#{v}" class:on={h === v || (v === 'home' && h.startsWith('t-'))}>{l}</a>{/each}</nav>
+  <nav class="nav">{#each nav as [v, l]}<a href="#{v}" class:on={h === v || (v === 'home' && h.startsWith('t-')) || (v === 'write' && h.startsWith('w-'))}>{l}</a>{/each}</nav>
 </div></header>
 <main>
-  {#if h === 'quiz'}<Quiz />{:else if h === 'mock'}<Mock />{:else if h === 'cards'}<Cards />{:else if h === 'weak'}<Weak />
+  {#if h === 'quiz'}<Quiz />{:else if h === 'mock'}<Mock />{:else if h === 'cards'}<Cards />{:else if h === 'weak'}<Weak />{:else if h === 'write'}<WriteHub />{:else if h === 'wexam'}<WExam />
+  {:else if h.startsWith('w-')}{#key h}<Write id={h.slice(2)} />{/key}
   {:else if h.startsWith('t-')}{#key h}<Topic id={h.slice(2)} />{/key}{:else}<Home />{/if}
 </main>
 <div class="foot"><div class="wrap mute">Built from the PKSF ToR for Software Engineer Full-stack. Practice material, not the actual exam paper. Progress is saved in this browser only.</div></div>

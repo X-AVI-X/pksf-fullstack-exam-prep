@@ -22,36 +22,6 @@ Q: Average-case lookup in a hash table is:
 - O(n)
 - O(n²)
 E: Worst case is O(n) with many collisions (O(log n) for Java 8 tree bins).
-Q: Which is NOT one of the four necessary conditions for deadlock?
-- Mutual exclusion
-- Hold and wait
-- No preemption
-* Starvation
-E: The fourth condition is circular wait. Break any one to prevent deadlock.
-Q: Process vs thread?
-* A process has its own address space; threads within a process share memory but have their own stacks
-- Threads have separate memory; processes share
-- They are the same
-- Processes are lighter than threads
-E: Context switching between threads is cheaper; shared memory needs synchronisation.
-Q: TCP vs UDP?
-* TCP is connection-oriented, reliable and ordered; UDP is connectionless, faster, no delivery guarantee
-- UDP is reliable; TCP is not
-- Both are application-layer protocols
-- TCP is used for DNS only
-E: HTTP/1.1 and HTTP/2 use TCP; DNS queries and video streaming often use UDP; HTTP/3 runs over QUIC (UDP).
-Q: The default port of HTTPS is:
-- 80
-- 8080
-* 443
-- 22
-E: HTTP 80, SSH 22, FTP 21, SMTP 25, DNS 53, PostgreSQL 5432, MySQL 3306.
-Q: The transport layer is which OSI layer?
-- 2
-- 3
-* 4
-- 7
-E: Physical 1, Data link 2, Network 3 (IP), Transport 4 (TCP/UDP), Session 5, Presentation 6, Application 7 (HTTP).
 Q: Complexity of two nested loops, each over n items?
 - O(n)
 * O(n²)
@@ -82,107 +52,21 @@ Q: Height of a balanced binary search tree with n nodes is:
 - O(1)
 - O(n²)
 E: An unbalanced BST can degrade to O(n), like a linked list. Red-black and AVL trees stay balanced.
-Q: DNS is used to:
-* Resolve domain names to IP addresses
-- Encrypt traffic
-- Assign IP addresses (that's DHCP)
-- Route packets
-E: Records: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT.
-Q: Virtual memory lets a process:
-* Use an address space larger than physical RAM, with pages swapped to disk as needed
-- Run without an OS
-- Share CPU registers
-- Avoid page faults entirely
-E: A page fault occurs when a needed page isn't in RAM. Thrashing = constant paging.
-
-Q: Which SOLID principle says "depend on abstractions, not concretions"?
-- Single Responsibility
-- Open/Closed
-- Liskov Substitution
-* Dependency Inversion
-E: DIP: high-level modules depend on interfaces, and Spring DI injects the implementation. SRP: one reason to change. OCP: open to extension, closed to modification. LSP: subtypes must be substitutable. ISP: small, focused interfaces.
-Q: Which design pattern does Spring's ApplicationEventPublisher / @EventListener implement?
-- Singleton
-- Factory
-* Observer
-- Adapter
-E: Observer means subscribers are notified of events. Spring beans are singletons by default, BeanFactory is a factory, and AOP proxies use the Proxy pattern.
 Q: Fibonacci with memoization runs in:
 - O(2^n)
 * O(n)
 - O(n^2)
 - O(log n)
 E: Dynamic programming stores subproblem results so each is computed once. Naive recursion is O(2^n). Matrix exponentiation reaches O(log n).
-Q: Which data structure gives O(1) average lookup by key?
-* Hash table
-- Balanced BST
-- Sorted array
-- Linked list
-E: A hash table gives O(1) average and O(n) worst case. A balanced BST such as TreeMap (red-black tree) gives O(log n) with ordering, and binary search on a sorted array is O(log n).
 Q: Which sorting algorithm is O(n log n) worst case and stable?
 - Quick sort
 * Merge sort
 - Heap sort
 - Selection sort
 E: Quick sort is O(n^2) worst case; heap sort is O(n log n) but not stable. Java uses TimSort (a merge/insertion hybrid, stable) for objects and dual-pivot quicksort for primitives.
-
-Q: Which is NOT one of the four Coffman conditions for deadlock?
-- Mutual exclusion
-- Hold and wait
-- No preemption
-* Starvation
-E: Deadlock needs mutual exclusion, hold and wait, no preemption and circular wait at the same time. Break any one to prevent it, for example by always acquiring locks in a fixed order to stop circular wait.
-Q: Mutex vs semaphore?
-* A mutex is a lock with ownership that one thread holds at a time; a counting semaphore allows up to N concurrent holders and has no ownership
-- They are identical
-- A semaphore can only be 0 or 1
-- A mutex allows N threads
-E: A binary semaphore behaves like a mutex but without ownership. Java has ReentrantLock/synchronized (mutex) and java.util.concurrent.Semaphore (for example to limit 10 concurrent DB exports).
-Q: Process vs thread?
-* Processes have separate address spaces; threads of one process share heap and code but have their own stack and registers
-- Threads have separate heaps
-- A process cannot contain threads
-- Context switching between threads is always slower than between processes
-E: Thread switches are cheaper because there is no address-space switch, but shared memory needs synchronization. Java 21 virtual threads are lightweight threads scheduled by the JVM.
-Q: Virtual memory with paging lets a system:
-* Run programs larger than physical RAM by mapping fixed-size pages to frames, loading pages on demand (page faults)
-- Eliminate RAM
-- Avoid all disk I/O
-- Make memory contiguous on disk
-E: The page table maps virtual to physical addresses and the TLB caches those translations. Thrashing is when too many page faults make the system spend its time swapping.
-Q: TCP connection setup sequence?
-* SYN → SYN-ACK → ACK (three-way handshake)
-- ACK → SYN → FIN
-- SYN → ACK
-- HELLO → OK
-E: TCP is connection-oriented, reliable and ordered (HTTP/1.1, HTTP/2 and DB connections use it); UDP is connectionless (DNS, video). Teardown uses FIN/ACK in both directions.
-Q: Default ports: HTTP, HTTPS, PostgreSQL, Redis, MySQL?
-* 80, 443, 5432, 6379, 3306
-- 8080, 8443, 5432, 6379, 1521
-- 80, 443, 3306, 6379, 5432
-- 21, 22, 5432, 27017, 3306
-E: Others worth knowing: SSH 22, Oracle 1521, MongoDB 27017, Spring Boot 8080, Elasticsearch 9200, Kibana 5601, Prometheus 9090 and Grafana 3000.
 Q: Inorder traversal of a Binary Search Tree yields:
 * Keys in ascending sorted order
 - Keys level by level
 - Root first
 - Random order
 E: Inorder is Left-Root-Right, preorder is Root-Left-Right and postorder is Left-Right-Root. Level order uses BFS with a queue. Balanced BST search is O(log n); a degenerate (skewed) one is O(n).
-Q: Which data structure does BFS use, and which does DFS use?
-* BFS uses a queue; DFS uses a stack (or recursion)
-- BFS uses a stack; DFS uses a queue
-- Both use heaps
-- Both use hash tables
-E: BFS finds shortest paths in unweighted graphs. Dijkstra (non-negative weights) uses a priority queue (min-heap).
-Q: Which SDLC model suits PKSF's evolving requirements with sprint deliveries?
-* Agile/Scrum (iterative and incremental)
-- Pure Waterfall
-- Big Bang
-- V-model only
-E: Waterfall is sequential and suits fixed, well-known requirements. The ToR names Agile collaboration and sprint goals.
-Q: How many usable host addresses does a /24 IPv4 subnet have?
-- 256
-* 254
-- 255
-- 128
-E: 2^(32-24) = 256 addresses, minus the network and broadcast addresses, leaves 254. A /26 gives 62 hosts.

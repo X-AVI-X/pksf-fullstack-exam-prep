@@ -9,3 +9,5 @@ export const ALLQ = TOPICS.flatMap(t => t.qs), ALLW = TOPICS.flatMap(t => t.ws);
 export const QM = Object.fromEntries(ALLQ.map(q => [q.id, q]));
 export const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 export const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] } return a };
+export const WM = Object.fromEntries(ALLW.map(w => [w.id, w]));
+export const GROUPS = { tor: 'ToR topics (confirmed in the Terms of Reference)', core: 'Foundational preparation (core subject matter, not explicitly listed in the ToR)' };

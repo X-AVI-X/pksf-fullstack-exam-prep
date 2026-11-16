@@ -1,0 +1,48 @@
+Q: A candidate key is:
+* A minimal set of attributes that uniquely identifies a row; one is chosen as the primary key
+- Any column with an index
+- A foreign key
+- A column that allows NULL
+E: A super key is any unique set of columns; a candidate key is a minimal super key. The ones not chosen as primary key are alternate keys, usually enforced with UNIQUE.
+Q: The "I" in ACID guarantees:
+* Concurrent transactions do not see each other's intermediate states (to the level set by the isolation level)
+- Data is indexed
+- Data survives crashes
+- All operations happen or none do
+E: Atomicity means all or nothing; Consistency means constraints hold; Isolation means concurrent transactions don't interfere; Durability means committed data survives crashes (WAL/redo log).
+Q: Which anomaly does READ COMMITTED still allow?
+- Dirty read
+* Non-repeatable read
+- Lost update by design in every database
+- None
+E: Read committed prevents dirty reads. Repeatable read also prevents non-repeatable reads, and Serializable prevents phantoms. PostgreSQL's REPEATABLE READ also prevents phantoms because it uses snapshots.
+Q: A table is in 2NF when it is in 1NF and:
+* No non-key attribute depends on only part of a composite primary key
+- There are no transitive dependencies
+- Every determinant is a candidate key
+- It has no NULLs
+E: 1NF requires atomic values. 2NF removes partial dependencies. 3NF removes transitive dependencies (non-key depends on non-key). BCNF requires every determinant to be a candidate key.
+Q: A foreign key with {{ON DELETE CASCADE}} means:
+* Deleting the parent row deletes its child rows automatically
+- The child cannot be deleted
+- The parent cannot be deleted
+- The FK becomes NULL
+E: The alternatives are RESTRICT/NO ACTION (block the delete), SET NULL and SET DEFAULT. For financial data, prefer RESTRICT plus soft deletes so history is kept.
+Q: A B-tree index helps least for:
+- WHERE id = 42
+- WHERE created_at BETWEEN a AND b
+- ORDER BY name LIMIT 10
+* WHERE lower(name) LIKE '%rahman%'
+E: A leading wildcard cannot use a B-tree. Use a trigram GIN index (pg_trgm) or full-text search. Functions on the column also need an expression index.
+Q: Which join returns all rows from the left table, with NULLs where there is no match on the right?
+- INNER JOIN
+* LEFT OUTER JOIN
+- CROSS JOIN
+- SEMI JOIN
+E: INNER returns only matches, FULL OUTER returns all rows from both sides, and CROSS returns the Cartesian product. Use LEFT JOIN … WHERE right.id IS NULL to find rows without a match.
+Q: DDL vs DML vs DCL vs TCL:
+* CREATE/ALTER/DROP are DDL; SELECT/INSERT/UPDATE/DELETE are DML; GRANT/REVOKE are DCL; COMMIT/ROLLBACK/SAVEPOINT are TCL
+- SELECT is DDL
+- GRANT is DML
+- COMMIT is DDL
+E: TRUNCATE is DDL in most databases. In PostgreSQL it is transactional, while Oracle auto-commits DDL.

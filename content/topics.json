@@ -2,76 +2,127 @@
  {
   "id": "java",
   "name": "Core Java",
-  "blurb": "OOP, collections, streams, concurrency, Java 17"
+  "blurb": "OOP, collections, streams, concurrency, Java 17",
+  "group": "tor"
  },
  {
   "id": "spring",
   "name": "Spring Boot",
-  "blurb": "DI, auto-config, REST, transactions, validation"
+  "blurb": "DI, auto-config, REST, transactions, validation",
+  "group": "tor"
  },
  {
   "id": "sec",
   "name": "Security & SSO",
-  "blurb": "Spring Security, OAuth2, JWT, Keycloak, OWASP"
+  "blurb": "Spring Security, OAuth2, JWT, Keycloak, OWASP",
+  "group": "tor"
  },
  {
   "id": "jpa",
   "name": "JPA / Hibernate",
-  "blurb": "Entities, fetching, N+1, locking, caching"
+  "blurb": "Entities, fetching, N+1, locking, caching",
+  "group": "tor"
  },
  {
   "id": "sql",
   "name": "SQL & PostgreSQL",
-  "blurb": "Queries, joins, indexes, PL/SQL, tuning"
+  "blurb": "Queries, joins, indexes, PL/SQL, tuning",
+  "group": "tor"
  },
  {
   "id": "nosql",
   "name": "MongoDB & Redis",
-  "blurb": "Documents, caching, sessions, CAP"
+  "blurb": "Documents, caching, sessions, CAP",
+  "group": "tor"
  },
  {
   "id": "api",
   "name": "REST, SOAP & Microservices",
-  "blurb": "HTTP semantics, patterns, messaging"
+  "blurb": "HTTP semantics, patterns, messaging",
+  "group": "tor"
  },
  {
   "id": "react",
   "name": "React",
-  "blurb": "Hooks, rendering, state, performance"
+  "blurb": "Hooks, rendering, state, performance",
+  "group": "tor"
  },
  {
   "id": "ng",
   "name": "Angular & Material UI",
-  "blurb": "Angular, RxJS, Material Design, accessibility"
+  "blurb": "Angular, RxJS, Material Design, accessibility",
+  "group": "tor"
  },
  {
   "id": "devops",
   "name": "Docker, K8s & CI/CD",
-  "blurb": "Containers, orchestration, pipelines, Git"
+  "blurb": "Containers, orchestration, pipelines, Git",
+  "group": "tor"
  },
  {
   "id": "obs",
   "name": "Observability & Async",
-  "blurb": "ELK, Prometheus, Grafana, batch & queues"
+  "blurb": "ELK, Prometheus, Grafana, batch & queues",
+  "group": "tor"
  },
  {
   "id": "test",
   "name": "Testing & Agile",
-  "blurb": "JUnit, Mockito, test slices, Scrum, SDLC"
- },
- {
-  "id": "cs",
-  "name": "CS Fundamentals",
-  "blurb": "DSA, complexity, OS, networks, coding"
+  "blurb": "JUnit, Mockito, test slices, Scrum, SDLC",
+  "group": "tor"
  },
  {
   "id": "cloud",
   "name": "Cloud & Architecture",
-  "blurb": "AWS/GCP/Azure basics, scaling, design"
+  "blurb": "AWS/GCP/Azure basics, scaling, design",
+  "group": "tor"
  },
  {
   "id": "pksf",
   "name": "Know the job (ToR)",
-  "blurb": "Facts from the ToR and viva prep"
+  "blurb": "Facts from the ToR and viva prep",
+  "group": "tor"
+ },
+ {
+  "id": "cs",
+  "name": "Data Structures & Algorithms",
+  "blurb": "Complexity, sorting, searching, trees, graphs, coding",
+  "group": "core"
+ },
+ {
+  "id": "oop",
+  "name": "Object-Oriented Programming",
+  "blurb": "Encapsulation, inheritance, polymorphism, abstraction",
+  "group": "core"
+ },
+ {
+  "id": "os",
+  "name": "Operating Systems",
+  "blurb": "Processes, threads, scheduling, memory, deadlock",
+  "group": "core"
+ },
+ {
+  "id": "net",
+  "name": "Computer Networking",
+  "blurb": "OSI/TCP-IP, TCP/UDP, HTTP, DNS, subnetting",
+  "group": "core"
+ },
+ {
+  "id": "dbms",
+  "name": "DBMS Fundamentals",
+  "blurb": "Relational model, keys, normalisation, ACID, transactions",
+  "group": "core"
+ },
+ {
+  "id": "se",
+  "name": "Software Engineering & Testing",
+  "blurb": "SDLC, SOLID, design patterns, testing theory",
+  "group": "core"
+ },
+ {
+  "id": "secf",
+  "name": "Security Fundamentals",
+  "blurb": "CIA triad, cryptography, authentication, common attacks",
+  "group": "core"
  }
 ]

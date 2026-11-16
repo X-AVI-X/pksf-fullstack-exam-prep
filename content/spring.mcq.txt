@@ -107,12 +107,6 @@ Q: Method A ({{@Transactional}}) calls method B annotated {{@Transactional(propa
 - Both commit
 - B's changes roll back because it is nested inside A
 E: REQUIRES_NEW suspends the outer transaction and runs B in its own, independent transaction. NESTED (savepoint) would roll back with the outer one. The call must go through the Spring proxy (another bean) for the annotation to apply.
-Q: By default, {{@Transactional}} rolls back on:
-* Unchecked exceptions (RuntimeException) and Errors only
-- Every exception, checked or unchecked
-- Checked exceptions only
-- Nothing unless rollbackFor is set
-E: Checked exceptions commit by default. Use @Transactional(rollbackFor = Exception.class) to roll back on them too.
 Q: Where do you handle exceptions globally for all REST controllers?
 - In a Filter
 * A class annotated @RestControllerAdvice with @ExceptionHandler methods
