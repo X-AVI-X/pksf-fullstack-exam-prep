@@ -107,3 +107,16 @@ Q: Unit test vs integration test?
 - Unit tests need a database
 - There is no difference
 E: Follow the test pyramid: many fast unit tests, fewer integration tests, very few end-to-end tests. The ToR asks for both on frontend and backend.
+
+Q: In React Testing Library, which query should you prefer?
+* getByRole (with name), because it finds elements the way users and assistive tech do
+- getByTestId everywhere
+- container.querySelector('.btn-primary')
+- Reading component state directly
+E: The priority is getByRole, then getByLabelText, getByText, and getByTestId only as a last resort. findBy* waits for async UI; queryBy* returns null for absence checks.
+Q: How do you test an Angular service that calls HttpClient without a real backend?
+* provideHttpClientTesting() with HttpTestingController: expectOne(url), flush(mockData), then verify()
+- Start the Spring Boot API in the test
+- Mock the browser's fetch globally
+- It cannot be tested
+E: verify() fails the test if unexpected requests were made. For components, use TestBed with the service mocked (jasmine.createSpyObj or a stub provider).

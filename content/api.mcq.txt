@@ -119,3 +119,34 @@ Q: A SOAP service contract is described by:
 - GraphQL SDL
 - A JSON Schema only
 E: SOAP uses XML envelopes defined by WSDL/XSD. In Spring, use Spring Web Services (contract-first) or JAX-WS (Apache CXF), with JAXB for XML binding.
+
+Q: In Domain-Driven Design, what distinguishes an Entity from a Value Object?
+* An Entity has an identity that persists as its attributes change (a Loan with id 42); a Value Object is defined only by its values and is immutable (Money(5000, BDT), Address)
+- Entities are immutable; Value Objects are mutable
+- Value Objects always have a database id
+- There is no difference in DDD
+E: Model Money as a value object (amount and currency together, with no separate ID) so rounding and currency rules live in one place. Loan, Member and PartnerOrganisation are entities.
+Q: An aggregate root in DDD is:
+* The single entry point of a cluster of objects that must stay consistent together; outside code changes the cluster only through it
+- Any table with a primary key
+- The root package of the project
+- A database view
+E: Example: Loan is the root and its Installments are inside the aggregate. You call loan.recordRepayment(), never update an installment directly, so invariants (paid ≤ due) are always enforced in one place, and one transaction changes one aggregate.
+Q: A "bounded context" helps when:
+* The same word means different things in different parts of the business (a "member" in Microfinance vs in HR), so each context keeps its own model and API
+- You need a bigger database
+- You want one shared model for the whole organisation
+- You are writing CSS
+E: Bounded contexts often become microservice boundaries. They talk via APIs or events, translating between models (anti-corruption layer).
+Q: A PO report moves DRAFT → SUBMITTED → APPROVED or REJECTED (REJECTED can go back to DRAFT). Where should the allowed transitions be enforced?
+* In the domain/service layer (an enum state machine or Spring Statemachine) that rejects illegal transitions, backed by a DB CHECK on status and an audit trail of who changed what
+- Only by hiding buttons in the UI
+- Nowhere; any status can be set
+- In a database trigger only
+E: UI hiding is UX, not enforcement: any API client could PATCH status=APPROVED. Return 409 Conflict for an illegal transition, record the actor and timestamp, and use @Version to stop two approvers racing.
+Q: Which status code fits an attempt to approve a report that is still in DRAFT?
+- 200 OK
+- 404 Not Found
+* 409 Conflict (or 422) with a problem detail explaining the invalid state transition
+- 500 Internal Server Error
+E: The request is well-formed and the resource exists, but it conflicts with the resource's current state.

@@ -6,3 +6,5 @@
 - Pyramid: unit > integration > E2E. TDD: red-green-refactor. Coverage: JaCoCo.
 - Scrum: PO, SM, Developers; Sprint ≤ 1 month; Daily Scrum 15 min; Review; Retro.
 - SemVer MAJOR.MINOR.PATCH.
+- Frontend tests: React Testing Library (getByRole, findBy*, userEvent, MSW); Angular TestBed + HttpTestingController (expectOne, flush, verify).
+- Collaboration: Definition of Ready / Done, API contract first, small PRs and reviews, QA automation in CI, agree config and secrets with DevOps.

@@ -36,3 +36,23 @@ CREATE INDEX ON loan(member_id);
 + 3 | Splits into po, member, loan tables with correct PKs | primary key
 + 2 | Foreign keys linking the tables | references/foreign key
 + 1 | Constraints or indexes (NOT NULL, CHECK, FK index) | check/index
+
+
+## Draw an ERD (crow's foot) for: a PO has many branches; a branch has many members; a member can take many loans; each loan has many installments; a loan product applies to many loans.
+@schema 8
+~~~
+PO ||──o{ BRANCH ||──o{ MEMBER ||──o{ LOAN }o──|| LOAN_PRODUCT
+                                       ||
+                                       └──|{ INSTALLMENT   (weak entity: PK = loan_id + seq)
+
+PO(po_id PK, code UK, name)          BRANCH(branch_id PK, po_id FK, name)
+MEMBER(member_id PK, branch_id FK, nid UK, name)
+LOAN(loan_id PK, member_id FK, product_id FK, principal, disbursed_on, status)
+LOAN_PRODUCT(product_id PK, name, rate)   INSTALLMENT(loan_id FK, seq, due_date, amount)  PK(loan_id, seq)
+~~~
+- {{||──o{}} reads "exactly one … zero or many": a PO may have no branches yet. LOAN to INSTALLMENT is {{||──|{}} (a disbursed loan has at least one installment).
+- Mark PK/FK/UK and use singular entity names. In the physical model every FK gets an index.
++ 2 | All five entities plus installment present with keys | PK
++ 3 | Correct cardinalities and optionality in crow's-foot notation | o{, ||
++ 2 | Weak entity/composite key for installment | weak/seq
++ 1 | Legible notation and FK placement on the many side | FK

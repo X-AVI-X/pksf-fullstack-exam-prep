@@ -6,3 +6,4 @@
 - @Async + @EnableAsync; @Scheduled + @EnableScheduling; return CompletableFuture.
 - Long jobs: 202 Accepted + job id + polling/WebSocket.
 - RabbitMQ: manual ack after success, DLQ for poison messages, idempotent consumers.
+- Reports: async job (202 + job id), bounded workers, stream rows; Excel via POI SXSSF, PDF via JasperReports; store in object storage, signed download URL.

@@ -5,3 +5,4 @@
 - Joins: INNER, LEFT, RIGHT, FULL, CROSS, self; anti-join with LEFT JOIN … IS NULL or NOT EXISTS.
 - SQL types: DDL, DML, DCL, TCL.
 - Indexes: B-tree (equality, range, sort), hash, GIN (JSONB, full text, trigram), composite with the leftmost-prefix rule.
+- ERD (crow's foot): bar = one, circle = zero, crow's foot = many; M:N → associative entity; weak entity = owner key + partial key.

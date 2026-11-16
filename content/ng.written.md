@@ -65,3 +65,22 @@ export class PoListComponent { pos$ = inject(PoService).list(); }
 A service is an {{@Injectable}} class holding reusable logic or state (HTTP calls, caching) that Angular injects with DI. {{providedIn: "root"}} registers one **singleton** for the whole app and makes it tree-shakable if unused.
 + 1 | Service = injectable reusable logic via DI | inject
 + 1 | root = app-wide singleton, tree-shakable | singleton
+
+
+## Write a component specification for a reusable Material data table used across PKSF apps.
+@descriptive 8
+**Component:** {{<pksf-data-table>}} (Angular, on Angular Material {{mat-table}} + {{mat-paginator}} + {{mat-sort}})
+- **Purpose:** list server-side data (POs, loans, reports) with consistent paging, sorting, filtering and states.
+- **Inputs:** {{columns: ColumnDef[]}} (key, header, type: text/number/money/date/status, sortable), {{data: Page<T>}}, {{loading: boolean}}, {{error?: string}}, {{pageSizeOptions = [10, 25, 50]}}, {{selectable = false}}.
+- **Outputs:** {{pageChange({page, size})}}, {{sortChange({active, direction})}}, {{rowClick(T)}}, {{selectionChange(T[])}}.
+- **States:** loading skeleton, empty ("No records"), error with retry, data.
+- **Behaviour:** no business logic and no HTTP inside: the parent fetches. Money is right-aligned and formatted in BDT; dates use the locale format.
+- **Accessibility:** a real {{<table>}} with headers, sortable headers announce direction ({{aria-sort}}), keyboard row activation, 4.5:1 contrast.
+- **Responsive:** below 600 px, rows collapse to cards ({{BreakpointObserver}}).
+- **Theming:** uses Material design tokens only.
+- **Quality:** documented in Storybook (every state), unit tests with component harnesses, semantic versioning with a changelog.
++ 2 | Clear inputs and outputs (API of the component) | input, output
++ 2 | States: loading, empty, error, data | empty, error
++ 2 | Accessibility and responsive behaviour | aria, responsive/Breakpoint
++ 1 | Separation: no business logic or HTTP inside | business logic
++ 1 | Documentation/testing/versioning (Storybook, harness) | Storybook

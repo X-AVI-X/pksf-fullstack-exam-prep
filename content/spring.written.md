@@ -132,3 +132,21 @@ Also note that by default it rolls back only on RuntimeException, and that priva
 {{@SpringBootConfiguration}} (a @Configuration class), {{@EnableAutoConfiguration}} (configures beans from the classpath and properties) and {{@ComponentScan}} (scans the package and its sub-packages).
 + 1 | Names all three annotations | EnableAutoConfiguration, ComponentScan
 + 1 | States what auto-configuration/scanning does | classpath/package
+
+
+## How would you safely upgrade a production service from Spring Boot 2.7 to 3.x?
+@scenario 8
+1. **Prepare:** make sure test coverage is good (unit, integration with Testcontainers, contract tests); upgrade to the latest 2.7.x and fix all deprecation warnings.
+2. **Java 17+** baseline: update the build and CI images, Docker base image and IDE.
+3. **javax → jakarta** (persistence, validation, servlet): automate with **OpenRewrite** ({{UpgradeSpringBoot_3_x}} recipe).
+4. Framework changes:
+   - **Spring Security 6:** {{SecurityFilterChain}} beans replace {{WebSecurityConfigurerAdapter}}, and {{requestMatchers}} replaces {{antMatchers}}.
+   - **Hibernate 6:** check queries, ID generators and dialect changes.
+   - **Property renames:** use {{spring-boot-properties-migrator}} temporarily.
+   - **Libraries:** update springdoc v2 and any library lacking Boot 3 support.
+5. Run the full suite, then a **staging** soak with production-like data; compare metrics (latency, errors) in Grafana.
+6. **Release** with a canary/rolling deployment and a rollback plan; keep API behaviour **backward compatible** for consumers.
++ 2 | Preparation: tests, latest 2.7.x, deprecations | deprecat, test
++ 2 | Java 17 and javax→jakarta (OpenRewrite) | jakarta
++ 2 | Security 6 / Hibernate 6 / property migrator specifics | SecurityFilterChain/Hibernate 6
++ 2 | Staged rollout, monitoring and rollback; backward compatibility | rollback, staging

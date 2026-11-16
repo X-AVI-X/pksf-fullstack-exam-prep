@@ -119,3 +119,16 @@ Q: Which annotation documents a Spring Boot REST API as OpenAPI 3 with a Swagger
 - @ApiSpec
 - Spring REST Docs only
 E: springfox is unmaintained and does not support Spring Boot 3. springdoc-openapi is the standard; the ToR asks you to maintain API specs.
+
+Q: Upgrading Spring Boot 2.7 to 3.x, which change breaks most code first?
+* The javax.* to jakarta.* package rename (Jakarta EE 9+), plus a Java 17 baseline
+- Spring Boot 3 removes @RestController
+- JPA is no longer supported
+- application.properties is replaced by XML
+E: The safe path: upgrade to the latest 2.7.x and fix deprecations, move to Java 17, use OpenRewrite recipes for the javax→jakarta rename, update Hibernate 6 and Spring Security 6 config (SecurityFilterChain; WebSecurityConfigurerAdapter is gone), then run the full test suite.
+Q: The "strangler fig" pattern refactors a legacy system by:
+* Routing features one at a time to a new implementation behind a facade/gateway until the old system can be retired
+- Rewriting everything at once and switching over in one weekend
+- Deleting tests first
+- Freezing all changes for a year
+E: It allows incremental, low-risk modernisation, for example moving an old Oracle/SOAP module behind the API gateway to new Spring Boot services while preserving backward compatibility.

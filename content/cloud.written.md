@@ -74,3 +74,22 @@ Loan svc ──(same DB tx: loan row + outbox row)──► outbox table
 + 2 | Reliable publishing (outbox or transactional publish) | outbox
 + 2 | Idempotency and retry/DLQ handling | idempot, DLQ/dead
 + 2 | Failure isolation and monitoring (circuit breaker, rate limit, metrics) | circuit/monitor
+
+
+## Compare AWS, GCP and Azure services you would use to host the PKSF platform.
+@compare 6
+| Need | AWS | GCP | Azure |
+|---|---|---|---|
+| Kubernetes | EKS | GKE | AKS |
+| Managed PostgreSQL | RDS / Aurora | Cloud SQL / AlloyDB | Azure Database for PostgreSQL |
+| Redis | ElastiCache | Memorystore | Azure Cache for Redis |
+| Object storage (report files) | S3 | Cloud Storage | Blob Storage |
+| Secrets | Secrets Manager / KMS | Secret Manager / Cloud KMS | Key Vault |
+| Identity & permissions | IAM | IAM | Entra ID + RBAC |
+| Monitoring | CloudWatch | Cloud Monitoring/Logging | Azure Monitor |
+
+- The choice depends on data-residency rules for financial data, cost, and team skills. Keeping the workloads containerised (Docker/K8s) with Keycloak and Prometheus/Grafana avoids lock-in; on-premise or a Bangladesh data centre is also possible for regulated data.
++ 2 | Correct service equivalents for compute/K8s and database | EKS, RDS/Cloud SQL
++ 2 | Correct equivalents for storage, secrets, identity | S3, Key Vault/Secrets Manager
++ 1 | Table/side-by-side structure | AKS
++ 1 | Selection criteria (residency, cost, lock-in) | residency/lock-in

@@ -95,3 +95,16 @@ Q: Users report slow pages. Grafana shows API p95 latency spiking while CPU is n
 - DNS
 - The browser
 E: The ToR names troubleshooting database latency. Pool exhaustion (hikaricp_connections_pending) and sequential scans are the usual causes; use EXPLAIN ANALYZE to confirm.
+
+Q: Generating a 500,000-row Excel report in Spring without running out of memory:
+* Stream with Apache POI SXSSFWorkbook (keeps a small row window in memory) fed by a paged or streamed query, run asynchronously, then offer the file for download
+- XSSFWorkbook with all rows loaded into a List first
+- Build the Excel file in the browser from a JSON array of all rows
+- Increase the heap to 64 GB
+E: For PDFs use JasperReports or OpenPDF. Run long reports as an async job (Spring Batch or @Async with status polling). Stream the result to object storage, and stream DB rows with a fetch size or Stream<T> inside a read-only transaction.
+Q: Why generate PO financial reports asynchronously instead of inside the HTTP request?
+* Long reports would exceed gateway/HTTP timeouts and tie up request threads; an async job returns 202 + job id, and the client polls or is notified when the file is ready
+- Async reports are always more accurate
+- HTTP cannot return files
+- Browsers block downloads larger than 1 MB
+E: Add a per-PO rate limit, cache reports that don't change, and audit who downloaded which financial file.

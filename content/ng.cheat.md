@@ -7,3 +7,5 @@
 - Lifecycle: ngOnChanges, ngOnInit, ngAfterViewInit, ngOnDestroy.
 - Material Design: Google; 8dp grid; elevation; Angular Material / MUI.
 - WCAG AA contrast 4.5:1; keyboard access; labels.
+- Responsive: mobile-first, min-width media queries / CDK BreakpointObserver, fluid grid, 48 px touch targets, test at 360 px.
+- Component spec: purpose, inputs/outputs, states (loading/empty/error), accessibility, responsive rules, theming tokens, Storybook, versioning.

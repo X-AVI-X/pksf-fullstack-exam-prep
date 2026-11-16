@@ -160,3 +160,6 @@ p.tip{font-size:14px;color:var(--mute)}
 .print-paper{display:none}
 @media print{.top,.foot,.banner,section.band,.modal{display:none!important}.print-paper{display:block!important;color:#000;background:#fff;font-size:12pt}
 .print-paper .pq{break-inside:avoid;margin:0 0 14pt}.print-paper pre{background:#f3f3f3;color:#000;border:1px solid #ccc}body{background:#fff}}
+.card.next{margin-top:18px;background:var(--bg);color:var(--ink);max-width:720px}.card.next h2{margin:4px 0 0}
+button.lnk{font:inherit;font-weight:600;color:var(--g2);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+input[type=date]{font:inherit;font-size:16px;min-height:44px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}

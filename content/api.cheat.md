@@ -6,3 +6,6 @@
 - Patterns: API gateway, service discovery, circuit breaker, saga, outbox, CQRS, database per service, strangler fig.
 - RabbitMQ: exchange (direct/topic/fanout/headers) > binding > queue; ack; DLQ; port 5672, UI 15672.
 - Kafka: topics, partitions, offsets, consumer groups.
+- DDD: entity (identity) vs value object (immutable, e.g. Money); aggregate root guards invariants; bounded context = model boundary, often a service.
+- Workflows: enforce state transitions in the domain/service layer; illegal transition → 409; audit who and when; @Version against races.
+- API specs: OpenAPI 3 (springdoc), with paths, requestBody, responses, schemas and securitySchemes; contract-first lets FE/BE work in parallel.

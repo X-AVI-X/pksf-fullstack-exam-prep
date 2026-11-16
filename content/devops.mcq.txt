@@ -125,3 +125,16 @@ Q: Where should the database password for a K8s deployment live?
 - In the Docker image
 - In a ConfigMap
 E: ConfigMaps are for non-secret config. Remember that Secrets are only Base64-encoded, so enable encryption at rest and RBAC, or use External Secrets with Vault.
+
+Q: In a declarative Jenkinsfile, where do you define the build steps?
+* pipeline { agent any; stages { stage('Build') { steps { sh 'mvn -B verify' } } } }
+- In a .gitlab-ci.yml
+- In job.xml only
+- In the Dockerfile
+E: A declarative pipeline has agent, stages/steps, environment, a post block (always/failure for notifications) and credentials() for secrets. Keeping the Jenkinsfile in the repo makes it pipeline as code.
+Q: How should a Jenkins pipeline use a registry password?
+* Store it in Jenkins Credentials and bind it with withCredentials or credentials('id'), so it is masked in logs
+- Hard-code it in the Jenkinsfile
+- Echo it into a file in the workspace
+- Pass it as a plain build parameter
+E: The equivalents are GitLab CI masked/protected variables and GitHub Actions encrypted secrets. Never commit secrets to Git.

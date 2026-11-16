@@ -46,3 +46,22 @@ Q: DDL vs DML vs DCL vs TCL:
 - GRANT is DML
 - COMMIT is DDL
 E: TRUNCATE is DDL in most databases. In PostgreSQL it is transactional, while Oracle auto-commits DDL.
+
+Q: In crow's-foot ERD notation, a line ending in a crow's foot with a circle means:
+* "Zero or many" on that side
+- "Exactly one"
+- "One or many"
+- "Zero or one"
+E: Bar = one, circle = zero (optional), crow's foot = many. So bar+crow's foot means one or many, circle+bar means zero or one, and double bar means exactly one.
+Q: In an ERD, a Member who can belong to several Savings Groups, where each group has many members, is drawn as:
+- One-to-one
+- One-to-many from Member
+* Many-to-many, resolved by an associative entity (group_membership with joined_on, role)
+- A weak entity with no key
+E: Physical models need a junction table for M:N. Attributes of the relationship itself (joined_on, role) live on the associative entity.
+Q: A weak entity in an ER model is one that:
+* Cannot be identified by its own attributes alone and depends on an owner entity's key (Installment #3 of Loan 42)
+- Has no attributes
+- Is optional in every relationship
+- Is stored in a cache
+E: Its primary key is (owner key + partial key), for example (loan_id, seq). It is drawn with a double rectangle.

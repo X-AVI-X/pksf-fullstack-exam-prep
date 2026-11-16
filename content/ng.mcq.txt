@@ -113,3 +113,16 @@ Q: In Material Design, responsive layouts are built on:
 - Tables for layout
 - Separate mobile and desktop apps only
 E: The ToR asks for accessible, responsive UI for PO field users: use the CDK BreakpointObserver, a fluid layout, 48 px touch targets and WCAG contrast.
+
+Q: A mobile-first responsive layout means:
+* Base CSS targets small screens, and min-width media queries (or BreakpointObserver) progressively add layout for larger screens
+- Separate HTML pages for phones
+- Fixed 1280 px layout scaled down by the browser
+- Hiding all content on mobile
+E: PO field staff often use phones on slow networks, so keep the base styles small, use fluid grids and 48 px touch targets, and test at 360 px wide.
+Q: What is Storybook used for in a component library?
+* Developing and documenting UI components in isolation, showing each state (loading, empty, error) as a story that also serves as a visual/regression test base
+- Running the backend
+- Storing user stories for Scrum
+- Bundling production code
+E: It serves as the living component specification shared by developers, designers and QA.

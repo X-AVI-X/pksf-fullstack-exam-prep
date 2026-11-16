@@ -68,3 +68,18 @@ CREATE INDEX ON upload_error (job_id, row_no);
 + 2 | upload_error with job FK and row number/message | row
 + 2 | Duplicate detection (hash/unique) and status CHECK | unique/hash
 + 2 | Indexes and relationship cardinality explained | index
+
+
+## Design monthly financial report generation (PDF/Excel) for 200+ POs without overloading the system.
+@arch 8
+1. **Request:** {{POST /api/v1/reports/{period}/export?format=xlsx}} returns **202 Accepted** + job id (idempotent per PO+period+format).
+2. **Queue:** the job goes to RabbitMQ or a Spring Batch job launcher with a **bounded worker pool**, so 200 POs at month end can't exhaust DB connections.
+3. **Generate:** stream rows from a read replica or materialised view (fetch size, read-only transaction). Excel via **POI SXSSF**, PDF via **JasperReports**.
+4. **Store:** upload to object storage (MinIO/S3) and mark the job DONE with a checksum.
+5. **Deliver:** the UI polls {{GET /jobs/{id}}} or gets a notification, then downloads with a short-lived signed URL; access is checked per PO.
+6. **Operate:** metrics (queue depth, duration, failures) in Grafana, retries with a DLQ, nightly pre-generation for heavy reports, and an audit log of downloads.
++ 2 | Async job pattern: 202 + job id + status polling | 202
++ 2 | Bounded concurrency/queue to protect the DB | queue/bounded
++ 2 | Streaming generation (SXSSF/JasperReports, read replica or MV) | SXSSF/Jasper
++ 1 | Storage and secure download (signed URL, ownership) | signed
++ 1 | Monitoring, retries, audit | metric/retry

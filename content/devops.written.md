@@ -229,3 +229,38 @@ An **image** is a read-only, layered template (app + JRE + config) built from a 
 The smallest deployable unit in Kubernetes: one or more containers that **share a network namespace (one IP) and volumes**, scheduled together on a node. Pods are ephemeral, so you manage them through Deployments and reach them through Services.
 + 1 | Smallest unit, one or more containers | smallest
 + 1 | Shared network/IP and managed by Deployment/Service | IP/Deployment
+
+
+## Write a declarative Jenkinsfile that tests, builds and deploys the Spring Boot API.
+@code 8
+~~~groovy
+pipeline {
+  agent any
+  environment { IMAGE = "registry.pksf.local/api:${env.GIT_COMMIT.take(7)}" }
+  stages {
+    stage('Test')  { steps { sh 'mvn -B verify' } }                // unit + integration, JaCoCo
+    stage('Build image') { steps { sh 'docker build -t $IMAGE .' } }
+    stage('Push') {
+      when { branch 'main' }
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'registry', usernameVariable: 'U', passwordVariable: 'P')]) {
+          sh 'echo $P | docker login registry.pksf.local -u $U --password-stdin && docker push $IMAGE'
+        }
+      }
+    }
+    stage('Deploy to staging') {
+      when { branch 'main' }
+      steps { sh 'kubectl -n staging set image deployment/api api=$IMAGE && kubectl -n staging rollout status deployment/api' }
+    }
+  }
+  post {
+    always  { junit 'target/surefire-reports/*.xml' }
+    failure { echo 'Notify the team (mail/Slack step here)' }
+  }
+}
+~~~
++ 2 | Declarative structure: pipeline, agent, stages, steps | pipeline, stages
++ 2 | Test then build/push image tagged by commit | mvn, docker
++ 2 | Credentials via withCredentials (no secrets in file) | withCredentials
++ 1 | Branch condition and deploy with rollout check | when, rollout
++ 1 | post block: test reports and failure notification | post
