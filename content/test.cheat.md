@@ -1,0 +1,8 @@
+- JUnit 5: @Test, @BeforeEach, @ParameterizedTest, assertEquals/assertThrows.
+- Mockito: @Mock, @InjectMocks, when().thenReturn(), verify(), ArgumentCaptor.
+- Spring slices: @WebMvcTest (MockMvc), @DataJpaTest, @SpringBootTest; @MockitoBean (Boot 3.4+), was @MockBean.
+- Testcontainers for real PostgreSQL/Redis/Keycloak.
+- Frontend: Jest/Vitest + React Testing Library; Cypress/Playwright E2E.
+- Pyramid: unit > integration > E2E. TDD: red-green-refactor. Coverage: JaCoCo.
+- Scrum: PO, SM, Developers; Sprint ≤ 1 month; Daily Scrum 15 min; Review; Retro.
+- SemVer MAJOR.MINOR.PATCH.

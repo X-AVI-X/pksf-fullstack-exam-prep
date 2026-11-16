@@ -1,0 +1,9 @@
+- Bindings: \{\{x\}\} interpolation, [prop], (event), [(ngModel)].
+- Building blocks: components, directives (*ngIf/*ngFor or @if/@for), pipes, services, modules or standalone components.
+- DI: @Injectable({providedIn:'root'}).
+- Router: guards CanActivate/CanDeactivate, Resolve, lazy-loaded routes.
+- HttpClient returns Observables; HttpInterceptor for JWT.
+- RxJS: switchMap (cancel), mergeMap (parallel), concatMap (queue), exhaustMap (ignore), debounceTime, takeUntil.
+- Lifecycle: ngOnChanges, ngOnInit, ngAfterViewInit, ngOnDestroy.
+- Material Design: Google; 8dp grid; elevation; Angular Material / MUI.
+- WCAG AA contrast 4.5:1; keyboard access; labels.

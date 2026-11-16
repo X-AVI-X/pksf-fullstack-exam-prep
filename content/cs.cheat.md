@@ -1,0 +1,8 @@
+- Big-O: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2^n).
+- Sorting: merge O(n log n) stable; quick avg O(n log n) worst O(n²); heap O(n log n); bubble/insertion O(n²).
+- Structures: array, linked list, stack (LIFO), queue (FIFO), hash map, heap (priority queue), BST, graph, trie.
+- Graphs: BFS (queue), DFS (stack), Dijkstra (non-negative), Bellman-Ford (negative), Kruskal/Prim (MST).
+- Deadlock: mutual exclusion, hold & wait, no preemption, circular wait.
+- OSI: Physical, Data link, Network, Transport, Session, Presentation, Application.
+- Ports: 20/21 FTP, 22 SSH, 25 SMTP, 53 DNS, 80 HTTP, 443 HTTPS.
+- Coding tricks: hash map for lookups, two pointers, sliding window, stack for brackets, DP for overlapping subproblems.

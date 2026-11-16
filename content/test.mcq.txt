@@ -1,0 +1,109 @@
+Q: Which framework is the standard for mocking dependencies in Java unit tests?
+- JUnit
+* Mockito
+- Selenium
+- JMeter
+E: JUnit 5 runs tests and assertions; Mockito creates mocks/stubs (when(...).thenReturn(...), verify(...)).
+Q: Which Spring Boot test annotation loads only the web/MVC layer for controller tests?
+- @SpringBootTest
+* @WebMvcTest
+- @DataJpaTest
+- @JsonTest
+E: Combine with MockMvc and mocked services. @DataJpaTest loads only JPA components; @SpringBootTest loads the full context.
+Q: Testcontainers is used to:
+* Run real dependencies like PostgreSQL, Redis or Keycloak in Docker during integration tests
+- Mock HTTP calls
+- Measure code coverage
+- Deploy to Kubernetes
+E: Tests against the real database catch dialect and migration issues that H2 hides.
+Q: TDD follows which cycle?
+- Code, test, deploy
+* Red (failing test), Green (make it pass), Refactor
+- Plan, do, check, act
+- Design, build, release
+E: Write the smallest failing test first, then the simplest code to pass, then clean up.
+Q: The test pyramid recommends:
+* Many fast unit tests, fewer integration tests, and the fewest end-to-end UI tests
+- Mostly end-to-end tests
+- Equal numbers of each
+- Only manual testing
+E: E2E tests are slow and brittle; unit tests give fast feedback.
+Q: Which tool measures Java code coverage?
+- Mockito
+* JaCoCo
+- Lombok
+- Flyway
+E: SonarQube can import JaCoCo reports and enforce quality gates.
+Q: In Spring Boot 3.4+, the replacement for @MockBean is:
+* @MockitoBean (from Spring Framework 6.2)
+- @Mock
+- @InjectMocks
+- @SpyBean only
+E: @Mock + @InjectMocks are for plain unit tests without a Spring context.
+Q: Which library is recommended for testing React components the way users interact with them?
+- Enzyme
+* React Testing Library (with Jest or Vitest)
+- Selenium only
+- Mocha only
+E: Query by role/label/text, not implementation details. Cypress or Playwright for E2E.
+Q: The three Scrum accountabilities (roles) are:
+* Product Owner, Scrum Master, Developers
+- Manager, Tester, Developer
+- Architect, Analyst, Programmer
+- Client, Vendor, User
+E: Events: Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective. Artifacts: Product Backlog, Sprint Backlog, Increment.
+Q: The Daily Scrum is time-boxed to:
+- 5 minutes
+* 15 minutes
+- 30 minutes
+- 1 hour
+E: A Sprint is one month or less; Sprint Planning is at most 8 hours for a one-month sprint.
+Q: Under Semantic Versioning (MAJOR.MINOR.PATCH), a backward-incompatible API change bumps:
+* MAJOR
+- MINOR
+- PATCH
+- None
+E: MINOR = new backward-compatible features; PATCH = backward-compatible bug fixes.
+Q: Which change to a REST response keeps backward compatibility?
+* Adding a new optional field
+- Renaming an existing field
+- Removing a field
+- Changing a field's type from number to string
+E: Clients should ignore unknown fields; breaking changes need a new version.
+Q: Regression testing means:
+- Testing performance under load
+* Re-running tests to make sure existing features still work after a change
+- Testing only new code
+- User acceptance testing
+E: Automated test suites in CI are your regression safety net.
+Q: Which SDLC model fits evolving requirements best?
+- Waterfall
+* Agile/iterative (e.g. Scrum, Kanban)
+- V-model
+- Big bang
+E: Waterfall suits fixed, well-understood requirements; Agile delivers increments and adapts.
+
+Q: In Scrum, who prioritises the Product Backlog?
+* The Product Owner
+- The Scrum Master
+- The developers
+- The stakeholders by vote
+E: The Product Owner owns and orders the backlog. The Scrum Master coaches the process and removes impediments, and the Developers own the Sprint Backlog and estimates.
+Q: Which Scrum event inspects how the team worked, to improve the process?
+- Sprint Review
+* Sprint Retrospective
+- Daily Scrum
+- Sprint Planning
+E: The Review inspects the product increment with stakeholders; the Retrospective inspects people, process and tools. The Daily Scrum is a 15-minute sync toward the Sprint Goal.
+Q: Story points estimate:
+* Relative effort, complexity and uncertainty, not hours
+- Exact hours
+- The number of lines of code
+- Business value
+E: Teams use Fibonacci numbers and planning poker. Velocity (points done per sprint) supports forecasting, not comparing teams.
+Q: Unit test vs integration test?
+* A unit test isolates one class with dependencies mocked (Mockito); an integration test runs real components together (for example @SpringBootTest with Testcontainers PostgreSQL)
+- Integration tests are always faster
+- Unit tests need a database
+- There is no difference
+E: Follow the test pyramid: many fast unit tests, fewer integration tests, very few end-to-end tests. The ToR asks for both on frontend and backend.

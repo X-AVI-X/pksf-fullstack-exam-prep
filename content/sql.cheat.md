@@ -1,0 +1,10 @@
+- Order of execution: FROM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY > LIMIT.
+- ROW_NUMBER 1,2,3 / RANK 1,1,3 / DENSE_RANK 1,1,2.
+- Isolation: RU < RC (PG & Oracle default) < RR (MySQL default) < Serializable.
+- Anomalies: dirty read, non-repeatable read, phantom read, lost update.
+- PG indexes: B-tree (default), Hash, GIN (JSONB/arrays/FTS), GiST, BRIN.
+- Composite index: leftmost-prefix rule; equality columns first.
+- DELETE (row-by-row, WHERE ok) / TRUNCATE (fast, all rows) / DROP (removes table).
+- PG: CREATE PROCEDURE + CALL (11+); functions in SELECT; $$ body; RAISE EXCEPTION.
+- Oracle: NO_DATA_FOUND, TOO_MANY_ROWS, %TYPE, %ROWTYPE, RAISE_APPLICATION_ERROR(-20000..-20999).
+- Ports: PostgreSQL 5432, MySQL 3306, Oracle 1521, MongoDB 27017, Redis 6379.

@@ -1,0 +1,77 @@
+[
+ {
+  "id": "java",
+  "name": "Core Java",
+  "blurb": "OOP, collections, streams, concurrency, Java 17"
+ },
+ {
+  "id": "spring",
+  "name": "Spring Boot",
+  "blurb": "DI, auto-config, REST, transactions, validation"
+ },
+ {
+  "id": "sec",
+  "name": "Security & SSO",
+  "blurb": "Spring Security, OAuth2, JWT, Keycloak, OWASP"
+ },
+ {
+  "id": "jpa",
+  "name": "JPA / Hibernate",
+  "blurb": "Entities, fetching, N+1, locking, caching"
+ },
+ {
+  "id": "sql",
+  "name": "SQL & PostgreSQL",
+  "blurb": "Queries, joins, indexes, PL/SQL, tuning"
+ },
+ {
+  "id": "nosql",
+  "name": "MongoDB & Redis",
+  "blurb": "Documents, caching, sessions, CAP"
+ },
+ {
+  "id": "api",
+  "name": "REST, SOAP & Microservices",
+  "blurb": "HTTP semantics, patterns, messaging"
+ },
+ {
+  "id": "react",
+  "name": "React",
+  "blurb": "Hooks, rendering, state, performance"
+ },
+ {
+  "id": "ng",
+  "name": "Angular & Material UI",
+  "blurb": "Angular, RxJS, Material Design, accessibility"
+ },
+ {
+  "id": "devops",
+  "name": "Docker, K8s & CI/CD",
+  "blurb": "Containers, orchestration, pipelines, Git"
+ },
+ {
+  "id": "obs",
+  "name": "Observability & Async",
+  "blurb": "ELK, Prometheus, Grafana, batch & queues"
+ },
+ {
+  "id": "test",
+  "name": "Testing & Agile",
+  "blurb": "JUnit, Mockito, test slices, Scrum, SDLC"
+ },
+ {
+  "id": "cs",
+  "name": "CS Fundamentals",
+  "blurb": "DSA, complexity, OS, networks, coding"
+ },
+ {
+  "id": "cloud",
+  "name": "Cloud & Architecture",
+  "blurb": "AWS/GCP/Azure basics, scaling, design"
+ },
+ {
+  "id": "pksf",
+  "name": "Know the job (ToR)",
+  "blurb": "Facts from the ToR and viva prep"
+ }
+]

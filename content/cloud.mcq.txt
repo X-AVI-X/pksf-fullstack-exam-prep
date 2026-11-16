@@ -1,0 +1,67 @@
+Q: Which is an example of IaaS?
+* Amazon EC2 virtual machines
+- Gmail
+- Heroku
+- Salesforce
+E: IaaS = raw compute/network/storage; PaaS = platform you deploy code to (Heroku, Elastic Beanstalk, App Engine); SaaS = finished software (Gmail).
+Q: Horizontal scaling means:
+* Adding more instances/machines
+- Adding more CPU/RAM to one machine
+- Splitting the code into modules
+- Using a faster disk
+E: Horizontal scaling needs stateless services (sessions in Redis, files in object storage). Vertical scaling has a ceiling.
+Q: AWS S3 is:
+- A relational database
+* Object storage for files and blobs
+- A virtual machine service
+- A DNS service
+E: Azure equivalent: Blob Storage; GCP: Cloud Storage. Managed relational DBs: RDS / Azure SQL / Cloud SQL.
+Q: A load balancer's "round robin" algorithm:
+* Sends each new request to the next server in turn
+- Sends all traffic to the fastest server
+- Sends requests based on the user's IP only
+- Randomly drops requests
+E: Others: least connections, IP hash (sticky), weighted.
+Q: A CDN improves performance by:
+- Speeding up the database
+* Caching static content at edge locations close to users
+- Compressing Java bytecode
+- Replacing the load balancer
+E: Examples: CloudFront, Cloudflare, Azure CDN.
+Q: According to the Twelve-Factor App, configuration should be stored in:
+- The source code
+* Environment variables (external to the build)
+- A hard-coded properties file in the jar
+- The database only
+E: The same build artefact moves through dev, staging and production with different config.
+Q: Which AWS service is the managed Kubernetes offering?
+- ECS
+* EKS
+- Lambda
+- EC2 Auto Scaling
+E: Azure: AKS; GCP: GKE. ECS is AWS's own container orchestrator; Lambda is serverless functions.
+Q: RPO and RTO in disaster recovery mean:
+* RPO = maximum acceptable data loss (time); RTO = maximum acceptable downtime to restore
+- Both mean backup frequency
+- RPO = restore time; RTO = data loss
+- They measure CPU usage
+E: Financial systems typically need low RPO: frequent backups, WAL archiving/point-in-time recovery, and replicas.
+
+Q: In AWS, which service controls who can do what on which resource?
+* IAM (users, roles, policies with least privilege)
+- VPC
+- CloudFront
+- Route 53
+E: IAM handles identity and permissions. A VPC is an isolated network (public/private subnets, security groups); CloudFront is a CDN and Route 53 is DNS.
+Q: Rough equivalents across clouds for managed Kubernetes:
+* EKS (AWS), GKE (GCP), AKS (Azure)
+- ECS, GCE, ACI
+- Lambda, Cloud Run, Functions
+- RDS, Cloud SQL, Cosmos DB
+E: For managed PostgreSQL the equivalents are RDS/Aurora, Cloud SQL and Azure Database for PostgreSQL. For object storage they are S3, GCS and Blob Storage.
+Q: Vertical vs horizontal scaling?
+* Vertical: a bigger machine (CPU/RAM). Horizontal: more instances behind a load balancer, which needs stateless apps (sessions in Redis)
+- Horizontal means a bigger machine
+- Vertical scaling has no limit
+- They are the same
+E: This is why the ToR pairs Redis session management with Kubernetes: stateless pods scale out and in freely.

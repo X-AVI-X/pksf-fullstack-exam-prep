@@ -1,0 +1,121 @@
+Q: Which HTTP methods are idempotent?
+* GET, PUT, DELETE (and HEAD, OPTIONS)
+- POST, PUT, PATCH
+- Only GET
+- POST and DELETE
+E: Repeating an idempotent request leaves the same server state. POST is not idempotent; use an Idempotency-Key header for safe payment retries.
+Q: The correct status for a successfully created resource is:
+- 200 OK
+* 201 Created (with a Location header)
+- 202 Accepted
+- 204 No Content
+E: 202 means accepted for async processing; 204 means success with no body (common for DELETE).
+Q: PUT vs PATCH?
+* PUT replaces the whole resource; PATCH applies a partial update
+- PATCH replaces the whole resource
+- They are identical
+- PUT is only for files
+E: PATCH is not guaranteed idempotent (e.g. "increment by 1").
+Q: SOAP web services describe their contract using:
+- OpenAPI
+* WSDL, with messages in an XML SOAP envelope
+- GraphQL schema
+- JSON Schema only
+E: SOAP adds WS-Security and strict contracts. In Java: Spring Web Services or JAX-WS (contract-first from XSD/WSDL).
+Q: Which pattern stops a failing downstream service from being called repeatedly?
+- Saga
+* Circuit breaker (e.g. Resilience4j)
+- CQRS
+- Strangler fig
+E: States: closed > open (fail fast) > half-open (trial calls). Combine with timeouts, retries with backoff and fallbacks.
+Q: An API gateway in microservices mainly:
+* Provides one entry point for routing, authentication, rate limiting and aggregation
+- Stores the data of all services
+- Replaces the message broker
+- Compiles services
+E: Examples: Spring Cloud Gateway, Kong, NGINX.
+Q: How do microservices typically manage a business transaction that spans several services?
+- A two-phase commit across all databases
+* A saga: a sequence of local transactions with compensating actions (choreography or orchestration)
+- A shared database
+- A global lock
+E: Pair it with the transactional outbox so the DB change and the published event never disagree.
+Q: Which status means "too many requests" (rate limited)?
+- 403
+- 409
+* 429
+- 503
+E: 409 = conflict (e.g. duplicate or version clash); 422 = semantically invalid input; 503 = service unavailable.
+Q: Which principle is recommended for microservice data?
+- One shared database for all services
+* Database per service; other services access data only via its API or events
+- No database at all
+- One table per service in a shared schema
+E: This keeps services independently deployable. Use events or API composition for cross-service queries.
+Q: Which is a valid way to version a REST API?
+* URI versioning like /api/v1/... (or a header/media-type version)
+- Changing the HTTP method
+- Renaming the server
+- Adding the version in the request body only
+E: Never break existing clients; add fields compatibly and introduce v2 for breaking changes.
+Q: Which tool documents and tests REST APIs from annotations in Spring Boot?
+- WSDL
+* springdoc-openapi (OpenAPI 3 / Swagger UI)
+- Javadoc only
+- JMeter
+E: Swagger UI is served at /swagger-ui.html by springdoc.
+Q: In service discovery, services register and find each other through:
+- DNS only, always
+* A registry such as Eureka or Consul (or Kubernetes Services)
+- The API gateway's database
+- Hard-coded IPs
+E: On Kubernetes, the built-in Service DNS usually replaces Eureka.
+Q: RabbitMQ routes messages from an exchange to queues using:
+* Bindings and routing keys (direct, topic, fanout, headers exchanges)
+- Partitions and offsets
+- Shards
+- Cron expressions
+E: Kafka uses topics with partitions and consumer offsets; RabbitMQ uses exchanges, bindings and acknowledgements.
+Q: Where should failed messages go after max retries in RabbitMQ?
+- They should be deleted silently
+* A dead-letter exchange/queue (DLX/DLQ) for inspection and replay
+- Back to the head of the same queue forever
+- The application log only
+E: Infinite redelivery of a "poison message" blocks the consumer.
+Q: Which data format is required by SOAP?
+- JSON
+* XML
+- Protobuf
+- YAML
+E: REST commonly uses JSON but can use XML; SOAP messages are always XML envelopes.
+
+Q: Correct status for a successful POST that creates a resource?
+* 201 Created with a Location header
+- 200 OK only
+- 204 No Content
+- 202 Accepted always
+E: 201 plus Location: /api/pos/42. Use 202 Accepted for asynchronous work (for example a bulk upload job), 204 for a success with no body, 409 for conflicts and 422 or 400 for validation errors.
+Q: HATEOAS in REST means:
+* Responses include hypermedia links to related actions and resources
+- Using only GET and POST
+- Returning XML instead of JSON
+- Stateful sessions on the server
+E: HATEOAS is the highest level of the Richardson Maturity Model; Spring HATEOAS adds _links. Statelessness is a separate REST constraint.
+Q: How do you change an API without breaking existing clients?
+* Add optional fields and new endpoints, never remove or rename in place, and version (/v2) for breaking changes with a deprecation period
+- Rename fields to match the new model immediately
+- Change status codes silently
+- Remove unused fields each sprint
+E: The ToR stresses backward compatibility: additive changes are safe, consumers should ignore unknown fields, and breaking changes need a new version.
+Q: Which pattern stops cascading failures when a downstream service is slow?
+- Retry forever
+* Circuit breaker (Resilience4j) with timeouts and a fallback
+- A bigger thread pool
+- Synchronous chaining
+E: A circuit breaker opens after a failure threshold and fails fast, then half-opens to test recovery. Combine it with timeouts, bounded retries with backoff, and bulkheads.
+Q: A SOAP service contract is described by:
+* WSDL, with an XSD for the message schemas
+- OpenAPI
+- GraphQL SDL
+- A JSON Schema only
+E: SOAP uses XML envelopes defined by WSDL/XSD. In Spring, use Spring Web Services (contract-first) or JAX-WS (Apache CXF), with JAXB for XML binding.

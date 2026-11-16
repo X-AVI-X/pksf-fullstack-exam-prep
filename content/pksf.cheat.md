@@ -1,0 +1,7 @@
+- PKSF: apex development org founded by GoB (1990); second-tier; 200+ Partner Organisations; poverty alleviation via financing, skill training.
+- Role: Software Engineer Full-stack, ITDSD, PKSF Bhaban, Agargaon, Dhaka (occasional field visits).
+- 4 years initially, annual renewal; BDT 1,20,000 consolidated + benefits; age max 32; 2+ years experience.
+- Academic: CSE/IT/SE or related degree; at least three First Divisions/Classes; no Third Division.
+- Mandatory stack: Java (Spring Boot) + React and/or Angular.
+- Named tech: Material Design, Spring Batch, JPA/Hibernate, PostgreSQL/Oracle/MySQL/MongoDB, Redis, OAuth2/JWT/Keycloak, REST + SOAP, Docker, Kubernetes, GitLab CI/GitHub Actions/Jenkins, ELK/Prometheus/Grafana.
+- Preferred: public repo with tests, README, docker-compose; microservices; PL/SQL; cloud (optional).

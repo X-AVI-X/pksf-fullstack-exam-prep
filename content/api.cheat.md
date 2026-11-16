@@ -1,0 +1,8 @@
+- Idempotent: GET, PUT, DELETE, HEAD, OPTIONS. Safe: GET, HEAD, OPTIONS.
+- 200 OK, 201 Created, 202 Accepted, 204 No Content, 301/302 redirect, 304 Not Modified.
+- 400 Bad Request, 401, 403, 404, 405 Method Not Allowed, 409 Conflict, 415 Unsupported Media Type, 422, 429.
+- 500 Internal, 502 Bad Gateway, 503 Unavailable, 504 Gateway Timeout.
+- SOAP: XML envelope (Envelope, Header, Body, Fault), WSDL, WS-Security.
+- Patterns: API gateway, service discovery, circuit breaker, saga, outbox, CQRS, database per service, strangler fig.
+- RabbitMQ: exchange (direct/topic/fanout/headers) > binding > queue; ack; DLQ; port 5672, UI 15672.
+- Kafka: topics, partitions, offsets, consumer groups.

@@ -1,0 +1,10 @@
+- Entity states: transient, managed, detached, removed. persist / merge / remove / detach.
+- Defaults: @ManyToOne/@OneToOne EAGER; @OneToMany/@ManyToMany LAZY. Make to-one LAZY.
+- N+1: JOIN FETCH, @EntityGraph, batch_fetch_size, DTO projections.
+- mappedBy = inverse side; @ManyToOne owns the FK.
+- @Version = optimistic; @Lock(PESSIMISTIC_WRITE) = SELECT FOR UPDATE.
+- 1st-level cache per EntityManager; 2nd-level optional, shared.
+- IDENTITY blocks batching; use SEQUENCE + allocationSize.
+- ddl-auto=validate in prod + Flyway/Liquibase.
+- orphanRemoval deletes children removed from the collection.
+- Pagination: PageRequest.of(page, size, Sort.by(...)).

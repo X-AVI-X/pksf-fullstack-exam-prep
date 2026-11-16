@@ -1,0 +1,10 @@
+- Java 17 LTS: records, sealed classes, pattern matching instanceof, switch expressions, text blocks. Virtual threads = Java 21.
+- String is immutable; literals are pooled; compare with equals().
+- HashMap: 16 buckets, load factor 0.75, treeify at 8, 1 null key. ConcurrentHashMap: no nulls.
+- ArrayList get O(1); LinkedList get O(n); HashSet/HashMap ops O(1) average; TreeMap O(log n).
+- Checked = Exception (not Runtime). Unchecked = RuntimeException, Error.
+- volatile = visibility, not atomicity. Use AtomicInteger / synchronized / Lock.
+- Streams: lazy intermediate ops, one terminal op; a stream can be consumed once.
+- equals true implies same hashCode. Override both together.
+- Default GC since Java 9: G1.
+- Functional interface = exactly one abstract method (Function, Supplier, Consumer, Predicate).

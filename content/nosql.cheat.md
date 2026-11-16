@@ -1,0 +1,7 @@
+- Mongo: BSON, 16 MB doc max, _id ObjectId, replica set (HA), sharding (scale), aggregation $match/$group/$sort/$project/$lookup.
+- Redis types: String, List, Hash, Set, Sorted Set, Stream, Bitmap, HyperLogLog.
+- Redis persistence: RDB + AOF. Port 6379. Main command loop is single-threaded.
+- EXPIRE / TTL / PERSIST. Eviction: allkeys-lru for caches.
+- Spring: @EnableCaching, @Cacheable, @CachePut, @CacheEvict. Spring Session Redis for shared sessions.
+- Cache-aside = read cache, on miss read DB and fill cache.
+- CAP: under partition, pick consistency or availability.

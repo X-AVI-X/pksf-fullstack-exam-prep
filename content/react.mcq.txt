@@ -1,0 +1,109 @@
+Q: {{useEffect(fn, [])}} runs:
+* Once after the first render (mount); its cleanup runs on unmount
+- On every render
+- Before the first render
+- Never
+E: In development StrictMode React 18 mounts, unmounts and remounts once to surface missing cleanups.
+Q: Why do list items need a stable {{key}}?
+- For CSS styling
+* So React's reconciliation can match items between renders and keep their state correctly
+- To make them clickable
+- Keys are optional and have no effect
+E: Use a stable id, not the array index, when items can be reordered, inserted or deleted.
+Q: useMemo vs useCallback?
+* useMemo memoises a computed value; useCallback memoises a function reference
+- They are identical
+- useCallback memoises values
+- useMemo is for side effects
+E: useCallback(fn, deps) equals useMemo(() => fn, deps). Useful with React.memo children and effect dependencies.
+Q: Updating state with {{setCount(count + 1)}} three times in one click handler gives:
+- count + 3
+* count + 1, because each call uses the same stale value; use setCount(c => c + 1) to get +3
+- An error
+- An infinite loop
+E: State updates are batched and the closure holds the value from the current render.
+Q: Which hook stores a mutable value that does NOT trigger a re-render when changed?
+- useState
+* useRef
+- useEffect
+- useReducer
+E: useRef is also used to access DOM nodes (inputRef.current.focus()).
+Q: A "controlled component" is:
+* A form input whose value is driven by React state via value + onChange
+- A component wrapped in React.memo
+- An input read with a ref
+- A component with no props
+E: Uncontrolled inputs keep their own DOM state and are read via refs. Form libraries like React Hook Form mix both.
+Q: The Context API mainly solves:
+- Server-side rendering
+* Prop drilling: passing data through many intermediate components
+- Styling
+- Routing
+E: Good for theme, auth user, locale. For complex, frequently changing global state consider Redux Toolkit, Zustand, or React Query for server state.
+Q: Which is a Rule of Hooks?
+* Call hooks only at the top level of function components or custom hooks, never in loops or conditions
+- Hooks must be called inside class components
+- Hooks can be called conditionally
+- Each component may use only one hook
+E: React relies on call order to match state to hooks between renders.
+Q: React.memo:
+- Caches API responses
+* Skips re-rendering a component when its props are shallowly equal to last time
+- Memoises a value inside a component
+- Replaces useEffect
+E: It helps only if parent passes stable props (memoised objects/functions).
+Q: In React Router v6, programmatic navigation uses:
+- useHistory()
+* useNavigate()
+- this.props.history
+- window.go()
+E: v6 replaced useHistory with useNavigate, Switch with Routes, and component prop with element.
+Q: In Redux, reducers must be:
+* Pure functions that return new state without mutating the old state or causing side effects
+- Async functions that call APIs
+- Classes
+- Allowed to mutate state directly in any setup
+E: Redux Toolkit's createSlice uses Immer, so "mutating" syntax inside it produces immutable updates safely.
+Q: How should an effect that fetches data avoid setting state after the component unmounts or a newer request starts?
+- Ignore it
+* Use an AbortController (or an ignore flag) in the cleanup function
+- Use setTimeout
+- Call the API twice
+E: Libraries like TanStack Query handle caching, cancellation, retries and de-duplication for you.
+Q: The Virtual DOM is:
+- The browser's real DOM
+* A lightweight in-memory representation React diffs to compute minimal real DOM updates
+- A CSS framework
+- A server
+E: The diffing process is called reconciliation.
+Q: JSX is compiled to:
+- HTML files
+* JavaScript function calls (React.createElement / the jsx runtime)
+- Web Components
+- Templates evaluated at runtime by the browser
+E: That's why you write className instead of class and must return a single root (or a fragment).
+Q: Which is the right place to lazy-load a heavy route component?
+* React.lazy(() => import('./Reports')) inside <Suspense fallback={...}>
+- useEffect with require()
+- A global variable
+- index.html
+E: Code splitting shrinks the initial bundle, helping slow mobile networks for field users.
+
+Q: What does the dependency array {{[]}} in {{useEffect(fn, [])}} mean?
+* Run the effect once after the first render (plus cleanup on unmount)
+- Run on every render
+- Never run
+- Run before the first render
+E: No array means run after every render; [a, b] means rerun when a or b changes. In development, StrictMode mounts twice to surface missing cleanup.
+Q: Controlled vs uncontrolled inputs in React?
+* Controlled: value lives in React state with an onChange handler. Uncontrolled: the DOM keeps the value, read through a ref
+- Controlled inputs cannot be validated
+- Uncontrolled inputs re-render on each keystroke
+- They are the same
+E: Form libraries such as React Hook Form mostly use uncontrolled inputs for performance; controlled inputs give full control over every keystroke.
+Q: Best tool for testing a React component the way a user uses it?
+* React Testing Library with Jest or Vitest (getByRole, userEvent)
+- Selenium only
+- JUnit
+- Testing internal state directly with Enzyme
+E: Test behaviour, not implementation. Query by accessible role or label, which also checks accessibility. Mock HTTP with MSW.

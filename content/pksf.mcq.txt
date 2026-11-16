@@ -1,0 +1,121 @@
+Q: PKSF was established by:
+* The Government of Bangladesh (in 1990)
+- The World Bank
+- A private bank consortium
+- Bangladesh Bank
+E: The ToR describes PKSF as an apex development organisation founded by the Government of Bangladesh, mandated for poverty alleviation through sustainable employment generation.
+Q: How does PKSF implement its programmes, according to the ToR?
+- Directly through its own branch offices only
+* As a second-tier organisation, through more than 200 Partner Organisations (POs)
+- Through commercial banks
+- Through district councils
+E: That's why the ToR stresses interfaces for PO field users and reports submitted by Partner Organisations.
+Q: Which department will the Full-stack Software Engineer work under?
+- Finance and Accounts
+- Human Resources
+* Information Technology and Digital Solutions Department (ITDSD)
+- Research Department
+E: The ToR says ITDSD is expanding its software development capacity.
+Q: What is the initial employment duration?
+- 1 year
+- 2 years
+* 4 years, subject to annual renewal based on performance
+- Permanent from day one
+E: Renewal depends on performance and "demonstrated dynamism".
+Q: What is the consolidated monthly salary in the ToR?
+- BDT 80,000
+- BDT 1,00,000
+* BDT 1,20,000 (inclusive of all taxes) plus admissible benefits
+- BDT 1,50,000
+E: Benefits listed: annual increments, festival allowances, Bangla Noboborsho allowance, mobile allowance, group insurance.
+Q: What is the age limit?
+- 30 years
+* Maximum 32 years on the last date of application
+- 35 years
+- 40 years
+E: Calculated on the last date of application.
+Q: Minimum professional experience required?
+- 1 year
+* 2 years in full-stack software development
+- 3 years
+- 5 years
+E: Plus hands-on Java (Spring Boot) and React and/or Angular as the mandatory core stack.
+Q: What academic record rule does the ToR set?
+* At least three First Divisions/Classes or equivalent CGPAs; any Third Division/Class is not acceptable
+- At least two First Divisions
+- Only the Bachelor's result matters
+- No academic requirement
+E: First Class is determined based on the candidate's regular degree, considering the first four degrees only.
+Q: Which frontend design principle does the ToR name for reusable components?
+- Fluent Design
+- Human Interface Guidelines
+* Material Design
+- Bootstrap
+E: For consistent, accessible, responsive interfaces for PO field users.
+Q: Which monitoring and logging tools does the ToR list?
+- Splunk and New Relic
+* ELK Stack, Prometheus, Grafana
+- Datadog only
+- Nagios and Zabbix
+E: Used to troubleshoot application performance and database latency.
+Q: Which tool does the ToR name for in-memory caching and session management?
+- Memcached
+- Hazelcast
+* Redis
+- Ehcache
+E: Also listed under "Caching & Queue Management" as a preferred qualification.
+Q: Which authentication protocols/products does the ToR list for API security and SSO?
+* OAuth2, JWT, Keycloak SSO
+- LDAP and Kerberos only
+- SAML only
+- Basic auth
+E: Applied across both RESTful and SOAP web services, with RBAC and encryption.
+Q: Which background processing approach does the ToR mention for bulk uploads and financial reports?
+- Cron jobs in the database
+* Spring Batch and task queues
+- Excel macros
+- Manual processing
+E: For bulk file uploads and financial report generation submitted by POs.
+Q: Which databases does the ToR list?
+- MySQL only
+* PostgreSQL, Oracle, MySQL and MongoDB
+- SQL Server and Cassandra
+- SQLite
+E: With optimised SQL (queries, stored procedures, functions) and ORM tuning (JPA/Hibernate) targeting PostgreSQL first.
+Q: Which CI/CD tools are named in the ToR?
+* GitLab CI/CD, GitHub Actions, Jenkins
+- Bamboo and TeamCity
+- CircleCI only
+- Azure DevOps only
+E: Along with Docker containerisation and Kubernetes orchestration.
+Q: What does the ToR prefer as a "verifiable code portfolio"?
+- A printed CV
+* A public GitHub/GitLab/Bitbucket repo with modular full-stack projects, unit/integration tests, README.md and docker-compose
+- A personal blog
+- Certificates only
+E: Make sure your best repo has a clear README, tests and a working docker-compose before the interview.
+Q: Cloud familiarity in the ToR is:
+- Mandatory
+* Optional (AWS, GCP or Azure, or associate-level developer certifications)
+- Not mentioned
+- Required for AWS only
+E: Listed as "Cloud & Relevant Certifications (Optional)".
+
+Q: Per the ToR, which is a MANDATORY requirement (not just preferred)?
+* Hands-on experience with Java (Spring Boot) and React and/or Angular, plus at least 2 years of full-stack experience
+- AWS certification
+- Kubernetes experience
+- A public GitHub portfolio
+E: Mandatory: at least 2 years of experience and a core stack of Spring Boot plus React/Angular. Preferred: a code portfolio, microservices, PostgreSQL/MongoDB, Redis, Docker/K8s and CI/CD, and cloud certifications (optional).
+Q: The ToR's academic rule says:
+* At least three First Divisions/Classes or equivalent CGPAs, and no Third Division anywhere
+- Any degree with no division requirement
+- A Master's degree is mandatory
+- Two First Divisions are enough
+E: First Class is judged on the regular degree, considering the first four degrees only. A Bachelor's in CS/CSE/IT/SE or equivalent, or another discipline with substantial software experience.
+Q: Which version-control hosts does the ToR name for a public code portfolio?
+* GitHub, GitLab or Bitbucket
+- SourceForge only
+- Google Drive
+- Any zip file
+E: It wants clean structure, modular full-stack projects, unit/integration tests and deployment docs (README.md, docker-compose).

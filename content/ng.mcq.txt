@@ -1,0 +1,115 @@
+Q: Angular two-way binding syntax is:
+- \{\{value\}\}
+- [value]
+- (value)
+* [(ngModel)]
+E: [ ] is property binding (component to DOM), ( ) is event binding (DOM to component), [( )] "banana in a box" combines both. ngModel needs FormsModule.
+Q: How do you make a service a singleton available app-wide in Angular?
+* @Injectable({ providedIn: 'root' })
+- Declare it in every component
+- Use a global variable
+- @Component({ singleton: true })
+E: providedIn: 'root' registers it with the root injector and allows tree-shaking.
+Q: Angular's HttpClient methods return:
+- Promises
+* RxJS Observables (cold: nothing is sent until you subscribe)
+- Callbacks
+- Plain objects
+E: Use the async pipe in templates to subscribe and auto-unsubscribe.
+Q: Which Angular feature is best for attaching a JWT to every outgoing request?
+- A pipe
+- A directive
+* An HttpInterceptor
+- A route guard
+E: Interceptors can also handle 401 refresh logic and global error toasts.
+Q: Which guard prevents unauthenticated users from opening a route?
+* CanActivate (functional guard CanActivateFn in modern Angular)
+- CanDeactivate
+- Resolve
+- CanLoad only
+E: CanDeactivate asks before leaving (unsaved changes); Resolve pre-fetches data.
+Q: The lifecycle hook used for initial data loading after inputs are set is:
+- constructor
+* ngOnInit
+- ngAfterViewInit
+- ngOnDestroy
+E: Keep the constructor for DI only. Clean up subscriptions in ngOnDestroy (or use takeUntilDestroyed).
+Q: In RxJS, which operator cancels the previous inner request when a new value arrives (ideal for type-ahead search)?
+- mergeMap
+- concatMap
+* switchMap
+- exhaustMap
+E: mergeMap runs in parallel, concatMap queues, exhaustMap ignores new values while busy (good for submit buttons).
+Q: Angular's OnPush change detection strategy:
+* Re-checks a component only when its @Input references change, an event fires inside it, an async pipe emits, or it is marked manually
+- Disables change detection completely
+- Runs change detection more often
+- Is only for services
+E: Combine with immutable data for big performance gains.
+Q: Material Design is a design system created by:
+- Apple
+- Microsoft
+* Google
+- Meta
+E: Angular Material implements it for Angular; MUI implements it for React.
+Q: Material Design's spacing is built on a grid of:
+- 5 px
+* 8 dp (with 4 dp for small adjustments)
+- 10 px
+- 12 dp
+E: Consistent spacing, elevation, typography scale and colour roles make components feel uniform.
+Q: Which is the main way to communicate from a child component to its parent in Angular?
+- @Input
+* @Output with EventEmitter
+- ngModel only
+- A pipe
+E: Parent to child: @Input. Siblings or distant components: a shared service with a Subject/signal.
+Q: An Angular pipe is used to:
+* Transform values in templates, e.g. \{\{ amount | currency:'BDT' \}\} or date formatting
+- Make HTTP calls
+- Define routes
+- Inject services
+E: Pure pipes run only when inputs change; write custom pipes for formatting (e.g. Bangla digits).
+Q: Which approach makes an interface responsive across phones and desktops?
+- Fixed pixel widths
+* Fluid layouts with CSS Flexbox/Grid, relative units and media queries (mobile-first)
+- Separate websites per device
+- Tables for layout
+E: Angular Material's BreakpointObserver or MUI's breakpoints help switch layouts.
+Q: WCAG accessibility guidance requires that:
+- Colour alone conveys meaning
+* Content is perceivable, operable, understandable and robust: e.g. text alternatives, keyboard access, sufficient contrast
+- All text is under 12px
+- Forms have no labels
+E: Minimum contrast for normal text is 4.5:1 (AA). Use semantic HTML and ARIA only when needed.
+Q: Angular reactive forms are built with:
+* FormGroup, FormControl and Validators (often via FormBuilder)
+- ngModel only
+- jQuery
+- Template refs only
+E: Reactive forms are explicit, testable and good for complex dynamic forms such as PO data entry.
+
+Q: Which Angular form approach suits a complex, dynamic loan application form with custom validators?
+* Reactive Forms (FormGroup, FormControl, FormArray, Validators)
+- Template-driven forms only
+- Plain DOM manipulation
+- ngModel inside ngFor
+E: Reactive forms are explicit, synchronous and testable. FormArray handles dynamic rows, and custom or async validators plug in easily.
+Q: {{ChangeDetectionStrategy.OnPush}} makes a component re-render when:
+* An @Input reference changes, an event fires inside it, an async pipe emits, or a signal it reads changes (or markForCheck is called)
+- On every browser event anywhere
+- Never
+- Only on route change
+E: OnPush skips checks for unchanged inputs, which improves performance with immutable data. Mutating an object in place will not trigger an update.
+Q: Default unit-test tooling in an Angular CLI project?
+* Jasmine and Karma, with TestBed (newer setups may use Jest or Vitest)
+- JUnit
+- Mocha only
+- Cypress only
+E: TestBed configures a testing module. Use HttpTestingController for HTTP calls and the component harnesses from @angular/cdk/testing for Material components.
+Q: In Material Design, responsive layouts are built on:
+* A responsive grid with breakpoints (BreakpointObserver in the Angular CDK), plus consistent spacing, elevation and typography tokens
+- Fixed pixel widths
+- Tables for layout
+- Separate mobile and desktop apps only
+E: The ToR asks for accessible, responsive UI for PO field users: use the CDK BreakpointObserver, a fluid layout, 48 px touch targets and WCAG contrast.

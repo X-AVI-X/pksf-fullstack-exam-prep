@@ -1,0 +1,6 @@
+- IaaS (EC2, Azure VM, Compute Engine), PaaS (Beanstalk, App Engine, App Service), SaaS.
+- Storage: S3 / Blob / Cloud Storage. DB: RDS / Azure SQL / Cloud SQL. K8s: EKS / AKS / GKE.
+- Scale out (horizontal) vs up (vertical). Stateless services scale out.
+- LB: round robin, least connections, IP hash. CDN caches static assets at the edge.
+- 12-factor: config in env, logs to stdout, disposable processes, dev/prod parity.
+- DR: RPO (data loss), RTO (downtime). Backups + replicas + PITR.

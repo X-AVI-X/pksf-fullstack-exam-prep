@@ -1,0 +1,97 @@
+Q: MongoDB stores documents in which format?
+- XML
+- CSV
+* BSON (binary JSON)
+- YAML
+E: BSON adds types like ObjectId, Date and Decimal128. Max document size is 16 MB.
+Q: Which aggregation stage groups documents and computes sums?
+- $match
+* $group
+- $project
+- $lookup
+E: Typical pipeline: $match (filter early) > $group > $sort > $project. $lookup performs a left outer join.
+Q: In MongoDB, high availability is achieved with ____ and horizontal scaling with ____.
+* replica sets; sharding
+- sharding; replica sets
+- indexes; views
+- GridFS; capped collections
+E: A replica set has one primary and secondaries with automatic failover. Sharding splits data across shards by a shard key.
+Q: Which Redis data type best fits a leaderboard or ranking?
+- List
+- Hash
+* Sorted Set (ZSET)
+- String
+E: ZADD / ZRANGE / ZREVRANK give O(log n) ranked access.
+Q: In the cache-aside pattern:
+* The app reads the cache first; on a miss it reads the DB and puts the result in the cache
+- The cache writes to the DB automatically
+- The DB pushes changes to the cache
+- Every write goes only to the cache
+E: This is what Spring's @Cacheable does. On updates, evict or update the cache entry.
+Q: Which Spring annotation removes an entry from the cache when data changes?
+- @Cacheable
+* @CacheEvict
+- @CachePut only
+- @EnableCaching
+E: @Cacheable reads through, @CachePut always executes and updates the cache, @CacheEvict deletes. @EnableCaching turns caching on.
+Q: Which Redis command sets a time-to-live on a key?
+- TTL
+* EXPIRE (or SET key value EX seconds)
+- PERSIST
+- DEL
+E: TTL reads the remaining time; PERSIST removes the expiry.
+Q: How do you share HTTP sessions across several Spring Boot instances behind a load balancer?
+- Sticky sessions only
+* Spring Session with Redis as the session store
+- Store sessions in a static HashMap
+- Increase the session timeout
+E: Any instance can then serve any request, which also makes rolling deployments safe.
+Q: CAP theorem says that during a network partition a distributed system must choose between:
+* Consistency and availability
+- Consistency and durability
+- Partition tolerance and latency
+- Atomicity and isolation
+E: Partitions will happen, so P is a given; you trade C vs A while partitioned.
+Q: Redis persistence options are:
+- None, Redis is memory only
+* RDB snapshots and AOF (append-only file), or both
+- WAL and redo logs
+- Binlog only
+E: RDB = periodic point-in-time snapshots; AOF logs every write and can be fsynced every second.
+Q: The default type of MongoDB's {{_id}} field is:
+- Auto-increment integer
+- UUID
+* ObjectId (12 bytes including a timestamp)
+- String
+E: ObjectId embeds creation time, so it is roughly time-ordered.
+Q: Which Redis eviction policy removes least-recently-used keys across the whole keyspace when memory is full?
+- noeviction
+- volatile-ttl
+* allkeys-lru
+- allkeys-random
+E: Set maxmemory and maxmemory-policy for a cache. noeviction (the default) returns errors on writes when full.
+Q: A cache stampede is:
+- Too many keys in Redis
+* Many requests missing the same expired hot key at once and all hitting the DB
+- Redis crashing on restart
+- A replica falling behind
+E: Mitigate with locks/single-flight, early refresh, jittered TTLs, or serving stale data while refreshing.
+
+Q: Which Redis data structure fits a leaderboard or a sliding-window rate limiter?
+- List
+* Sorted Set (ZSET)
+- String
+- HyperLogLog
+E: ZSET keeps members ordered by score, so ZADD/ZRANGEBYSCORE/ZREMRANGEBYSCORE suit rankings and time windows. HyperLogLog only gives approximate unique counts.
+Q: When should MongoDB embed rather than reference?
+* When the child data is read with the parent and is bounded in size (one-to-few)
+- Always: references are never used
+- When the child array grows without limit
+- When many parents share the same child
+E: Embed for data accessed together and bounded (16 MB document limit). Reference for unbounded or shared data, using $lookup or application joins.
+Q: Cache-aside pattern means:
+* The app reads the cache first; on a miss it loads from the DB and writes the cache, and on update it writes the DB then evicts the key
+- The DB writes to the cache automatically
+- Cache and DB are updated in one ACID transaction
+- The cache is the source of truth
+E: This is Spring's @Cacheable / @CacheEvict model. Set TTLs and evict on writes to limit staleness.

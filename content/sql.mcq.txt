@@ -1,0 +1,163 @@
+Q: Difference between WHERE and HAVING?
+* WHERE filters rows before grouping; HAVING filters groups after GROUP BY
+- They are identical
+- HAVING filters before grouping
+- WHERE can use aggregate functions, HAVING cannot
+E: SELECT dept, AVG(salary) FROM emp WHERE active GROUP BY dept HAVING AVG(salary) > 50000.
+Q: Which query returns the second-highest distinct salary?
+* SELECT MAX(salary) FROM emp WHERE salary < (SELECT MAX(salary) FROM emp)
+- SELECT salary FROM emp ORDER BY salary LIMIT 2
+- SELECT MAX(salary) - 1 FROM emp
+- SELECT TOP 2 salary FROM emp
+E: Also valid: SELECT DISTINCT salary FROM emp ORDER BY salary DESC OFFSET 1 LIMIT 1, or DENSE_RANK() = 2.
+Q: The default index type in PostgreSQL is:
+* B-tree
+- Hash
+- GIN
+- BRIN
+E: B-tree supports =, <, >, BETWEEN, ORDER BY. GIN suits JSONB, arrays and full-text search; BRIN suits huge, naturally ordered tables like time series.
+Q: The default transaction isolation level in PostgreSQL is:
+- Read Uncommitted
+* Read Committed
+- Repeatable Read
+- Serializable
+E: Oracle's default is also Read Committed; MySQL InnoDB defaults to Repeatable Read.
+Q: According to the SQL standard, which isolation level prevents phantom reads?
+- Read Committed
+- Repeatable Read
+* Serializable
+- Read Uncommitted
+E: Standard anomalies: dirty read (fixed by Read Committed), non-repeatable read (Repeatable Read), phantom (Serializable). PostgreSQL's Repeatable Read also happens to block phantoms.
+Q: A LEFT JOIN B returns:
+- Only matching rows
+* All rows from A, with matching B columns or NULLs where there is no match
+- All rows from B
+- The Cartesian product
+E: To find A rows with no B: LEFT JOIN B ... WHERE B.id IS NULL (anti-join), or NOT EXISTS.
+Q: Third Normal Form (3NF) removes:
+- Repeating groups
+- Partial dependencies
+* Transitive dependencies (non-key column depending on another non-key column)
+- All redundancy
+E: 1NF atomic values; 2NF no partial dependency on part of a composite key; 3NF no transitive dependency; BCNF every determinant is a candidate key.
+Q: Which statement removes all rows fastest while keeping the table structure?
+- DELETE FROM t
+* TRUNCATE TABLE t
+- DROP TABLE t
+- UPDATE t SET id = NULL
+E: TRUNCATE deallocates pages instead of deleting row by row and fires no row triggers. In PostgreSQL TRUNCATE is transactional; in Oracle it is DDL with an implicit commit.
+Q: Which window function numbers rows per department by salary, leaving no gaps after ties?
+- ROW_NUMBER()
+- RANK()
+* DENSE_RANK()
+- NTILE()
+E: For salaries 100,100,90: ROW_NUMBER gives 1,2,3; RANK gives 1,1,3; DENSE_RANK gives 1,1,2.
+Q: What does {{EXPLAIN ANALYZE}} do in PostgreSQL?
+- Rebuilds statistics
+* Executes the query and shows the actual plan with real timings and row counts
+- Shows the plan without running it
+- Creates missing indexes
+E: Plain EXPLAIN only estimates. Look for Seq Scan on big tables, big gaps between estimated and actual rows, and slow nested loops.
+Q: For storing and indexing JSON in PostgreSQL you should use:
+- JSON
+* JSONB with a GIN index
+- TEXT
+- XML
+E: JSONB is stored in binary, supports containment operators (@>, ?) and GIN indexes. JSON keeps the raw text.
+Q: In PostgreSQL 11+, a stored procedure (CREATE PROCEDURE) is invoked with:
+- SELECT proc()
+* CALL proc()
+- EXEC proc
+- RUN proc()
+E: Procedures can COMMIT/ROLLBACK inside; functions (CREATE FUNCTION) are called in SELECT and return values.
+Q: In Oracle PL/SQL, a {{SELECT ... INTO}} that returns no row raises:
+* NO_DATA_FOUND
+- TOO_MANY_ROWS
+- VALUE_ERROR
+- ZERO_DIVIDE
+E: If it returns more than one row, it raises TOO_MANY_ROWS. Handle both in the EXCEPTION block.
+Q: A composite index on (branch_id, created_at) helps which query most?
+* WHERE branch_id = ? AND created_at > ?
+- WHERE created_at > ? only
+- WHERE LOWER(branch_id) = ?
+- ORDER BY created_at only
+E: Leftmost-prefix rule: the index is used efficiently when the first column is filtered. Put the equality column first, the range column second.
+Q: UNION vs UNION ALL?
+- UNION ALL removes duplicates
+* UNION removes duplicates (extra sort/hash work); UNION ALL keeps all rows and is faster
+- They are identical
+- UNION only works on one table
+E: Use UNION ALL when you know the sets don't overlap.
+Q: Spring Boot's default JDBC connection pool is:
+- c3p0
+- Apache DBCP
+* HikariCP
+- Tomcat JDBC
+E: Tune maximum-pool-size to what the DB can handle; more connections are not always faster.
+Q: In Oracle 12c+, how do you get the first 10 rows of a sorted query?
+- LIMIT 10
+- TOP 10
+* ORDER BY x FETCH FIRST 10 ROWS ONLY
+- WHERE ROWNUM > 10
+E: Older Oracle: wrap the ordered query and filter WHERE ROWNUM <= 10. PostgreSQL and MySQL use LIMIT.
+Q: Which index would make {{WHERE LOWER(email) = ?}} fast?
+- A normal index on email
+* An expression index: CREATE INDEX ON users (LOWER(email))
+- A hash index on id
+- No index can help
+E: Wrapping a column in a function prevents use of a plain index. Alternatives: citext type or storing a normalised column.
+Q: A deadlock happens when:
+* Two transactions each hold a lock the other needs, so neither can proceed
+- A query runs too long
+- The connection pool is empty
+- A table has no primary key
+E: The DB detects it and aborts one transaction. Prevent it by locking rows in a consistent order and keeping transactions short.
+Q: ACID "Isolation" means:
+- Data survives a crash
+- All or nothing
+* Concurrent transactions do not see each other's intermediate state
+- Constraints always hold
+E: Atomicity (all or nothing), Consistency (constraints hold), Isolation, Durability (committed data survives crashes, via WAL/redo log).
+
+Q: Which query walks an org hierarchy of unknown depth in PostgreSQL?
+- A self-join repeated 10 times
+* WITH RECURSIVE cte AS (anchor UNION ALL recursive part) SELECT ...
+- GROUP BY ROLLUP
+- A correlated subquery with LIMIT
+E: Recursive CTEs (WITH RECURSIVE in PostgreSQL/MySQL 8; CONNECT BY or recursive WITH in Oracle) traverse trees and graphs.
+Q: PostgreSQL insert-or-update by unique key:
+* INSERT ... ON CONFLICT (key) DO UPDATE SET col = EXCLUDED.col
+- REPLACE INTO
+- INSERT ... ON DUPLICATE KEY UPDATE
+- UPSERT INTO
+E: ON CONFLICT is PostgreSQL. MySQL uses ON DUPLICATE KEY UPDATE, and Oracle (and PostgreSQL 15+) use MERGE INTO.
+Q: What does VACUUM do in PostgreSQL?
+* Reclaims space from dead tuples left by MVCC updates/deletes (ANALYZE refreshes planner statistics)
+- Deletes all rows
+- Rebuilds the database schema
+- Encrypts the table
+E: Under MVCC, UPDATE and DELETE leave old row versions. Autovacuum cleans them and prevents transaction ID wraparound. VACUUM FULL rewrites the table but takes an exclusive lock.
+Q: Difference between a stored procedure and a function in PostgreSQL 11+?
+* A function returns a value and is called in SQL (SELECT f()); a procedure is called with CALL and can COMMIT/ROLLBACK inside
+- They are identical
+- Functions cannot take parameters
+- Procedures must return a table
+E: Oracle PL/SQL makes the same distinction: functions return a value and can be used in SQL; procedures perform actions and use OUT parameters.
+Q: A PL/SQL or PL/pgSQL cursor is used to:
+* Iterate over a query result row by row inside a procedure
+- Create an index
+- Lock the whole database
+- Define a foreign key
+E: Prefer set-based SQL for performance. Use cursors when per-row procedural logic is unavoidable (FOR rec IN SELECT ... LOOP ... END LOOP).
+Q: Which query lists departments with more than 5 employees?
+- SELECT dept_id FROM emp WHERE COUNT(*) > 5 GROUP BY dept_id
+* SELECT dept_id, COUNT(*) FROM emp GROUP BY dept_id HAVING COUNT(*) > 5
+- SELECT dept_id FROM emp GROUP BY dept_id WHERE COUNT(*) > 5
+- SELECT DISTINCT dept_id FROM emp LIMIT 5
+E: WHERE filters rows before grouping and cannot use aggregates; HAVING filters groups after them.
+Q: In an ER diagram, a many-to-many relationship between Loan and Member is implemented as:
+* A junction (associative) table holding both foreign keys, often with its own attributes
+- A foreign key in both tables
+- A single merged table
+- A JSON column
+E: The junction table (for example loan_member(loan_id, member_id, role)) has a composite or surrogate primary key and two FKs. In JPA, use @ManyToMany or, better, an explicit join entity.

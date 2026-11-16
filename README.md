@@ -1,21 +1,31 @@
 # PKSF Full-stack Exam Prep
 
-An interactive, single-page study site for the Palli Karma-Sahayak Foundation (PKSF) **Software Engineer (Full-stack)** recruitment exam, built around the post's Terms of Reference.
+Study app for the PKSF **Software Engineer (Full-stack)** written exam. The syllabus is the ToR plus core subject matter, so the bank covers every technology in [ToR.pdf](ToR.pdf) and CS fundamentals.
 
-## Features
-- 230 multiple-choice questions with explanations across 15 topics
-- 66 written, coding and viva questions with model answers
-- A cheat sheet for every topic
-- Timed mock exams (25 / 50 / 100 / all questions, topic filter)
-- Flashcards, weak-spot tracking and a readiness score
-- Search across every question and answer
+**300 MCQs** with explanations · **75 written/coding answers** · a cheat sheet per topic · timed mock exams · flashcards · weak-spot tracking · search.
 
-## Topics
-Core Java · Spring Boot · Spring Security, OAuth2, JWT, Keycloak · JPA/Hibernate · SQL, PostgreSQL & PL/SQL · MongoDB & Redis · REST, SOAP & microservices · React · Angular & Material Design · Docker, Kubernetes & CI/CD · ELK, Prometheus, Grafana & Spring Batch · Testing & Agile · CS fundamentals · Cloud & architecture · The PKSF ToR itself
+## Run
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # static site in dist/
+npm run check    # validate the question bank
+```
+Pushing to `main` deploys to GitHub Pages (Settings → Pages → Source: GitHub Actions).
 
-## Run it
-No build step. Open `index.html` in a browser, or enable GitHub Pages (Settings → Pages → Deploy from branch → `main` / root).
+## Stack
+Vite + Svelte 5. No backend; progress lives in localStorage (`pksf-prep-v1`).
 
-Progress is stored in your browser's localStorage only.
+```
+content/            question bank as plain text, one set of files per topic
+  topics.json         topic id, name, blurb (order = display order)
+  <id>.mcq.txt        Q: question / - wrong / * right / E: explanation  (~~~ for code)
+  <id>.written.md     ## question, then a markdown answer
+  <id>.cheat.md       - one bullet per fact
+src/lib/            parse.js (format parsers + mini markdown), bank.js, state.svelte.js
+src/views/          Home, Topic, Quiz (+results), Mock, Cards, Weak
+scripts/check-bank.js
+```
+To add a question, edit the topic's `.mcq.txt` and run `npm run check`.
 
 > Practice material written from the public ToR. It is not an official PKSF exam paper.

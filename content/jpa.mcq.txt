@@ -1,0 +1,109 @@
+Q: The best fix for the N+1 select problem when loading orders with their items is:
+- Make every association EAGER
+* Use JOIN FETCH in JPQL or an @EntityGraph (or batch fetching)
+- Increase the connection pool size
+- Use native SQL everywhere
+E: N+1 = 1 query for parents + 1 per parent for children. A fetch join loads both in one query. EAGER makes things worse elsewhere.
+Q: Default fetch type of {{@ManyToOne}} and {{@OneToMany}}?
+* @ManyToOne EAGER, @OneToMany LAZY
+- Both LAZY
+- Both EAGER
+- @ManyToOne LAZY, @OneToMany EAGER
+E: To-one associations default to EAGER, to-many to LAZY. Best practice: set @ManyToOne(fetch = LAZY) explicitly.
+Q: {{LazyInitializationException}} happens when:
+- The database is down
+* A lazy association is accessed after the persistence context (session) has closed
+- Two transactions update the same row
+- An entity has no @Id
+E: Typical cause: returning entities from a service and serialising them in the controller. Fix with fetch joins, DTO projections, or mapping inside the transaction. Avoid open-in-view in APIs.
+Q: The four entity states in JPA are:
+* Transient (new), managed, detached, removed
+- New, saved, flushed, committed
+- Open, closed, cached, evicted
+- Created, read, updated, deleted
+E: persist() makes a new entity managed; when the EntityManager closes, entities become detached; merge() re-attaches a copy.
+Q: In a bidirectional @OneToMany/@ManyToOne, {{mappedBy}} is placed on:
+- The owning side (with the foreign key)
+* The inverse (non-owning) side, usually the @OneToMany collection
+- Both sides
+- Neither side
+E: The @ManyToOne side owns the foreign key column. Only changes on the owning side are written to the DB, so keep both sides in sync with helper methods.
+Q: What does {{@Version}} on an entity field provide?
+- Audit history
+* Optimistic locking: an update fails with OptimisticLockException if someone else changed the row
+- Pessimistic row locks
+- Schema migration
+E: Hibernate adds WHERE version = ? to updates and increments it. Great for concurrent edits of the same loan or report.
+Q: Hibernate's first-level cache is:
+* Scoped to one Session/EntityManager and always enabled
+- Shared across the whole application
+- Disabled by default
+- Stored in Redis
+E: Within one persistence context, loading the same id twice returns the same instance without a second query. The second-level cache (Ehcache etc.) is optional and shared.
+Q: Which ID generation strategy disables Hibernate JDBC batch inserts?
+- SEQUENCE
+* IDENTITY
+- TABLE
+- UUID
+E: With IDENTITY the ID is only known after each INSERT executes, so Hibernate can't batch. Use SEQUENCE with an allocationSize on PostgreSQL/Oracle for bulk inserts.
+Q: Which Spring Data method name is valid for "find active users by email"?
+* findByEmailAndActiveTrue(String email)
+- getUsersWhereEmailAndActive(String email)
+- queryEmailActive(String email)
+- selectByEmail_Active(String email)
+E: Derived queries parse names like findBy, And, Or, Between, LessThan, Containing, OrderBy, True/False.
+Q: JPQL queries are written against:
+- Database tables and columns
+* Entity class names and their fields
+- XML mapping files
+- Stored procedures
+E: SELECT p FROM PartnerOrg p WHERE p.code = :code uses entity names. Use nativeQuery = true for raw SQL.
+Q: Recommended {{spring.jpa.hibernate.ddl-auto}} value in production:
+- create-drop
+- update
+* validate (or none), with schema changes managed by Flyway or Liquibase
+- create
+E: update can make unpredictable or destructive changes. Versioned migrations are reviewable and repeatable.
+Q: What does {{orphanRemoval = true}} do?
+- Deletes the parent when a child is removed
+* Deletes a child entity when it is removed from the parent's collection
+- Removes null fields
+- Drops unused tables
+E: Use it for composition (e.g. invoice lines). CascadeType.REMOVE only deletes children when the parent itself is deleted.
+Q: Dirty checking means:
+* Changes to a managed entity are detected and flushed automatically at flush/commit, without calling save()
+- Hibernate validates input data
+- Rows are locked while being edited
+- Unused entities are garbage-collected
+E: Hibernate compares the entity with its snapshot at flush time. readOnly transactions skip this for speed.
+Q: How do you return a page of 20 results sorted by name with Spring Data?
+- findAll().subList(0, 20)
+* repo.findAll(PageRequest.of(page, 20, Sort.by("name")))
+- LIMIT 20 in application.yml
+- @Page(20)
+E: Page<T> also returns totalElements and totalPages. For huge tables, consider Slice or keyset pagination.
+Q: Which locking mode issues SELECT ... FOR UPDATE?
+- @Version
+* @Lock(LockModeType.PESSIMISTIC_WRITE)
+- @Transactional(readOnly = true)
+- LockModeType.NONE
+E: Pessimistic locks block other writers until commit. Use them for short, high-contention operations like balance updates.
+
+Q: {{@OneToMany(mappedBy = "po", cascade = CascadeType.ALL, orphanRemoval = true)}} means:
+* Persist/merge/remove on the parent cascade to children, and a child removed from the collection is deleted
+- Children are loaded eagerly
+- The child table owns no foreign key
+- Children can never be deleted
+E: mappedBy marks the inverse side (the child owns the FK). CascadeType.ALL propagates operations, and orphanRemoval deletes children detached from the collection.
+Q: Which Spring Data JPA feature builds dynamic WHERE clauses from optional filters?
+- @Query with string concatenation
+* Specifications (JpaSpecificationExecutor) or Querydsl
+- Native queries only
+- @Transactional(readOnly = true)
+E: Specification<T> composes Criteria API predicates (where(a).and(b)), which is safe and type-checked. String concatenation risks SQL injection.
+Q: Default fetch type of {{@ManyToOne}}?
+* EAGER
+- LAZY
+- None
+- Depends on the database
+E: @ManyToOne and @OneToOne default to EAGER; @OneToMany and @ManyToMany default to LAZY. Best practice is to set fetch = LAZY everywhere and fetch what you need with JOIN FETCH or an @EntityGraph.

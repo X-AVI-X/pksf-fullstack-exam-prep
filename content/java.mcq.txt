@@ -1,0 +1,141 @@
+Q: Which feature is NOT part of Java 17 (it arrived as final in Java 21)?
+- Sealed classes
+- Records
+- Pattern matching for instanceof
+* Virtual threads
+E: Records (16), pattern matching for instanceof (16) and sealed classes (17) are all final in Java 17. Virtual threads (Project Loom) became final in Java 21.
+Q: How many null keys can a {{HashMap}} hold?
+- None
+* One
+- Unlimited
+- One, but only if there are no null values
+E: HashMap allows exactly one null key (stored in bucket 0) and any number of null values. Hashtable and ConcurrentHashMap allow no null keys or values.
+Q: Which Map is best for a heavily concurrent, read-and-write workload?
+- Hashtable
+- Collections.synchronizedMap(new HashMap())
+* ConcurrentHashMap
+- TreeMap
+E: ConcurrentHashMap uses fine-grained locking/CAS per bin, so many threads can read and write at once. Hashtable and synchronizedMap lock the whole map.
+Q: What does this print?
+~~~
+String a = "hi"; String b = "hi"; String c = new String("hi");
+System.out.println((a == b) + " " + (a == c));
+~~~
+* true false
+- true true
+- false false
+- false true
+E: Literals are interned in the string pool, so a and b reference the same object. new String() creates a separate heap object, so a == c is false (a.equals(c) is true).
+Q: Which statement about equals() and hashCode() is the required contract?
+- If hashCodes are equal, equals() must return true
+* If equals() returns true, the hashCodes must be equal
+- They are independent of each other
+- hashCode must be unique per object
+E: Equal objects must have equal hash codes. The reverse is not required: different objects may collide on hash code.
+Q: Which of these is a checked exception?
+- NullPointerException
+- ArithmeticException
+* IOException
+- IllegalArgumentException
+E: Checked exceptions extend Exception but not RuntimeException and must be declared or caught. IOException is checked; the others are RuntimeExceptions.
+Q: What does the {{volatile}} keyword guarantee?
+* Visibility of writes across threads (and ordering), but not atomicity of compound actions
+- Atomicity of count++
+- Mutual exclusion like synchronized
+- That the variable is stored on the stack
+E: volatile makes writes visible to other threads and prevents reordering. count++ is read-modify-write and still needs AtomicInteger or synchronized.
+Q: Which Stream operation is terminal?
+- map
+- filter
+- peek
+* collect
+E: Intermediate operations (map, filter, peek, sorted) are lazy and return a Stream. Terminal operations (collect, forEach, reduce, count) trigger processing.
+Q: What makes an interface a functional interface?
+- It has only default methods
+* It has exactly one abstract method
+- It is annotated with @Override
+- It has no methods
+E: A functional interface has exactly one abstract method (default and static methods don't count). @FunctionalInterface is optional but makes the compiler check it.
+Q: Time complexity of {{get(index)}} on ArrayList vs LinkedList?
+* O(1) vs O(n)
+- O(n) vs O(1)
+- O(1) vs O(1)
+- O(log n) vs O(n)
+E: ArrayList is backed by an array, so random access is O(1). LinkedList must walk nodes, so it is O(n).
+Q: What must a resource implement to be used in try-with-resources?
+- Serializable
+- Closeable only
+* AutoCloseable (Closeable extends it)
+- Runnable
+E: try-with-resources accepts anything implementing java.lang.AutoCloseable. Closeable is a sub-interface used by I/O classes.
+Q: Since Java 9, the default garbage collector in the HotSpot JVM is:
+- Serial GC
+- Parallel GC
+* G1 GC
+- ZGC
+E: G1 became the default in Java 9. ZGC and Shenandoah are low-latency options you enable explicitly.
+Q: In Java 8+ HashMap, when a single bucket grows long, it is converted to:
+- A linked list
+* A balanced red-black tree (when the bin has 8+ entries and table size is at least 64)
+- A new HashMap
+- An array
+E: Treeification turns worst-case bucket lookup from O(n) to O(log n). Below 6 entries it converts back to a list.
+Q: Which is the best way to avoid a NullPointerException when a value may be absent from a method result?
+- Return null and document it
+* Return Optional<T> and let the caller use orElse / map / ifPresent
+- Catch NullPointerException everywhere
+- Use assert statements
+E: Optional makes absence explicit in the API. Use Optional.ofNullable(x) to wrap a possibly-null value; don't use Optional for fields or parameters.
+Q: The {{final}} keyword on a class means:
+- Its fields cannot change
+* It cannot be subclassed
+- It cannot be instantiated
+- All methods are static
+E: A final class (e.g. String) cannot be extended. A final method cannot be overridden; a final variable cannot be reassigned.
+Q: Which ExecutorService is suited to running many short-lived async tasks with a bounded pool?
+- new Thread() for each task
+* Executors.newFixedThreadPool(n) (or a ThreadPoolExecutor with a bounded queue)
+- Runtime.exec()
+- Thread.sleep()
+E: Reusing a bounded pool avoids the cost and risk of creating unbounded threads. In production prefer a ThreadPoolExecutor with an explicit bounded queue and rejection policy.
+Q: Which Java collection keeps insertion order and rejects duplicates?
+- HashSet
+- TreeSet
+* LinkedHashSet
+- ArrayList
+E: LinkedHashSet = HashSet + a doubly-linked list for insertion order. TreeSet sorts; HashSet has no order.
+
+Q: Which is true about {{StringBuilder}} and {{StringBuffer}}?
+* StringBuffer is synchronized (thread-safe); StringBuilder is not, so StringBuilder is faster in single-threaded code
+- StringBuilder is synchronized; StringBuffer is not
+- Both are immutable like String
+- StringBuffer was removed in Java 17
+E: Both are mutable character sequences. StringBuffer's methods are synchronized (legacy, Java 1.0); StringBuilder (Java 5) drops the locking and is preferred inside a method.
+Q: {{final}}, {{finally}} and {{finalize()}} differ how?
+* final prevents reassignment/overriding/subclassing; finally always runs after try/catch; finalize() was a GC hook, now deprecated for removal
+- All three relate to garbage collection
+- finally runs only when an exception is thrown
+- finalize() is guaranteed to run before an object is collected
+E: final is a modifier, finally is a block that runs whether or not an exception occurs (except System.exit or a JVM crash), and finalize() is deprecated (Java 9, for removal in 18) because it is unpredictable. Use try-with-resources or Cleaner.
+Q: Which statement about an abstract class vs an interface (Java 8+) is correct?
+- An interface can have constructors
+* An abstract class can hold instance state and constructors; an interface has only constants plus abstract, default, static and private methods
+- A class can extend multiple abstract classes
+- Interface methods cannot have bodies
+E: A class extends one class but implements many interfaces. Interfaces gained default and static methods (8) and private methods (9), but still no instance fields or constructors.
+Q: Method overloading vs overriding?
+* Overloading: same name, different parameter list, resolved at compile time. Overriding: same signature in a subclass, resolved at runtime
+- Overloading is resolved at runtime
+- Overriding requires a different return type
+- Static methods can be overridden
+E: Overloading is compile-time (static) polymorphism; overriding is runtime (dynamic) dispatch. Static methods are hidden, not overridden. An override may use a covariant return type.
+Q: What does this print?
+~~~
+List<Integer> l = List.of(1, 2, 3, 4);
+System.out.println(l.stream().filter(x -> x % 2 == 0).map(x -> x * x).reduce(0, Integer::sum));
+~~~
+- 30
+* 20
+- 10
+- 4
+E: Even numbers 2 and 4 square to 4 and 16; their sum is 20.

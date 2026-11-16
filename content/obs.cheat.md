@@ -1,0 +1,8 @@
+- Logs (ELK: Elasticsearch 9200, Logstash, Kibana 5601), metrics (Prometheus 9090 + Grafana 3000), traces (OpenTelemetry, Zipkin, Jaeger).
+- Prometheus pulls /actuator/prometheus; PromQL rate(), sum by(), histogram_quantile(); Alertmanager routes alerts.
+- RED: Rate, Errors, Duration. USE: Utilisation, Saturation, Errors.
+- MDC for correlation IDs; structured JSON logs.
+- Spring Batch: Job > Step > chunk(Reader, Processor, Writer); JobRepository; JobLauncher; skip/retry; restartable.
+- @Async + @EnableAsync; @Scheduled + @EnableScheduling; return CompletableFuture.
+- Long jobs: 202 Accepted + job id + polling/WebSocket.
+- RabbitMQ: manual ack after success, DLQ for poison messages, idempotent consumers.

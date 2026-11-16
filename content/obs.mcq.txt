@@ -1,0 +1,97 @@
+Q: ELK stands for:
+* Elasticsearch, Logstash, Kibana
+- Elastic, Linux, Kafka
+- Event, Log, Key
+- Elasticsearch, Loki, Kubernetes
+E: Beats/Filebeat often ship logs; with Beats it's called the Elastic Stack. Kibana (port 5601) visualises; Elasticsearch listens on 9200.
+Q: How does Prometheus collect metrics?
+- Applications push to it by default
+* It pulls (scrapes) HTTP endpoints like /actuator/prometheus on an interval
+- From log files
+- Through SQL queries
+E: Spring Boot exposes metrics via Micrometer + micrometer-registry-prometheus. Pushgateway exists for short-lived jobs.
+Q: Grafana is primarily:
+- A log shipper
+- A metrics database
+* A dashboard and visualisation/alerting tool on top of data sources like Prometheus, Elasticsearch, Loki
+- A CI tool
+E: Default port 3000. Prometheus itself runs on 9090.
+Q: The three pillars of observability are:
+* Logs, metrics, traces
+- CPU, memory, disk
+- Alerts, dashboards, emails
+- Unit, integration, E2E
+E: Traces follow a request across services with a trace ID (OpenTelemetry, Micrometer Tracing, Zipkin, Jaeger).
+Q: Log levels from most to least verbose are:
+* TRACE, DEBUG, INFO, WARN, ERROR
+- ERROR, WARN, INFO, DEBUG, TRACE
+- DEBUG, TRACE, INFO, ERROR, WARN
+- INFO, DEBUG, TRACE, WARN, ERROR
+E: Production usually runs at INFO; change a package's level with logging.level.com.pksf=DEBUG.
+Q: How do you attach a correlation/request ID to every log line for one request?
+- Pass it manually to each log call
+* Put it in the SLF4J MDC (Mapped Diagnostic Context) in a filter, and print it in the log pattern
+- Use System.out
+- Store it in a static variable
+E: Micrometer Tracing does this automatically with traceId/spanId. Clear the MDC after the request.
+Q: In a Spring Batch chunk-oriented step with chunk size 100:
+* Items are read and processed one by one, then written and committed together every 100 items
+- The whole file is one transaction
+- Each item is its own transaction
+- Writing happens before reading
+E: The commit interval balances throughput and rollback size.
+Q: Spring Batch's JobRepository stores:
+- The input files
+* Job and step execution metadata (status, counts, parameters) so jobs can be monitored and restarted
+- Business data
+- User sessions
+E: Its tables (BATCH_JOB_INSTANCE, BATCH_JOB_EXECUTION, BATCH_STEP_EXECUTION ...) live in your database.
+Q: For {{@Async}} methods to run asynchronously you need:
+* @EnableAsync, a public method called from another bean, and ideally a configured TaskExecutor
+- Nothing else
+- @EnableScheduling
+- A static method
+E: Return CompletableFuture<T> to get results. Same proxy limitation as @Transactional.
+Q: Which PromQL expression gives the per-second request rate over 5 minutes?
+- sum(http_requests)
+* rate(http_server_requests_seconds_count[5m])
+- avg(http_requests)
+- count_over_time(5m)
+E: rate() works on counters. Use histogram_quantile() over histogram buckets for p95 latency.
+Q: Which component sends Prometheus alerts to email/Slack and handles grouping and silencing?
+- Grafana Loki
+* Alertmanager
+- Logstash
+- Kibana
+E: Alert rules are evaluated by Prometheus; Alertmanager routes notifications.
+Q: A user uploads a 200 MB CSV of PO financial data. Best API design?
+- Process it inside the HTTP request and return when done
+* Store the file, return 202 Accepted with a job id, process asynchronously (batch/queue), let the client poll or get notified
+- Reject files over 1 MB
+- Load it all into memory with one JPA saveAll()
+E: Long synchronous requests time out and block threads. Stream the file, validate per row, and report errors per row.
+Q: In RabbitMQ, a consumer should acknowledge a message:
+- Before processing starts
+* After processing succeeds (manual ack), so failures can be redelivered or dead-lettered
+- Never
+- Only on Sundays
+E: Auto-ack loses messages if the consumer crashes mid-processing.
+
+Q: A Spring Batch job imports a 1 M-row CSV. Which design is right?
+* Chunk-oriented step: FlatFileItemReader → ItemProcessor (validate) → JdbcBatchItemWriter, with commit-interval ~500–1000 and skip/retry policies
+- Read the whole file into memory, then save each row individually
+- A single @Transactional method for all rows
+- A tasklet that loops with no commits
+E: Chunks commit in batches, so a failure loses only one chunk, and the JobRepository allows restarting from the last committed chunk. Use skip limits for bad rows and partitioning for parallelism.
+Q: Which Prometheus metric type fits request latency percentiles?
+- Counter
+- Gauge
+* Histogram (or Summary)
+- Info
+E: A histogram records observations into buckets; Grafana queries histogram_quantile(0.95, rate(http_server_requests_seconds_bucket[5m])). Use a counter for totals and a gauge for current values.
+Q: Users report slow pages. Grafana shows API p95 latency spiking while CPU is normal. First suspect?
+* Database: check slow-query logs, pg_stat_statements, HikariCP pool wait time and missing indexes
+- CPU is the bottleneck
+- DNS
+- The browser
+E: The ToR names troubleshooting database latency. Pool exhaustion (hikaricp_connections_pending) and sequential scans are the usual causes; use EXPLAIN ANALYZE to confirm.

@@ -1,0 +1,127 @@
+Q: {{@SpringBootApplication}} is a combination of:
+* @Configuration, @EnableAutoConfiguration, @ComponentScan
+- @Controller, @Service, @Repository
+- @Configuration, @EnableWebMvc, @Bean
+- @Component, @Autowired, @Value
+E: It marks the configuration class, turns on auto-configuration, and scans the package and sub-packages for components.
+Q: The default scope of a Spring bean is:
+* singleton
+- prototype
+- request
+- session
+E: One instance per ApplicationContext. prototype gives a new instance each lookup; request/session exist only in web contexts.
+Q: Which dependency-injection style is recommended by the Spring team?
+- Field injection with @Autowired
+- Setter injection everywhere
+* Constructor injection
+- Static factory lookup
+E: Constructor injection makes dependencies explicit and final, works without reflection in tests, and fails fast if something is missing.
+Q: By default, {{@Transactional}} rolls back on:
+- Every exception
+* RuntimeException and Error only
+- Checked exceptions only
+- Nothing unless rollbackFor is set
+E: Checked exceptions commit by default. Use @Transactional(rollbackFor = Exception.class) to also roll back on checked exceptions.
+Q: A public method annotated with @Transactional is called from another method in the same class. What happens?
+- A new transaction always starts
+* The annotation is ignored, because the call bypasses the Spring proxy (self-invocation)
+- The application fails to start
+- It runs in a nested transaction
+E: Spring transactions use AOP proxies. Internal calls do not go through the proxy. Move the method to another bean or inject the proxy.
+Q: Default transaction propagation is:
+* REQUIRED
+- REQUIRES_NEW
+- NESTED
+- SUPPORTS
+E: REQUIRED joins an existing transaction or starts one. REQUIRES_NEW suspends the current transaction and starts an independent one (useful for audit logs).
+Q: {{@RestController}} is equivalent to:
+- @Component + @RequestMapping
+* @Controller + @ResponseBody
+- @Service + @ResponseBody
+- @Controller + @RequestBody
+E: Every handler method's return value is written directly to the HTTP response body (JSON via Jackson).
+Q: The default embedded server in spring-boot-starter-web is:
+- Jetty
+- Undertow
+* Tomcat
+- Netty
+E: Tomcat is default for the servlet stack. WebFlux (reactive) defaults to Netty.
+Q: How do you activate {{application-dev.yml}}?
+- Rename it to application.yml
+* Set spring.profiles.active=dev (property, env var SPRING_PROFILES_ACTIVE, or --spring.profiles.active=dev)
+- Annotate the main class with @Dev
+- It is loaded automatically always
+E: Profile-specific files override application.yml when the profile is active.
+Q: Which combination provides global exception handling for REST controllers?
+- @ControllerAdvice alone
+* @RestControllerAdvice with @ExceptionHandler methods
+- try/catch in every controller
+- @ResponseStatus on the main class
+E: A @RestControllerAdvice class centralises error responses (e.g. RFC 7807 ProblemDetail in Spring 6).
+Q: A @RequestBody annotated with @Valid fails validation. Which exception is thrown?
+- ConstraintViolationException
+* MethodArgumentNotValidException
+- BindException only
+- ValidationException
+E: Handle it in your @RestControllerAdvice to return field errors as 400 Bad Request. ConstraintViolationException comes from @Validated on method parameters like @PathVariable.
+Q: Two beans implement the same interface. How do you choose one at injection?
+- @Primary only
+- @Qualifier only
+* Either @Primary (a default) or @Qualifier("beanName") at the injection point
+- It is impossible
+E: Without one of these Spring throws NoUniqueBeanDefinitionException.
+Q: Which annotation enables {{@Scheduled}} methods?
+* @EnableScheduling
+- @EnableAsync
+- @EnableCron
+- @EnableBatchProcessing
+E: @EnableAsync is for @Async. Use cron, fixedRate or fixedDelay on @Scheduled.
+Q: Since Spring Boot 2.6, two beans that depend on each other through constructors will:
+- Work fine
+* Fail at startup, because circular references are prohibited by default
+- Be resolved lazily
+- Become prototype beans
+E: spring.main.allow-circular-references defaults to false. Fix the design (extract a third bean) rather than re-enabling it.
+Q: Which Actuator endpoint is exposed over HTTP by default?
+- /actuator/env
+- /actuator/beans
+* /actuator/health
+- /actuator/shutdown
+E: Only health is exposed over the web by default. Expose others with management.endpoints.web.exposure.include and secure them.
+Q: Which annotation binds a group of properties like {{app.mail.host}} to a typed class?
+- @Value on every field
+* @ConfigurationProperties(prefix = "app.mail")
+- @PropertySource only
+- @Bean
+E: @ConfigurationProperties gives type-safe, validated configuration; @Value suits single values.
+Q: Spring Boot 3 requires at least:
+- Java 8
+- Java 11
+* Java 17
+- Java 21
+E: Spring Boot 3 / Spring Framework 6 have a Java 17 baseline and moved from javax.* to jakarta.* packages.
+
+Q: Method A ({{@Transactional}}) calls method B annotated {{@Transactional(propagation = REQUIRES_NEW)}} in another bean. B commits, then A throws. Result?
+* B's changes stay committed; A's changes roll back
+- Both roll back
+- Both commit
+- B's changes roll back because it is nested inside A
+E: REQUIRES_NEW suspends the outer transaction and runs B in its own, independent transaction. NESTED (savepoint) would roll back with the outer one. The call must go through the Spring proxy (another bean) for the annotation to apply.
+Q: By default, {{@Transactional}} rolls back on:
+* Unchecked exceptions (RuntimeException) and Errors only
+- Every exception, checked or unchecked
+- Checked exceptions only
+- Nothing unless rollbackFor is set
+E: Checked exceptions commit by default. Use @Transactional(rollbackFor = Exception.class) to roll back on them too.
+Q: Where do you handle exceptions globally for all REST controllers?
+- In a Filter
+* A class annotated @RestControllerAdvice with @ExceptionHandler methods
+- In application.properties
+- In each repository
+E: @RestControllerAdvice plus @ExceptionHandler maps exceptions to consistent error responses (for example ProblemDetail per RFC 7807/9457) across every controller.
+Q: Which annotation documents a Spring Boot REST API as OpenAPI 3 with a Swagger UI?
+- @EnableSwagger2 (springfox) is the current standard
+* Add springdoc-openapi; it generates /v3/api-docs and /swagger-ui.html, refined with @Operation and @Schema
+- @ApiSpec
+- Spring REST Docs only
+E: springfox is unmaintained and does not support Spring Boot 3. springdoc-openapi is the standard; the ToR asks you to maintain API specs.

@@ -1,0 +1,10 @@
+- @SpringBootApplication = @Configuration + @EnableAutoConfiguration + @ComponentScan.
+- Stereotypes: @Component, @Service, @Repository (adds exception translation), @Controller/@RestController.
+- Bean scopes: singleton (default), prototype, request, session, application.
+- Prefer constructor injection; @Qualifier / @Primary for multiple candidates.
+- @Transactional: proxy-based; REQUIRED default; rolls back on unchecked only; self-invocation doesn't work.
+- Validation: @Valid + jakarta.validation annotations; MethodArgumentNotValidException = 400.
+- Errors: @RestControllerAdvice + @ExceptionHandler, ProblemDetail (RFC 7807).
+- Profiles: application-{profile}.yml, spring.profiles.active.
+- Actuator: /actuator/health exposed by default; Micrometer to /actuator/prometheus.
+- Boot 3: Java 17+, jakarta.* namespace. Default server Tomcat; pool HikariCP.

@@ -1,0 +1,133 @@
+Q: A JWT consists of:
+* Header, payload and signature, Base64URL-encoded and separated by dots
+- Username, password and expiry
+- An encrypted blob only the server can read
+- A session ID and a cookie
+E: A signed JWT (JWS) is header.payload.signature. Anyone can decode the payload; the signature only proves integrity.
+Q: Is the payload of a standard signed JWT encrypted?
+- Yes, always
+* No, it is only Base64URL-encoded; never put secrets in it (use JWE if you need encryption)
+- Only when using RS256
+- Only the exp claim is encrypted
+E: Treat JWT claims as readable by anyone holding the token.
+Q: Which OAuth2 flow is recommended for a React/Angular SPA or a mobile app?
+- Implicit flow
+- Resource Owner Password Credentials
+* Authorization Code with PKCE
+- Client Credentials
+E: Implicit and password grants are deprecated by current OAuth security best practice. PKCE protects public clients that cannot keep a secret.
+Q: Which OAuth2 grant fits service-to-service (machine-to-machine) calls?
+- Authorization Code
+* Client Credentials
+- Device Code
+- Implicit
+E: No user is involved; the service authenticates with its own client id and secret and gets an access token.
+Q: OpenID Connect adds what to OAuth2?
+- Encryption of all traffic
+* An identity layer: an ID token (JWT) and a userinfo endpoint for authentication
+- Database storage of tokens
+- Rate limiting
+E: OAuth2 is about authorization (delegated access). OIDC standardises login and user identity on top of it.
+Q: In Keycloak, a realm is:
+- A single user account
+* An isolated space that manages its own users, clients, roles and settings
+- A type of token
+- A database table
+E: Typically one realm per organisation or environment; clients (apps) live inside a realm.
+Q: Which is the right way to store user passwords?
+- MD5 hash
+- SHA-1 hash
+- Base64 encoding
+* An adaptive, salted hash such as BCrypt (or Argon2/PBKDF2)
+E: Spring Security's BCryptPasswordEncoder salts automatically and is deliberately slow to resist brute force.
+Q: In Spring Security 6, how do you configure HTTP security?
+- Extend WebSecurityConfigurerAdapter
+* Declare a SecurityFilterChain @Bean using HttpSecurity
+- Edit web.xml
+- Use @EnableWebMvc
+E: WebSecurityConfigurerAdapter was deprecated in 5.7 and removed in 6.0. The lambda DSL is the standard style.
+Q: For a stateless REST API authenticated by bearer tokens in the Authorization header, CSRF protection:
+* Can usually be disabled, because the browser does not attach the token automatically
+- Must always be enabled
+- Replaces the need for JWT
+- Is handled by CORS
+E: CSRF exploits automatically sent credentials like cookies. If you store tokens in cookies, keep CSRF protection on.
+Q: Difference between HS256 and RS256 JWT signing?
+- HS256 is asymmetric, RS256 is symmetric
+* HS256 uses one shared secret; RS256 signs with a private key and verifies with a public key
+- RS256 encrypts the payload
+- There is no difference
+E: Keycloak uses RS256 by default and publishes public keys at the JWKS endpoint, so resource servers can verify without sharing a secret.
+Q: HTTP 401 vs 403?
+* 401 = not authenticated (missing or invalid credentials); 403 = authenticated but not allowed
+- 401 = forbidden; 403 = unauthorized
+- Both mean server error
+- 403 means the token expired
+E: Expired or missing token gives 401. A valid user without the required role gives 403.
+Q: {{@PreAuthorize("hasRole('ADMIN')")}} actually checks for which authority?
+- ADMIN
+* ROLE_ADMIN
+- admin
+- AUTH_ADMIN
+E: hasRole adds the ROLE_ prefix. hasAuthority('ADMIN') checks the exact string. Method security needs @EnableMethodSecurity.
+Q: Which is the main defence against SQL injection?
+- Escaping quotes manually
+* Parameterised queries / prepared statements (JPA parameters, JdbcTemplate placeholders)
+- Hiding error messages
+- Using POST instead of GET
+E: Never concatenate user input into SQL. Validation and least-privilege DB accounts are extra layers.
+Q: CORS is enforced by:
+- The database
+- The Spring server only
+* The browser, based on Access-Control-* headers the server returns
+- The firewall
+E: CORS is a browser rule. Postman and curl ignore it. Configure allowed origins explicitly, never * with credentials.
+Q: What is a refresh token for?
+- Encrypting the access token
+* Getting a new short-lived access token without making the user log in again
+- Logging out
+- Signing requests
+E: Keep access tokens short-lived (minutes); refresh tokens are longer-lived, rotated and revocable.
+Q: AES is a ____ algorithm; RSA is a ____ algorithm.
+* symmetric; asymmetric
+- asymmetric; symmetric
+- hashing; symmetric
+- symmetric; hashing
+E: AES (one shared key) is used for bulk data encryption. RSA (key pair) is used for key exchange and signatures. SHA-256 is hashing (one-way).
+Q: Which is the primary defence against stored XSS in a web app?
+- Using HTTPS
+* Context-aware output encoding (React escapes by default) plus a Content-Security-Policy
+- Hashing passwords
+- Disabling CORS
+E: Avoid dangerouslySetInnerHTML / innerHTML with user data; sanitise rich text with a library like DOMPurify.
+Q: Which Spring Boot property makes an app a JWT resource server trusting a Keycloak realm?
+* spring.security.oauth2.resourceserver.jwt.issuer-uri=https://kc.example/realms/pksf
+- spring.keycloak.enabled=true
+- server.ssl.enabled=true
+- spring.jwt.secret
+E: With spring-boot-starter-oauth2-resource-server, Spring discovers the JWKS keys from the issuer and validates signature, exp and iss.
+
+Q: Which OAuth2 grant fits a backend service calling another service with no user involved?
+- Authorization Code + PKCE
+* Client Credentials
+- Implicit
+- Resource Owner Password
+E: Client Credentials is for machine-to-machine calls: the service authenticates with its own client id/secret (for example a Keycloak confidential client) and gets an access token. Implicit and Password grants are deprecated in OAuth 2.1.
+Q: In Spring Security, how do you restrict a method to users with the ADMIN role?
+* @PreAuthorize("hasRole('ADMIN')") with @EnableMethodSecurity
+- @Secured("ADMIN_ONLY") without configuration
+- @RolesAllowed in application.yml
+- @Admin
+E: @EnableMethodSecurity turns on @PreAuthorize. hasRole('ADMIN') checks for the authority ROLE_ADMIN. For Keycloak, map realm/client roles from the JWT into authorities with a JwtAuthenticationConverter.
+Q: Best way to store user passwords?
+- AES-encrypt them with a key in application.properties
+- SHA-256 hash
+* A slow, salted adaptive hash such as BCrypt or Argon2 (PasswordEncoder)
+- Base64-encode them
+E: Passwords should be hashed, not encrypted, with a slow, salted algorithm. Plain SHA-256 is too fast to resist brute force, and Base64 is not security at all.
+Q: Data in transit vs at rest encryption for PO financial records:
+* TLS (HTTPS) protects data in transit; database/disk encryption (for example AES-256, TDE, pgcrypto) protects data at rest
+- HTTPS protects data at rest
+- Hashing protects data in transit
+- JWT signing encrypts the payload
+E: A signed JWT (JWS) is only Base64URL-encoded and anyone can read it; use JWE if the payload must be encrypted. Never put secrets in a JWT.

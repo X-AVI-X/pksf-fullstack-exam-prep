@@ -1,0 +1,8 @@
+- Hooks: useState, useEffect, useContext, useReducer, useRef, useMemo, useCallback, useLayoutEffect.
+- Effect deps: [] once; [a] when a changes; none = every render. Return cleanup.
+- Functional updates: setX(prev => prev + 1). React 18 batches all updates automatically.
+- Keys: stable ids, not indexes.
+- Router v6: Routes, Route element, useNavigate, useParams, Outlet.
+- State: local (useState) > Context > Redux Toolkit/Zustand; server state: TanStack Query.
+- Performance: React.memo, useMemo, useCallback, lazy + Suspense, virtualised lists.
+- Testing: Jest/Vitest + React Testing Library.

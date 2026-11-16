@@ -1,0 +1,10 @@
+- JWT = header.payload.signature; payload is readable; claims: iss, sub, aud, exp, iat, nbf, jti.
+- HS256 shared secret; RS256 private signs / public verifies (Keycloak JWKS).
+- OAuth2 grants: Auth Code + PKCE (SPA/mobile), Client Credentials (M2M), Refresh Token. Implicit and Password are deprecated.
+- OIDC = OAuth2 + ID token = authentication.
+- Keycloak: realm > clients, users, roles, groups. Default port 8080.
+- Spring Security 6: SecurityFilterChain bean; @EnableMethodSecurity; hasRole adds ROLE_.
+- 401 unauthenticated, 403 forbidden.
+- Passwords: BCrypt / Argon2. AES symmetric, RSA asymmetric, SHA-256 hash.
+- CSRF matters for cookie auth; CORS is enforced by the browser.
+- SQLi: prepared statements. XSS: output encoding + CSP.

@@ -1,0 +1,127 @@
+Q: Image vs container?
+* An image is a read-only template of layers; a container is a running instance of an image with a writable layer
+- They are the same
+- A container is built from a Dockerfile; an image runs it
+- Images run on Kubernetes only
+E: docker build creates an image; docker run starts a container from it.
+Q: In a Dockerfile, CMD vs ENTRYPOINT?
+* ENTRYPOINT fixes the executable; CMD supplies default arguments that docker run can override
+- CMD cannot be overridden
+- ENTRYPOINT is only for Windows
+- They are identical
+E: Common Java pattern: ENTRYPOINT ["java","-jar","/app/app.jar"].
+Q: Why use a multi-stage Docker build for a Spring Boot app?
+- To run two apps in one container
+* To compile with a full JDK/Maven image, then copy only the jar into a small JRE runtime image
+- To support multiple architectures
+- It is required by Kubernetes
+E: Smaller images mean faster pulls and a smaller attack surface; no build tools or source code in production.
+Q: Which tool defines and runs a multi-container app (API + PostgreSQL + Redis) locally from one YAML file?
+- kubectl
+* Docker Compose
+- Helm
+- Maven
+E: docker compose up -d. The ToR explicitly values docker-compose files in your public repos.
+Q: The smallest deployable unit in Kubernetes is a:
+- Container
+* Pod
+- Node
+- Deployment
+E: A Pod holds one or more tightly coupled containers sharing network and storage.
+Q: Which Kubernetes object manages replicas and rolling updates of a stateless app?
+* Deployment (which manages ReplicaSets)
+- StatefulSet
+- DaemonSet
+- Job
+E: StatefulSet is for stable identity/storage (databases); DaemonSet runs one pod per node (log agents); Job/CronJob run to completion.
+Q: Which Service type is reachable only inside the cluster?
+* ClusterIP
+- NodePort
+- LoadBalancer
+- ExternalName
+E: ClusterIP is the default. NodePort opens a port on every node; LoadBalancer asks the cloud for an external LB. Ingress handles HTTP routing by host/path.
+Q: Kubernetes Secrets are, by default:
+- Strongly encrypted everywhere
+* Only base64-encoded; enable encryption at rest and RBAC (or use Vault / Sealed Secrets)
+- Stored in the container image
+- Visible only to root on the node
+E: ConfigMaps hold non-sensitive config; Secrets hold passwords and keys, injected as env vars or files.
+Q: Readiness probe vs liveness probe?
+* Readiness decides if a pod receives traffic; liveness decides if the container must be restarted
+- They are the same
+- Liveness controls traffic; readiness restarts
+- Both only run at startup
+E: Spring Boot exposes /actuator/health/readiness and /actuator/health/liveness. A startupProbe protects slow-starting JVMs.
+Q: Which command rolls a Deployment back to the previous version?
+- kubectl delete deployment api
+* kubectl rollout undo deployment/api
+- kubectl apply --previous
+- docker rollback
+E: kubectl rollout status / history help monitor rollouts.
+Q: What does a HorizontalPodAutoscaler do?
+* Adds or removes pod replicas based on metrics like CPU, memory or custom metrics
+- Adds nodes to the cluster
+- Increases CPU of one pod
+- Balances disks
+E: Requires resource requests to be set and metrics-server installed.
+Q: git merge vs git rebase?
+* Merge preserves history with a merge commit; rebase replays your commits on top of the target for a linear history
+- Rebase deletes branches
+- Merge rewrites history
+- They are identical
+E: Don't rebase commits already pushed to a shared branch.
+Q: To undo a commit that is already pushed to a shared branch, use:
+- git reset --hard and force push
+* git revert <commit> (creates a new commit that undoes it)
+- git stash
+- git checkout
+E: reset rewrites history and breaks teammates' clones; revert is safe for shared history.
+Q: Where do GitHub Actions workflow files live?
+- Jenkinsfile in the root
+- .gitlab-ci.yml
+* .github/workflows/*.yml
+- pom.xml
+E: GitLab CI uses .gitlab-ci.yml; Jenkins uses a Jenkinsfile (declarative pipeline).
+Q: Which deployment strategy runs the new version alongside the old and switches all traffic at once, allowing instant rollback?
+- Recreate
+* Blue-green
+- Canary
+- Rolling
+E: Canary shifts a small percentage of traffic first; rolling replaces pods gradually (the Kubernetes default).
+Q: Data written inside a container's filesystem is lost when the container is removed unless you use:
+- A bigger image
+* A volume (or bind mount)
+- docker commit
+- ENV variables
+E: Named volumes persist DB data across container recreation, e.g. postgres-data:/var/lib/postgresql/data.
+Q: Which object should run PostgreSQL in Kubernetes (if not using a managed DB)?
+- Deployment
+* StatefulSet with PersistentVolumeClaims
+- DaemonSet
+- ConfigMap
+E: StatefulSets give stable pod names and per-pod persistent storage.
+
+Q: Which Kubernetes object scales pods automatically on CPU or memory use?
+- ReplicaSet
+* HorizontalPodAutoscaler (HPA)
+- DaemonSet
+- ConfigMap
+E: The HPA adjusts Deployment replicas based on metrics-server or custom metrics. It needs resource requests set on the containers.
+Q: Why use a multi-stage Dockerfile for a Spring Boot app?
+* Build with a JDK/Maven image, then copy only the jar into a small JRE image, so the final image is smaller and safer
+- To run two apps in one container
+- It is required by Kubernetes
+- To avoid needing a registry
+E: For example, FROM maven:3-eclipse-temurin-21 AS build ... then FROM eclipse-temurin:21-jre and COPY --from=build. Run as a non-root user.
+Q: Undo a commit already pushed to a shared branch:
+* git revert <sha> (creates a new commit that inverts it)
+- git reset --hard and force-push
+- git commit --amend
+- Delete the branch
+E: Rewriting shared history with reset and force-push breaks teammates' clones. revert is safe and keeps an audit trail.
+Q: Where should the database password for a K8s deployment live?
+* A Kubernetes Secret (ideally backed by Vault or a cloud secret manager), injected as an env var or volume
+- Hard-coded in application.yml in Git
+- In the Docker image
+- In a ConfigMap
+E: ConfigMaps are for non-secret config. Remember that Secrets are only Base64-encoded, so enable encryption at rest and RBAC, or use External Secrets with Vault.

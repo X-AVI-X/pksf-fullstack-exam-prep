@@ -1,0 +1,10 @@
+- Docker: image (template) vs container (instance). Layers cached; order Dockerfile from least to most changing.
+- CMD = default args; ENTRYPOINT = executable. COPY vs ADD (ADD can extract tar/URLs; prefer COPY).
+- Multi-stage builds, non-root user, .dockerignore, volumes for data.
+- Compose: services, networks, volumes, depends_on, healthcheck.
+- K8s: Pod, ReplicaSet, Deployment, StatefulSet, DaemonSet, Job/CronJob, Service (ClusterIP/NodePort/LoadBalancer), Ingress, ConfigMap, Secret, PV/PVC, HPA, Namespace.
+- Probes: readiness (traffic), liveness (restart), startup.
+- kubectl get/describe/logs/apply/rollout undo/scale/exec.
+- Git: merge vs rebase; revert (safe) vs reset (rewrites); cherry-pick; GitFlow / trunk-based.
+- CI files: .github/workflows/*.yml, .gitlab-ci.yml, Jenkinsfile.
+- Strategies: rolling (K8s default), blue-green, canary, recreate.
