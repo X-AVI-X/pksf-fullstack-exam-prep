@@ -58,3 +58,13 @@ export const parseW = (id, txt) => txt.split(/\n(?=## )/).map(b => b.trim()).fil
   return { id: hid('w', q), topic: id, q, a, type, rubric, verified, marks: marks || rubric.reduce((s, p) => s + p.m, 0) || F[type]?.m || 5 };
 });
 export const parseCheat = txt => txt.split('\n').filter(l => l.startsWith('- ')).map(l => l.slice(2));
+// Lecture format: "## Title", markdown body, then optional "@check" followed by one MCQ block (Q:, options, E:).
+// Lectures are read in order; each check must be answered before the next lecture opens.
+export function parseLectures(id, txt) {
+  return txt.split(/\n(?=## )/).map(b => b.trim()).filter(b => b.startsWith('## ')).map(b => {
+    const L = b.split('\n'), title = L[0].slice(3).trim(), k = L.findIndex(l => l.trim() === '@check');
+    const body = (k < 0 ? L.slice(1) : L.slice(1, k)).join('\n').trim();
+    const chk = k < 0 ? [] : parseMCQ(id, L.slice(k + 1).join('\n'));
+    return { id: hid('l', id + title), topic: id, title, body, check: chk[0] || null };
+  });
+}

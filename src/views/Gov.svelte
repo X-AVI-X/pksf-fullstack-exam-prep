@@ -32,7 +32,7 @@
 
 <section class="band"><div class="wrap">
   <h2>Study in this order</h2>
-  <p class="mute">For each pattern: read the tutorial (how examiners phrase it, the answer structure that earns full marks, the traps), then write its questions and mark them with the rubric. The written paper above draws 2 SQL questions and 1 from every other pattern.</p>
+  <p class="mute">For each pattern: work through its lectures (how examiners phrase it, the answer structure that earns full marks, the traps), then write its questions and mark them with the rubric. The written paper above draws 2 SQL questions and 1 from every other pattern.</p>
   <div class="grid" style="margin-top:16px">{#each P as [id, freq, seen], i}{@const t = TM[id]}{#if t}
     <a class="card tcard" href="#t-{id}"><h3>{i + 1}. {t.name}</h3><span class="mute" style="font-size:14px">{t.blurb}</span>
       <span class="small"><b>{freq}</b> · <span class="mute">Seen in: {seen}</span></span>

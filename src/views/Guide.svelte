@@ -96,12 +96,12 @@
     <li>ToR stack concepts: <a href="#t-spring">Spring Boot</a>, <a href="#t-jpa">JPA</a>, <a href="#t-sec">Security & SSO</a>, <a href="#t-api">REST/SOAP & microservices</a>, <a href="#t-react">React</a> / <a href="#t-ng">Angular</a>.</li>
     <li><button class="lnk" onclick={() => drill('schema')}>Schema design</button> and <button class="lnk" onclick={() => drill('arch')}>architecture</button>: practise drawing boxes and tables neatly on paper.</li>
     <li>DevOps and operations: <a href="#t-devops">Docker, K8s & CI/CD</a>, <a href="#t-obs">Observability & async</a>, <button class="lnk" onclick={() => drill('scenario')}>troubleshooting scenarios</button>.</li>
-    <li><a href="#gov">Government-exam patterns</a>: one pattern a day in the build phase. Read its tutorial, then write its questions. They show how Bangladeshi IT recruitment papers ask the ToR topics.</li>
+    <li><a href="#gov">Government-exam patterns</a>: one pattern a day in the build phase. Work through its lectures, then write its questions. They show how Bangladeshi IT recruitment papers ask the ToR topics.</li>
   </ol>
 
   <h2 class="sec">6. How each section works</h2>
   <ul class="ans">
-    <li><b>Topics:</b> each has a quiz, its written questions and a one-page cheat sheet. ToR topics come first; the <a href="#gov">government-exam patterns</a> add a tutorial tab and show how recruitment papers phrase these topics. Subjects outside the ToR (OS, networking, DSA theory) are left out on purpose.</li>
+    <li><b>Topics:</b> each starts with a short lecture series, read in order with a check after every lecture, then has a quiz, written questions and a one-page cheat sheet. ToR topics come first; the <a href="#gov">government-exam patterns</a> show how recruitment papers phrase these topics. Subjects outside the ToR (OS, networking, DSA theory) are left out on purpose.</li>
     <li><b>Written practice:</b> pick a question, write your answer, press <i>Submit and mark</i>, then award each rubric point full, half or none against the model answer. Be strict; the score is only useful if it's honest.</li>
     <li><b>Written exam:</b> a timed mixed paper. Use <b>paper mode</b> to print it and write by hand, just like the real exam.</li>
     <li><b>MCQ mock, Flashcards, Weak spots:</b> fast recall drills. Anything you get wrong goes to Weak spots until you answer it correctly.</li>

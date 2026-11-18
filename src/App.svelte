@@ -5,7 +5,7 @@
   const isNew = !Object.keys(S.q).length && !S.mocks.length && !Object.keys(S.w).length;
   const cur = () => location.hash.slice(1) || (isNew ? 'guide' : 'home'); // first visit lands on the guide
   let h = $state(cur());
-  addEventListener('hashchange', () => { const n = cur(); if (n.startsWith('t-') && n !== h && h !== 'quiz') ui.tab = TM[n.slice(2)]?.tut ? 'tut' : 'quiz'; h = n; if (n !== 'quiz') scrollTo(0, 0) });
+  addEventListener('hashchange', () => { h = cur(); if (h !== 'quiz') scrollTo(0, 0) });
   const nav = [['guide', 'Start here'], ['home', 'Topics'], ['gov', 'Govt-exam patterns'], ['write', 'Written practice'], ['wexam', 'Written exam'], ['mock', 'MCQ mock'], ['cards', 'Flashcards'], ['weak', 'Weak spots']];
   const close = yes => { const c = ui.confirm; ui.confirm = null; if (yes) c.yes() };
 </script>

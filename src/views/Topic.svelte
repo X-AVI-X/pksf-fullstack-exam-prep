@@ -3,8 +3,11 @@
   import { F } from '../lib/formats.js';
   import { S, ui, mastered, start, go } from '../lib/state.svelte.js';
   import Resume from './Resume.svelte';
+  import Lectures from './Lectures.svelte';
   let { id } = $props();
   const t = TM[id]; if (!t) go('home');
+  if (t?.lec.length) ui.tab = 'lec'; // opening a topic starts with its lectures
+  else if (ui.tab === 'lec') ui.tab = 'quiz';
   const m = $derived(t ? mastered(t) : 0), un = $derived(t ? t.qs.filter(q => S.q[q.id] !== 1) : []);
   const st = q => S.q[q.id] === 1 ? ['ok', 'Mastered'] : S.q[q.id] === 0 ? ['no', 'Answered wrong last time'] : ['', 'Not attempted'];
 </script>
@@ -13,13 +16,12 @@
 <section class="band green"><div class="wrap"><Resume /><a href={t.group === 'gov' ? '#gov' : '#home'} class="mute" style="text-decoration:none">← {t.group === 'gov' ? 'All exam patterns' : 'All topics'}</a>
   <h1 style="margin-top:10px">{t.name}</h1><p class="mute">{t.blurb} · <span class="tag">{GTAG[t.group]}</span></p>
   <div class="row" style="max-width:520px"><div class="bar" style="flex:1"><i style="width:{pct(m, t.qs.length)}%"></i></div><b>{m} / {t.qs.length}</b></div>
-  <div class="tabs" role="tablist">{#each [...(t.tut ? [['tut', 'Tutorial']] : []), ['quiz', `Quiz (${t.qs.length})`], ['written', `Written (${t.ws.length})`], ['cheat', 'Cheat sheet']] as [k, l]}<button role="tab" aria-selected={ui.tab === k} class:on={ui.tab === k} onclick={() => (ui.tab = k)}>{l}</button>{/each}</div>
+  <div class="tabs" role="tablist">{#each [...(t.lec.length ? [['lec', `Lectures (${t.lec.length})`]] : []), ['quiz', `Quiz (${t.qs.length})`], ['written', `Written (${t.ws.length})`], ['cheat', 'Cheat sheet']] as [k, l]}<button role="tab" aria-selected={ui.tab === k} class:on={ui.tab === k} onclick={() => (ui.tab = k)}>{l}</button>{/each}</div>
 </div></section>
 <section class="band"><div class="wrap">
-  {#if ui.tab === 'tut' && t.tut}
-    <div class="ans tut">{@html md(t.tut)}</div>
-    <div class="row sec"><button class="btn dark" onclick={() => (ui.tab = 'written')}>Practise the written questions ({t.ws.length})</button><button class="btn" onclick={() => (ui.tab = 'quiz')}>Take the quiz ({t.qs.length})</button></div>
-  {:else if ui.tab === 'quiz' || ui.tab === 'tut'}
+  {#if ui.tab === 'lec' && t.lec.length}
+    <Lectures {t} />
+  {:else if ui.tab === 'quiz'}
     <h2>Practice quiz</h2><p class="mute">Instant feedback and an explanation after every answer. Options are shuffled each time.</p>
     <div class="row" style="margin-top:14px"><button class="btn dark" onclick={() => start(shuffle(t.qs), 'practice', t.name + ' practice', 0)}>All {t.qs.length} questions</button><button class="btn" disabled={!un.length} onclick={() => start(shuffle(un), 'practice', t.name + ' practice', 0)}>Only not-yet-mastered ({un.length})</button></div>
     <div class="sec"><h3>Question list</h3>{#each t.qs as q, i}{@const [c, l] = st(q)}<div class="rv {c}"><div class="qt">{@html md(i + 1 + '. ' + q.q)}</div><div class="l mute">{l}</div></div>{/each}</div>

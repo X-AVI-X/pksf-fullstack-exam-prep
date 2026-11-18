@@ -1,7 +1,7 @@
 import { ALLQ, ALLW, QM, WM, shuffle } from './bank.js';
 import LEGACY from './legacy-ids.json';
 const K = 'pksf-prep-v1';
-const init = { q: {}, f: {}, mocks: [], w: {}, wd: {}, wx: null, wxh: [] }; // w: written scores, wd: drafts, wx: written exam in progress, wxh: exam history
+const init = { q: {}, f: {}, mocks: [], w: {}, wd: {}, wx: null, wxh: [], lec: {} }; // w: written scores, wd: drafts, wx: written exam in progress, wxh: exam history
 try { Object.assign(init, JSON.parse(localStorage.getItem(K) || '{}')) } catch {}
 // v1 stored progress under positional ids ("cs-4"); v2 uses stable text-hash ids. Migrate once, keeping every answer that still exists.
 if ((init.v ?? 1) < 2) {
@@ -9,7 +9,7 @@ if ((init.v ?? 1) < 2) {
   Object.assign(init, { q: mv(init.q), f: mv(init.f), w: mv(init.w), wd: mv(init.wd), wx: null, v: 2 });
 }
 if (init.wx && !init.wx.items?.every(x => QM[x.id] || WM[x.id])) init.wx = null; // a paper whose questions were since edited can't be resumed
-export const S = $state(init); // q: {id: 1 right | 0 wrong}, f: {flashcard id: 1 known}, mocks: [{s,n,d}]
+export const S = $state(init); // q: {id: 1 right | 0 wrong}, f: {flashcard id: 1 known}, mocks: [{s,n,d}], lec: {topic: {i, a: {lectureId: chosen}, done}}
 export const save = () => { try { localStorage.setItem(K, JSON.stringify($state.snapshot(S))) } catch {} };
 save(); // persist the migrated/initialised state
 export const ui = $state({ preset: null, sess: null, deck: null, tab: 'quiz', search: '', confirm: null, now: Date.now() });

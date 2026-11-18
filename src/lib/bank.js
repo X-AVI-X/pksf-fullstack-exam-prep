@@ -1,10 +1,10 @@
 import meta from '../../content/topics.json';
-import { parseMCQ, parseW, parseCheat } from './parse.js';
+import { parseMCQ, parseW, parseCheat, parseLectures } from './parse.js';
 export { md, inl } from './parse.js';
 const raw = import.meta.glob('../../content/*.{txt,md}', { query: '?raw', import: 'default', eager: true });
 const f = (id, n) => raw[`../../content/${id}.${n}`] || '';
 // Topics marked "hidden" (outside the ToR) stay in content/ and keep their saved progress, but are left out of the app.
-export const TOPICS = meta.filter(t => !t.hidden).map(t => ({ ...t, qs: parseMCQ(t.id, f(t.id, 'mcq.txt')), ws: parseW(t.id, f(t.id, 'written.md')), cs: parseCheat(f(t.id, 'cheat.md')), tut: f(t.id, 'tutorial.md') }));
+export const TOPICS = meta.filter(t => !t.hidden).map(t => ({ ...t, qs: parseMCQ(t.id, f(t.id, 'mcq.txt')), ws: parseW(t.id, f(t.id, 'written.md')), cs: parseCheat(f(t.id, 'cheat.md')), lec: parseLectures(t.id, f(t.id, 'lectures.md')) }));
 export const TM = Object.fromEntries(TOPICS.map(t => [t.id, t]));
 export const ALLQ = TOPICS.flatMap(t => t.qs), ALLW = TOPICS.flatMap(t => t.ws);
 export const QM = Object.fromEntries(ALLQ.map(q => [q.id, q]));
