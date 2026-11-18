@@ -1,0 +1,10 @@
+- Logical order: {{FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY}}. Aggregates go in HAVING, never WHERE.
+- Every non-aggregated SELECT column must appear in GROUP BY.
+- Second highest: {{MAX(salary) WHERE salary < (SELECT MAX…)}}, {{DISTINCT … OFFSET 1 LIMIT 1}}, or {{DENSE_RANK() = 2}} (also gives the Nth).
+- "Both A and B" across rows: {{GROUP BY id HAVING COUNT(DISTINCT x) = 2}} or {{INTERSECT}}. {{x = 'A' AND x = 'B'}} returns 0.
+- {{COUNT(*)}} counts rows; {{COUNT(col)}} and every other aggregate skip NULLs; {{AVG}} divides by the non-NULL count.
+- {{NOT IN}} with a NULL in the list returns nothing. Use {{NOT EXISTS}}.
+- {{> ALL (empty)}} is TRUE; {{> ALL (…, NULL)}} is UNKNOWN.
+- Self-join for manager names: {{emp e LEFT JOIN emp m ON m.id = e.manager_id}}.
+- Duplicates: {{GROUP BY col HAVING COUNT(*) > 1}}; prevent them with a UNIQUE constraint.
+- UPDATE or DELETE: check with a SELECT using the same WHERE first, and run it inside a transaction.

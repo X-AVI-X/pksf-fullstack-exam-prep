@@ -1,0 +1,9 @@
+- BankAccount: private fields, validating constructor, deposit and withdraw with rules, no setBalance, {{BigDecimal}} for money.
+- Hierarchy: an abstract {{Account}} with a final {{withdraw}} that calls abstract {{canWithdraw}}; Savings checks a minimum balance, Current an overdraft limit.
+- A {{List<Account>}} loop calling overridden methods is your runtime-polymorphism example.
+- Overloading: different parameters, chosen at compile time. Overriding: same signature, instance method, chosen at run time.
+- Hiding: a static method or any field redeclared in a subclass, resolved by the reference type.
+- A static member through a null reference works; an instance member throws a NullPointerException.
+- {{new int[0]}} has length 0; {{[0]}} throws ArrayIndexOutOfBoundsException.
+- Checked exceptions (IOException, custom extends Exception) must be caught or declared; RuntimeExceptions need not be.
+- {{finally}} runs even after return. Use try-with-resources for anything that must be closed.

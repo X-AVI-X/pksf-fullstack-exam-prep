@@ -1,0 +1,62 @@
+Q: A server shows 10% CPU but slow responses. Which upgrade is least likely to help?
+* A faster CPU
+- An SSD replacing an HDD
+- A larger database connection pool
+- Adding a missing index
+E: Low CPU plus high latency means the requests are waiting (I/O, database, locks, network), not computing.
+
+Q: To scale a Spring Boot app horizontally behind a load balancer, you must first:
+- Increase the JVM heap
+* Make the app stateless (sessions in Redis or JWT)
+- Use a bigger database server
+- Disable caching
+E: With in-memory sessions, users lose their session when routed to another node. Sticky sessions are only a workaround.
+
+Q: An upload takes 5 minutes to process. What should the API return immediately?
+- 200 OK after processing completes
+* 202 Accepted with a status URL or job id
+- 201 Created with the full result
+- 504 Gateway Timeout
+E: 202 means accepted for asynchronous processing. The client polls a status resource or receives a notification.
+
+Q: A pod shows "OOMKilled" with exit code 137. What is the most likely cause?
+- A failed readiness probe
+* The container exceeded its memory limit
+- A wrong image tag
+- A network policy is blocking traffic
+E: Size the JVM heap to the container (MaxRAMPercentage) and set realistic memory limits.
+
+Q: Which probe stops Kubernetes from sending traffic to a pod that is still starting up?
+- livenessProbe
+* readinessProbe
+- startupProbe only
+- preStop hook
+E: Readiness controls whether the Service routes traffic to the pod. Liveness restarts it; startup delays the liveness checks.
+
+Q: Which OAuth2 grant suits a partner organisation's server calling PKSF's API with no user involved?
+- Authorization code with PKCE
+* Client credentials
+- Implicit
+- Password (resource owner)
+E: Client credentials is the grant for machine-to-machine calls. Strengthen it with private_key_jwt or mTLS.
+
+Q: What does an Idempotency-Key header on a POST request prevent?
+* Duplicate processing when the client retries the same request
+- Unauthorised access
+- Slow responses
+- Cross-site scripting
+E: The server stores the key with the result and returns the same result for a repeat, so retrying is safe.
+
+Q: Which metric best shows user-facing latency problems?
+- Average CPU usage
+- Average response time
+* p95/p99 response time
+- Number of pods
+E: Averages hide the slow tail. Percentiles show what the slowest 5% or 1% of users experience.
+
+Q: The connection pool metric shows "pending threads > 0" constantly. This means:
+* Requests are waiting for a free database connection
+- The database is down
+- Too many connections are idle
+- The cache is full
+E: Shorten transactions, fix slow queries, or size the pool to what the database can handle.

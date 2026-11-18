@@ -1,0 +1,76 @@
+Q: What is the main defence against SQL injection?
+- Escaping quotes in user input
+* Parameterised queries (prepared statements)
+- Using HTTPS
+- Hiding error messages
+E: Parameters keep the SQL structure fixed and always treat input as data. The other options are only extra layers.
+
+Q: Which cookie flag stops JavaScript from reading a session cookie?
+* HttpOnly
+- Secure
+- SameSite
+- Path
+E: HttpOnly blocks document.cookie access, which limits damage from XSS. Secure sends the cookie only over HTTPS; SameSite limits cross-site sending (CSRF).
+
+Q: In RSA with p = 5, q = 11 and e = 3, what is the private exponent d?
+- 7
+- 13
+* 27
+- 40
+E: φ = 40 and 3 × 27 = 81 ≡ 1 (mod 40). Encrypting m = 9 gives c = 14, and 14²⁷ mod 55 = 9.
+
+Q: Plain Diffie-Hellman is vulnerable to man-in-the-middle attacks because:
+- The discrete logarithm is easy to compute
+* It does not authenticate the parties' public values
+- It uses symmetric keys
+- The prime p is public
+E: The fix is authentication, by signing the DH values with certificates, as TLS does.
+
+Q: An attacker changes the loan amount in a message in transit. Which security property is violated?
+- Confidentiality
+* Integrity
+- Availability
+- Non-repudiation only
+E: Modification or falsification attacks integrity. Protect it with MACs or signatures, plus TLS.
+
+Q: How should passwords be stored?
+- Encrypted with AES
+- Hashed with plain SHA-256
+* Hashed with a slow, salted algorithm such as bcrypt or Argon2
+- Base64-encoded
+E: Passwords must be one-way and slow to brute-force. Fast hashes such as MD5 or SHA are cracked quickly with GPUs.
+
+Q: Which is a symmetric encryption algorithm?
+* AES
+- RSA
+- ECDSA
+- SHA-256
+E: AES uses one shared key. RSA and ECDSA are asymmetric, and SHA-256 is a hash.
+
+Q: Which XSS type is saved in the database and served to every user who views the page?
+- Reflected
+* Stored (persistent)
+- DOM-based
+- Blind SQL
+E: Stored XSS is the most dangerous kind. Prevent it with output encoding (framework escaping) and CSP.
+
+Q: Session fixation is prevented by:
+- Using longer passwords
+* Issuing a new session ID after a successful login
+- Disabling cookies
+- Using GET for login
+E: Spring Security migrates the session at login by default, so an ID planted before login becomes useless.
+
+Q: The default HTTPS port is:
+- 80
+* 443
+- 8080
+- 22
+E: HTTP is 80, HTTPS 443, SSH 22, PostgreSQL 5432, Redis 6379.
+
+Q: Which security protocol is considered broken and must not be used?
+* SSL 3.0 / TLS 1.0
+- TLS 1.3
+- TLS 1.2 with AES-GCM
+- SSH 2
+E: SSL 3.0 (POODLE) and TLS 1.0/1.1 are deprecated. Use TLS 1.2 or 1.3.

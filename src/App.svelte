@@ -1,21 +1,21 @@
 <script>
-  import { ui, S } from './lib/state.svelte.js';
+  import { ui, S } from './lib/state.svelte.js'; import { TM } from './lib/bank.js';
   import Home from './views/Home.svelte'; import Topic from './views/Topic.svelte'; import Quiz from './views/Quiz.svelte';
-  import Mock from './views/Mock.svelte'; import Write from './views/Write.svelte'; import WriteHub from './views/WriteHub.svelte'; import WExam from './views/WExam.svelte'; import Guide from './views/Guide.svelte'; import Cards from './views/Cards.svelte'; import Weak from './views/Weak.svelte';
+  import Mock from './views/Mock.svelte'; import Write from './views/Write.svelte'; import WriteHub from './views/WriteHub.svelte'; import WExam from './views/WExam.svelte'; import Guide from './views/Guide.svelte'; import Cards from './views/Cards.svelte'; import Weak from './views/Weak.svelte'; import Gov from './views/Gov.svelte';
   const isNew = !Object.keys(S.q).length && !S.mocks.length && !Object.keys(S.w).length;
   const cur = () => location.hash.slice(1) || (isNew ? 'guide' : 'home'); // first visit lands on the guide
   let h = $state(cur());
-  addEventListener('hashchange', () => { const n = cur(); if (n.startsWith('t-') && n !== h && h !== 'quiz') ui.tab = 'quiz'; h = n; if (n !== 'quiz') scrollTo(0, 0) });
-  const nav = [['guide', 'Start here'], ['home', 'Topics'], ['write', 'Written practice'], ['wexam', 'Written exam'], ['mock', 'MCQ mock'], ['cards', 'Flashcards'], ['weak', 'Weak spots']];
+  addEventListener('hashchange', () => { const n = cur(); if (n.startsWith('t-') && n !== h && h !== 'quiz') ui.tab = TM[n.slice(2)]?.tut ? 'tut' : 'quiz'; h = n; if (n !== 'quiz') scrollTo(0, 0) });
+  const nav = [['guide', 'Start here'], ['home', 'Topics'], ['gov', 'Govt-exam patterns'], ['write', 'Written practice'], ['wexam', 'Written exam'], ['mock', 'MCQ mock'], ['cards', 'Flashcards'], ['weak', 'Weak spots']];
   const close = yes => { const c = ui.confirm; ui.confirm = null; if (yes) c.yes() };
 </script>
 
 <header class="top"><div class="wrap">
   <a class="brand" href="#home"><i></i>PKSF Full-stack Prep</a>
-  <nav class="nav">{#each nav as [v, l]}<a href="#{v}" class:on={h === v || (v === 'home' && h.startsWith('t-')) || (v === 'write' && h.startsWith('w-'))}>{l}</a>{/each}</nav>
+  <nav class="nav">{#each nav as [v, l]}<a href="#{v}" class:on={h === v || (v === 'home' && h.startsWith('t-') && TM[h.slice(2)]?.group !== 'gov') || (v === 'gov' && h.startsWith('t-') && TM[h.slice(2)]?.group === 'gov') || (v === 'write' && h.startsWith('w-'))}>{l}</a>{/each}</nav>
 </div></header>
 <main>
-  {#if h === 'quiz'}<Quiz />{:else if h === 'mock'}<Mock />{:else if h === 'cards'}<Cards />{:else if h === 'weak'}<Weak />{:else if h === 'write'}<WriteHub />{:else if h === 'wexam'}<WExam />{:else if h === 'guide'}<Guide />
+  {#if h === 'quiz'}<Quiz />{:else if h === 'mock'}<Mock />{:else if h === 'cards'}<Cards />{:else if h === 'weak'}<Weak />{:else if h === 'write'}<WriteHub />{:else if h === 'wexam'}<WExam />{:else if h === 'guide'}<Guide />{:else if h === 'gov'}<Gov />
   {:else if h.startsWith('w-')}{#key h}<Write id={h.slice(2)} />{/key}
   {:else if h.startsWith('t-')}{#key h}<Topic id={h.slice(2)} />{/key}{:else}<Home />{/if}
 </main>

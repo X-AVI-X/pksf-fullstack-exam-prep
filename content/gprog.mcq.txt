@@ -1,0 +1,69 @@
+Q: Why does a prime test only need to try divisors up to √n?
+* Any factor larger than √n pairs with a factor smaller than √n
+- Numbers above √n are always prime
+- It is an approximation that can be wrong
+- Java's % operator is limited to √n
+E: If n = a × b and both a and b exceeded √n, their product would exceed n. So checking up to √n is enough, giving O(√n).
+
+Q: What is the worst-case time complexity of binary search on a sorted array of n elements?
+- O(1)
+* O(log n)
+- O(n)
+- O(n log n)
+E: Each comparison halves the remaining range. It needs a sorted, random-access structure; on a linked list it degrades.
+
+Q: Which midpoint formula avoids integer overflow in binary search?
+- (lo + hi) / 2
+* lo + (hi - lo) / 2
+- (lo * hi) / 2
+- hi / 2 + 1
+E: lo + hi can exceed Integer.MAX_VALUE for very large indices. lo + (hi - lo) / 2 never does.
+
+Q: What is the time complexity of the naive recursive Fibonacci, fib(n) = fib(n-1) + fib(n-2)?
+- O(n)
+- O(n²)
+* O(2ⁿ) (exponential)
+- O(log n)
+E: It recomputes the same values again and again. The iterative or memoised version is O(n).
+
+Q: Which data structure best checks balanced brackets?
+- Queue
+* Stack
+- Binary search tree
+- Hash map alone
+E: The last bracket opened must be the first closed, which is LIFO. In Java, use ArrayDeque as a stack.
+
+Q: In Java, what is 'a' + 1?
+- "a1"
+- 'b'
+* 98 (an int)
+- Compile error
+E: char + int is promoted to int, so the result is 98. Cast with (char) ('a' + 1) to get 'b'.
+
+Q: What is the sum of the even numbers from 1 to 10?
+- 25
+* 30
+- 55
+- 20
+E: 2 + 4 + 6 + 8 + 10 = 30. Formula: with k = n / 2, the sum is k(k + 1) = 5 × 6.
+
+Q: How many times does each loop body run when the condition is false from the start: while (i < 0) {…} and do {…} while (i < 0)?
+- 0 and 0
+* 0 and 1
+- 1 and 1
+- 1 and 0
+E: A do-while loop tests its condition after the body, so the body always runs at least once.
+
+Q: What does gcd(48, 18) return using the Euclidean algorithm?
+- 3
+* 6
+- 9
+- 18
+E: gcd(48, 18) → gcd(18, 12) → gcd(12, 6) → gcd(6, 0) = 6. Then lcm = 48 / 6 × 18 = 144.
+
+Q: Which is the most efficient way to build a string inside a loop in Java?
+- String concatenation with +=
+* StringBuilder.append
+- String.concat in a loop
+- new String each iteration
+E: Strings are immutable, so += creates a new object every iteration (O(n²) overall). StringBuilder grows a single buffer.

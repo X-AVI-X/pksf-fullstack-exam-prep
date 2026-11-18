@@ -8,6 +8,9 @@ Researched 2026-11-18. Goal: predict what the PKSF Software Engineer (Full-stack
 
 This is a new contract post, with an unusually detailed, stack-specific ToR and pay of BDT 1,20,000. That makes a ToR-driven practical paper more likely than the generic bank-style paper. This is an inference, not a fact.
 
+### The 2026 vacancy notice
+The posts belong to a new **Decision Support System (DSS)** team: "real-time, actionable insight" across PKSF's nationwide operations, built with cloud-native architecture, AI-assisted development, systems integration and large-scale data. There are 16 Software Engineer (Full-stack) seats among 27 posts, and only shortlisted candidates are contacted. So expect a CV shortlist followed by a practical, stack-specific test. Reporting-data skills are in the ToR (SQL, data workflows, Spring Batch, Redis, report generation) and now have their own pattern: **DSS & reporting data**.
+
 ## 2. Papers analysed (other bodies)
 
 About 200 technical items from 11 papers, 2021–2026. About 65 were read verbatim; the rest come from page summaries.

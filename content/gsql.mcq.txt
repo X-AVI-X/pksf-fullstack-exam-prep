@@ -1,0 +1,76 @@
+Q: A subquery returns the salaries 40000, 50000 and NULL. What does WHERE salary > ALL (that subquery) return for a row with salary 90000?
+- TRUE, because 90000 is above every non-NULL value
+* UNKNOWN, so the row is not returned
+- FALSE
+- A runtime error
+E: 90000 > NULL is UNKNOWN, so the ALL comparison is UNKNOWN and WHERE drops the row. Filter the NULLs out of the subquery or compare with MAX(salary).
+
+Q: What does WHERE salary > ALL (subquery) return when the subquery returns no rows?
+* TRUE for every row
+- FALSE for every row
+- UNKNOWN for every row
+- An error
+E: ALL over an empty set is vacuously true, so every outer row qualifies, even one whose salary is NULL. Verified on PostgreSQL 16.
+
+Q: SELECT COUNT(*) FROM emp WHERE id NOT IN (SELECT manager_id FROM emp) returns 0, although some employees manage nobody. Why?
+- NOT IN cannot be used with subqueries
+* manager_id is NULL for at least one row, so NOT IN is never TRUE
+- COUNT(*) ignores NULLs
+- The subquery must use DISTINCT
+E: x NOT IN (a, b, NULL) means x <> a AND x <> b AND x <> NULL, and the last term is UNKNOWN. Use NOT EXISTS, or filter WHERE manager_id IS NOT NULL.
+
+Q: Which clause filters groups after GROUP BY?
+- WHERE
+* HAVING
+- ORDER BY
+- DISTINCT
+E: WHERE filters rows before grouping; HAVING filters groups, so it can use aggregates such as HAVING COUNT(*) >= 5.
+
+Q: Six rows; the column bonus is NULL in three of them and 2000, 2000, 5000 in the rest. What does AVG(bonus) return?
+- 1500
+* 3000
+- 2000
+- NULL
+E: AVG ignores NULLs: 9000 / 3 = 3000. Use AVG(COALESCE(bonus, 0)) to get 1500.
+
+Q: Which statement removes all rows from a table but keeps its structure, and in PostgreSQL can be rolled back inside a transaction?
+- DROP TABLE
+* TRUNCATE TABLE
+- DELETE TABLE
+- ALTER TABLE … CLEAR
+E: TRUNCATE empties the table quickly and keeps the definition. In PostgreSQL it is transactional; in Oracle and MySQL it commits implicitly. DROP removes the table itself.
+
+Q: Which join returns every employee, including those without a matching department?
+- INNER JOIN dept
+* emp LEFT JOIN dept
+- emp RIGHT JOIN dept
+- CROSS JOIN dept
+E: A LEFT JOIN keeps every row of the left table and fills the right side with NULL when there is no match.
+
+Q: What is the logical order in which SQL evaluates the clauses of a SELECT query?
+- SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY
+* FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY
+- FROM, GROUP BY, WHERE, HAVING, SELECT, ORDER BY
+- WHERE, FROM, SELECT, GROUP BY, HAVING, ORDER BY
+E: That's why a column alias defined in SELECT can be used in ORDER BY but not in WHERE.
+
+Q: What is the difference between UNION and UNION ALL?
+* UNION removes duplicate rows; UNION ALL keeps them and is faster
+- UNION ALL removes duplicates
+- UNION needs the same table on both sides
+- There is no difference
+E: UNION has to sort or hash to remove duplicates. Use UNION ALL when duplicates are impossible or wanted.
+
+Q: WHERE amount BETWEEN 50000 AND 70000 includes which values?
+* 50000 and 70000 and everything in between
+- Only values strictly between them
+- 50000 but not 70000
+- 70000 but not 50000
+E: BETWEEN is inclusive at both ends. For dates with times, prefer a half-open range: >= start AND < next day.
+
+Q: What does the pattern LIKE '_a%' match?
+- Values that start with "a"
+* Values whose second character is "a"
+- Values that end with "a"
+- Values containing "_a"
+E: _ matches exactly one character and % matches zero or more characters.

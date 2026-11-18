@@ -1,0 +1,76 @@
+Q: Which ACID property guarantees that a committed transfer survives a power failure?
+- Atomicity
+- Consistency
+- Isolation
+* Durability
+E: Durability comes from the write-ahead log, which is flushed to disk before COMMIT returns.
+
+Q: In a transfer, the debit succeeds but the credit fails. Which property requires the debit to be undone?
+* Atomicity
+- Durability
+- Isolation
+- Consistency
+E: Atomicity means all or nothing: on failure the transaction is rolled back completely.
+
+Q: Which property must a primary key have?
+- It may contain NULL if the value is unique
+* It must be unique and NOT NULL
+- It must be numeric
+- It must be a single column
+E: That's entity integrity. A primary key can be composite or text, but it is never NULL and never duplicated.
+
+Q: A trigger is:
+- Called explicitly with CALL or EXEC
+* Executed automatically by the DBMS when an INSERT, UPDATE or DELETE event occurs
+- A kind of index
+- Only available in NoSQL databases
+E: Stored procedures are called explicitly; triggers fire on events, BEFORE or AFTER, per row or per statement.
+
+Q: A table has key (loan_id, installment_no), and member_name depends only on loan_id. Which normal form does this violate?
+- 1NF
+* 2NF
+- 3NF only
+- BCNF only
+E: An attribute that depends on part of a composite key is a partial dependency, which violates 2NF.
+
+Q: member_id → po_id and po_id → po_name, so member_id → po_name. This is a:
+- Partial dependency
+* Transitive dependency
+- Multivalued dependency
+- Trivial dependency
+E: A transitive dependency (non-key → non-key) violates 3NF. Move po_name into a PartnerOrg table.
+
+Q: A relation is in BCNF when:
+- It has no NULL values
+* Every determinant is a candidate key
+- Every table has a surrogate key
+- It has no foreign keys
+E: BCNF is stricter than 3NF: for every non-trivial X → Y, X must be a candidate key (superkey).
+
+Q: Which SQL statements are DDL?
+* CREATE, ALTER, DROP, TRUNCATE
+- SELECT, INSERT, UPDATE
+- GRANT, REVOKE
+- COMMIT, ROLLBACK
+E: DDL defines structure. DML (SELECT/INSERT/UPDATE/DELETE) changes data, DCL is GRANT/REVOKE, and TCL is COMMIT/ROLLBACK.
+
+Q: "Data about data" (table definitions, column types, constraints) stored by the DBMS is called:
+- A view
+* Metadata (the data dictionary or catalog)
+- An index
+- A tuple
+E: Metadata lives in the system catalog, for example PostgreSQL's information_schema and pg_catalog.
+
+Q: Which query cannot use a B-tree index on name?
+- WHERE name = 'Rahim'
+- WHERE name LIKE 'Rah%'
+* WHERE name LIKE '%him'
+- WHERE name > 'M'
+E: A leading wildcard has no starting point in the sorted order. Use a trigram (pg_trgm GIN) index or full-text search for that.
+
+Q: In an ER diagram, an M:N relationship between Officer and Branch becomes:
+- A foreign key in Officer
+- A foreign key in Branch
+* A junction table with both foreign keys as a composite primary key
+- A single merged table
+E: Relational tables can't store many-to-many directly. officer_branch(officer_id, branch_id) resolves it.

@@ -5,7 +5,8 @@
   import { F, score, rubricOf } from '../lib/formats.js';
   import Editor from './Editor.svelte'; import Marker from './Marker.svelte'; import Lines from './Lines.svelte';
   const types = Object.keys(F).filter(k => k !== 'mcq');
-  let cfg = $state({ min: 120, mcq: 20, wn: 8, grp: 'all', f: [...types], paper: false, ...S.wcfg }), err = $state('');
+  const base = () => ({ min: 120, mcq: 20, wn: 8, grp: 'all', f: [...types], paper: false, neg: false, ...S.wcfg, bp: null, name: null });
+  let cfg = $state(base()), err = $state('');
   const X = $derived(S.wx), it = $derived(X?.items[X.i]);
   const qOf = x => x.k === 'm' ? QM[x.id] : WM[x.id];
   const mk = x => x.k === 'm' ? 1 : WM[x.id].marks;
@@ -13,23 +14,28 @@
   const done = x => x.k === 'm' ? X.ans[x.id] != null : X.paper ? !!X.seen?.[x.id] : !!X.ans[x.id]?.trim();
   const pace = x => Math.max(1, Math.round(mk(x) * (X.min ?? 120) / total)); // minutes, proportional to marks
 
+  // cfg.bp (a preset blueprint) picks a fixed number of written questions per topic, e.g. { gsql: 2, gjava: 1 }.
   function begin() {
     const ok = id => cfg.grp === 'all' || TM[id].group === cfg.grp;
-    const buckets = cfg.f.map(t => shuffle(ALLW.filter(w => w.type === t && ok(w.topic)))).filter(b => b.length), w = [];
-    while (w.length < cfg.wn && buckets.some(b => b.length)) for (const b of buckets) if (b.length && w.length < cfg.wn) w.push(b.pop());
+    let w = [];
+    if (cfg.bp) w = Object.entries(cfg.bp).flatMap(([t, n]) => shuffle(ALLW.filter(x => x.topic === t)).slice(0, n));
+    else {
+      const buckets = cfg.f.map(t => shuffle(ALLW.filter(x => x.type === t && ok(x.topic)))).filter(b => b.length);
+      while (w.length < cfg.wn && buckets.some(b => b.length)) for (const b of buckets) if (b.length && w.length < cfg.wn) w.push(b.pop());
+    }
     const m = shuffle(ALLQ.filter(q => ok(q.topic))).slice(0, cfg.mcq);
     if (!w.length && !m.length) return (err = 'No questions match. Pick more formats or topics.');
-    S.wcfg = $state.snapshot(cfg);
-    S.wx = { phase: 'run', paper: cfg.paper, min: cfg.min, i: 0, t0: Date.now(), end: Date.now() + cfg.min * 60000, ans: {}, marks: {},
+    const { bp, name, ...keep } = $state.snapshot(cfg); if (!bp) S.wcfg = keep; // presets don't overwrite your own settings
+    S.wx = { phase: 'run', paper: cfg.paper, min: cfg.min, neg: cfg.neg ? 0.25 : 0, name: cfg.name, i: 0, t0: Date.now(), end: Date.now() + cfg.min * 60000, ans: {}, marks: {},
       items: [...m.map(q => ({ k: 'm', id: q.id, o: shuffle(q.o.map((_, i) => i)) })), ...w.map(q => ({ k: 'w', id: q.id }))] };
-    save(); scrollTo(0, 0);
+    cfg = base(); save(); scrollTo(0, 0);
   }
   const submit = () => { const u = X.items.filter(x => !done(x)).length; ask(u ? `Submit with ${u} unanswered?` : 'Submit your exam now?', submitWx) };
   // results
   const res = $derived.by(() => {
     if (!X || X.phase === 'run') return null;
     const rows = X.items.map(x => { const q = qOf(x);
-      if (x.k === 'm') return { x, q, f: 'mcq', got: X.ans[x.id] === q.a ? 1 : 0, max: 1 };
+      if (x.k === 'm') return { x, q, f: 'mcq', got: X.ans[x.id] == null ? 0 : X.ans[x.id] === q.a ? 1 : -(X.neg || 0), max: 1 };
       const s = score(q, X.marks[x.id] || []); return { x, q, f: q.type, ...s } });
     const by = k => Object.entries(Object.groupBy ? Object.groupBy(rows, k) : rows.reduce((m, r) => ((m[k(r)] ??= []).push(r), m), {}))
       .map(([n, rs]) => { const g = rs.reduce((s, r) => s + r.got, 0), m = rs.reduce((s, r) => s + r.max, 0); return [n, pct(g, m), `${g}/${m}`] });
@@ -39,11 +45,12 @@
   });
   function finishMarking() {
     for (const r of res.rows) { // record every result, so the paper counts towards weak spots and readiness
-      if (r.x.k === 'm') S.q[r.x.id] = r.got;
+      if (r.x.k === 'm') { if (X.ans[r.x.id] != null) S.q[r.x.id] = r.got > 0 ? 1 : 0 } // blanks aren't weak spots
       else if ((X.marks[r.x.id] || []).some(v => v != null)) S.w[r.x.id] = { s: r.got, m: r.max, d: Date.now() };
     }
-    S.wx.phase = 'done'; S.wxh = [...S.wxh, { d: Date.now(), got: res.got, max: res.max }].slice(-20); save(); scrollTo(0, 0);
+    S.wx.phase = 'done'; S.wxh = [...S.wxh, { d: Date.now(), got: res.got, max: res.max, name: X.name }].slice(-20); save(); scrollTo(0, 0);
   }
+  if (ui.preset && !S.wx) { cfg = { ...cfg, ...ui.preset }; ui.preset = null; begin() } else ui.preset = null;
   const wIdx = $derived(X ? X.items.map((x, i) => [x, i]).filter(([x]) => x.k === 'w').map(([, i]) => i) : []);
   $effect(() => { if (X?.phase === 'mark' && !wIdx.length) finishMarking() });
 </script>
@@ -57,7 +64,8 @@
     <label>MCQs (1 mark each)<input type="number" min="0" max="100" bind:value={cfg.mcq} /></label>
     <label>Written questions<input type="number" min="0" max="40" bind:value={cfg.wn} /></label>
     <label class="chk"><input type="checkbox" bind:checked={cfg.paper} />Paper mode: write answers by hand, print the paper, then mark your sheet</label>
-    <label>Curriculum<select bind:value={cfg.grp}><option value="all">ToR and foundational</option>{#each Object.entries(GROUPS) as [k, l]}<option value={k}>{l.split(' (')[0]}</option>{/each}</select></label>
+    <label class="chk"><input type="checkbox" bind:checked={cfg.neg} />Negative marking: −0.25 for each wrong MCQ (blank scores 0)</label>
+    <label>Curriculum<select bind:value={cfg.grp}><option value="all">All topics</option>{#each Object.entries(GROUPS) as [k, l]}<option value={k}>{l.split(' (')[0]}</option>{/each}</select></label>
   </div>
   <h3 class="sec">Written formats</h3><div class="row" style="margin:10px 0"><button class="btn" onclick={() => (cfg.f = [...types])}>Select all</button><button class="btn" onclick={() => (cfg.f = [])}>Clear</button></div>
   <div class="opts-set">{#each types as t}<label><input type="checkbox" bind:group={cfg.f} value={t} />{F[t].n} ({F[t].m}+ marks)</label>{/each}</div>
@@ -67,7 +75,7 @@
 
 {:else if X.phase === 'run'}
 <section class="band"><div class="qwrap">
-  <div class="qhead"><b>Written exam · {total} marks{X.paper ? ' · paper mode' : ''}</b><span class="row"><button class="btn" onclick={() => print()}>Print paper</button><span class="chip">≈ {pace(it)} min</span><span class="chip" class:warn={X.end - ui.now < 300000}>{fmt(X.end - ui.now)} left</span><span class="chip">{X.i + 1} / {X.items.length}</span></span></div>
+  <div class="qhead"><b>{X.name || 'Written exam'} · {total} marks{X.paper ? ' · paper mode' : ''}{X.neg ? ' · −0.25 per wrong MCQ' : ''}</b><span class="row"><button class="btn" onclick={() => print()}>Print paper</button><span class="chip">≈ {pace(it)} min</span><span class="chip" class:warn={X.end - ui.now < 300000}>{fmt(X.end - ui.now)} left</span><span class="chip">{X.i + 1} / {X.items.length}</span></span></div>
   <div class="prog"><i style="width:{pct(X.items.filter(done).length, X.items.length)}%"></i></div>
   {#key X.i}
     {#if it.k === 'm'}{@const q = QM[it.id]}
@@ -112,7 +120,7 @@
 
 {:else}
 <section class="band green"><div class="wrap score"><div class="big">{pct(res.got, res.max)}%</div><div><h2>{res.got} of {res.max} marks</h2>
-  <p class="mute">{X.items.length} questions in {Math.round(((X.submitted || X.end) - X.t0) / 60000)} minutes. Self-marked against answer keys; no AI marking is used.</p>
+  <p class="mute">{X.name ? X.name + ' · ' : ''}{X.items.length} questions in {Math.round(((X.submitted || X.end) - X.t0) / 60000)} minutes.{X.neg ? ` Negative marking: ${res.rows.filter(r => r.got < 0).length} wrong MCQs cost ${res.rows.filter(r => r.got < 0).length * X.neg} marks.` : ''} Self-marked against answer keys; no AI marking is used.</p>
   <div class="row"><button class="btn pri" onclick={() => { S.wx = null; save() }}>New written exam</button><a class="btn ghost" href="#write">Written practice</a></div></div></div>
   <div class="wrap" style="margin-top:22px"><h3>By format</h3><Lines rows={res.byF} /><h3 class="sec">By topic</h3><Lines rows={res.byT} /></div></section>
 <section class="band"><div class="qwrap">

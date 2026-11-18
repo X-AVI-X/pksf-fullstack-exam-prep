@@ -1,0 +1,9 @@
+- Vacancy notice (September 2026): a nationwide DSS for real-time insight; cloud-native, AI-assisted development, systems integration, large-scale data; 16 Software Engineer (Full-stack) posts at BDT 1,20,000.
+- DSS components: data management (warehouse), model management (KPIs, forecasts), user interface (dashboards), rules.
+- OLTP: normalised, many small writes. OLAP: star schema, big read aggregations. Keep them separate (OLTP → ETL → warehouse).
+- Star schema: choose the grain, then a fact table (measures plus FKs) and dimensions (PO, date, programme) with surrogate keys and SCD type 2.
+- Subtotals: {{GROUP BY ROLLUP (a, b)}} gives (a, b), (a), (); CUBE adds every combination; label rows with COALESCE or GROUPING().
+- Trends: a monthly CTE, then {{SUM() OVER (ORDER BY)}} for the running total and {{LAG()}} for month-over-month (guard with NULLIF).
+- Top per group: {{RANK() OVER (PARTITION BY … ORDER BY SUM(…) DESC)}}, filtered in an outer query.
+- Pipeline: ingest raw, validate (quarantine rejects), transform, incremental MERGE, refresh aggregates, cache, then the API.
+- Fast dashboards: materialised view (REFRESH CONCURRENTLY needs a unique index), Redis with a TTL, monthly partitions, a replica.

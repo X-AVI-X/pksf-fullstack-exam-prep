@@ -1,0 +1,8 @@
+- Structure: restate the constraints, measure (p95, Prometheus, ELK), find the bottleneck, fix the cheapest thing first, then load-test to verify.
+- Low CPU with high latency means waiting: database, pool, disk I/O, a downstream call, thread limits. Don't buy a faster CPU.
+- Scale without the cloud: stateless app nodes behind a load balancer, Redis, PgBouncer with read replicas, queues with workers, rate limits.
+- Sizing: 80k concurrent at one request per 20 s ≈ 4,000 req/s; at 500 per node, 8–10 nodes plus headroom.
+- Bulk uploads: store the file, queue it, return 202 with a status URL; Spring Batch chunks; idempotent; staging table, then merge.
+- System-to-system: OAuth2 client credentials (or mTLS), scopes plus a PO-ownership check, checksum or signature, Idempotency-Key, OpenAPI v1.
+- CrashLoopBackOff: describe, logs --previous, top. OOMKilled means heap and limits; liveness during start-up means add a startupProbe.
+- 502s on deploy: readinessProbe, graceful shutdown, 2+ replicas, maxUnavailable 0.

@@ -14,7 +14,7 @@
   <p class="mute">Write the answer yourself in an exam-style editor, then mark it against the answer key with a transparent rubric. {done.length} of {ALLW.length} attempted{done.length ? `, average ${avg}%` : ''}.</p>
   <div class="row" style="margin-top:14px">
     <select bind:value={f} aria-label="Format"><option value="all">All formats</option>{#each types as t}<option value={t}>{F[t].n} ({ALLW.filter(w => w.type === t).length})</option>{/each}</select>
-    <select bind:value={g} aria-label="Curriculum"><option value="all">ToR and foundational</option>{#each Object.entries(GROUPS) as [k, l]}<option value={k}>{l.split(' (')[0]}</option>{/each}</select>
+    <select bind:value={g} aria-label="Curriculum"><option value="all">All topics</option>{#each Object.entries(GROUPS) as [k, l]}<option value={k}>{l.split(' (')[0]}</option>{/each}</select>
     <select bind:value={st} aria-label="Status"><option value="all">Any status</option><option value="new">Not attempted yet</option><option value="low">Scored below 80%</option></select>
     <button class="btn pri" onclick={rnd} disabled={!list.length}>Random question</button><a class="btn ghost" href="#wexam">Timed written exam</a>
   </div></div></section>

@@ -87,42 +87,99 @@
   "id": "cs",
   "name": "Data Structures & Algorithms",
   "blurb": "Complexity, sorting, searching, trees, graphs, coding",
-  "group": "core"
+  "group": "core",
+  "hidden": true
  },
  {
   "id": "oop",
   "name": "Object-Oriented Programming",
   "blurb": "Encapsulation, inheritance, polymorphism, abstraction",
-  "group": "core"
+  "group": "tor"
  },
  {
   "id": "os",
   "name": "Operating Systems",
   "blurb": "Processes, threads, scheduling, memory, deadlock",
-  "group": "core"
+  "group": "core",
+  "hidden": true
  },
  {
   "id": "net",
   "name": "Computer Networking",
   "blurb": "OSI/TCP-IP, TCP/UDP, HTTP, DNS, subnetting",
-  "group": "core"
+  "group": "core",
+  "hidden": true
  },
  {
   "id": "dbms",
   "name": "DBMS Fundamentals",
   "blurb": "Relational model, keys, normalisation, ACID, transactions",
-  "group": "core"
+  "group": "tor"
  },
  {
   "id": "se",
   "name": "Software Engineering & Testing",
   "blurb": "SDLC, SOLID, design patterns, testing theory",
-  "group": "core"
+  "group": "tor"
  },
  {
   "id": "secf",
   "name": "Security Fundamentals",
   "blurb": "CIA triad, cryptography, authentication, common attacks",
-  "group": "core"
+  "group": "tor"
+ },
+ {
+  "id": "gsql",
+  "name": "SQL on a given schema",
+  "blurb": "Joins, GROUP BY/HAVING, 2nd-highest salary, NULL traps, subqueries",
+  "group": "gov"
+ },
+ {
+  "id": "gjava",
+  "name": "Java OOP class design",
+  "blurb": "BankAccount, account hierarchy, overloading/overriding/hiding, output traps",
+  "group": "gov"
+ },
+ {
+  "id": "gprog",
+  "name": "Classic programs in Java",
+  "blurb": "Prime, GCD/LCM, Fibonacci, binary search, palindrome, brackets",
+  "group": "gov"
+ },
+ {
+  "id": "gdb",
+  "name": "Database theory",
+  "blurb": "Triggers, ACID, integrity rules, normalisation, ER diagrams, indexes",
+  "group": "gov"
+ },
+ {
+  "id": "gdiff",
+  "name": "\"Difference between…\"",
+  "blurb": "SOAP/REST, interface/abstract, ==/equals, keys, DELETE/TRUNCATE",
+  "group": "gov"
+ },
+ {
+  "id": "gsec",
+  "name": "Security questions",
+  "blurb": "SQL injection, XSS, RSA, Diffie-Hellman, CIA, session hijacking",
+  "group": "gov"
+ },
+ {
+  "id": "gsdlc",
+  "name": "SDLC & testing",
+  "blurb": "SDLC phases, Agile, cohesion/coupling, BVA, cyclomatic complexity",
+  "group": "gov"
+ },
+ {
+  "id": "gscen",
+  "name": "Scenario & scalability",
+  "blurb": "Scale without cloud, latency diagnosis, bulk uploads, secure integration",
+  "group": "gov"
+ },
+ {
+  "id": "gdss",
+  "name": "DSS & reporting data",
+  "blurb": "From the vacancy notice: OLAP, star schema, ROLLUP, ETL, dashboards",
+  "group": "gov"
  }
 ]

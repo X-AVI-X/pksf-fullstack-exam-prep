@@ -1,0 +1,73 @@
+Q: Which message format does SOAP use?
+- JSON
+* XML, inside an Envelope with Header and Body
+- Protocol Buffers
+- Any format
+E: SOAP is XML only and is described by a WSDL. REST usually uses JSON but isn't limited to it.
+
+Q: A logged-in user calls an endpoint they have no role for. The correct HTTP status is:
+- 401 Unauthorized
+* 403 Forbidden
+- 404 Not Found
+- 400 Bad Request
+E: 401 means you're not authenticated (who are you?); 403 means authenticated but not allowed (authorisation).
+
+Q: What does this Java code print?
+~~~java
+Integer c = 128, d = 128;
+System.out.println(c == d);
+~~~
+- true
+* false
+- Compile error
+- It throws NullPointerException
+E: Integer caches only -128..127. 128 creates two different objects, and == compares references. Use equals().
+
+Q: Which statement is true of TRUNCATE in PostgreSQL?
+* It removes all rows, can't take WHERE, and can be rolled back inside a transaction
+- It deletes the table structure
+- It fires row-level DELETE triggers
+- It is DML
+E: TRUNCATE is DDL. In PostgreSQL it is transactional; in Oracle and MySQL it commits implicitly.
+
+Q: Since Java 8, an interface can contain:
+- Instance fields
+- Constructors
+* default and static methods
+- protected abstract methods
+E: Java 8 added default and static methods, and Java 9 added private methods. Interfaces still have no instance state or constructors.
+
+Q: A table can have how many primary keys and how many unique keys?
+* One primary key; many unique keys
+- Many of each
+- One of each
+- One unique key; many primary keys
+E: The primary key is the one chosen candidate key. Other candidate keys can be enforced with UNIQUE.
+
+Q: The JIT compiler in the JVM:
+- Converts .java files into .class files
+* Compiles frequently executed bytecode into native machine code at run time
+- Interprets source code line by line
+- Is the garbage collector
+E: javac produces bytecode, the JVM interprets it at first, and HotSpot's JIT compiles hot methods to native code.
+
+Q: What is the difference between a LIFO and a FIFO structure?
+* LIFO (stack) removes the newest item first; FIFO (queue) removes the oldest first
+- LIFO removes the oldest item first
+- They are the same
+- FIFO allows random access
+E: Stack examples: undo, call stack, bracket matching. Queue examples: job queues, print spooling, BFS.
+
+Q: Data vs information:
+- They mean the same thing
+* Data is raw facts; information is data processed into meaningful context
+- Information is raw and data is processed
+- Data is always numeric
+E: For example, individual repayment records are data, and the monthly PO repayment rate on a dashboard is information.
+
+Q: In security, the difference between a whitelist (allow list) and a blacklist (deny list) is:
+* An allow list permits only known-good items; a deny list blocks known-bad items and allows everything else
+- They are the same
+- A deny list is always more secure
+- An allow list blocks known-bad items
+E: Allow lists are stronger for input validation and firewalls, because unknown attacks are blocked by default.

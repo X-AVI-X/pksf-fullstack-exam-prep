@@ -34,7 +34,15 @@ Collected 2026-11-16 from PKSF's own site and Bangladeshi news. Check figures ma
 
 **Use in answers:** when an architecture or scenario question has no context, set it at PKSF. For example: "a PO submits monthly loan data via a REST API, a Spring Batch job validates it, it is stored in PostgreSQL with Redis caching for dashboards, and access uses Keycloak RBAC (PO user vs PKSF officer)". At the viva, mention Amader PKSF or OLRS to show you have done your homework.
 
+## Vacancy notice (2026): what you would build
+- PKSF is building a **next-generation Decision Support System (DSS)** that "turns nationwide operations into real-time, actionable insight".
+- Stated work: **cloud-native architecture, AI-assisted development, complex systems integration, large-scale data**.
+- Posts (27): Senior Software Engineer (Full-stack) ×4 at BDT 1,60,000; **Software Engineer (Full-stack) ×16 at BDT 1,20,000**; Software Test Engineer ×3 at 1,20,000; Senior Mobile Application Developer ×1 at 1,60,000; Mobile Application Developer ×1 at 1,20,000; Data Architect ×1 at 1,60,000 (1-year tenure); ERP Finance & Accounting Implementation Specialist ×1 at 2,00,000 (2 years). Engineering posts have a 4-year initial tenure, renewed annually on performance.
+- Apply online by **23 September 2026**. Only shortlisted candidates are contacted.
+- **Use in answers and the viva:** frame design answers around the DSS (PO data → pipeline → warehouse → dashboards) and say how you'd use AI-assisted development responsibly (code review, tests, no sensitive data in prompts).
+
 ## Sources
+- PKSF vacancy announcement (DSS posts), General Manager (HRD), deadline 23 September 2026 (newspaper or website notice, as shared by the candidate)
 - [PKSF: About Us](https://pksf.org.bd/about-us/) · [Governing Body](https://pksf.org.bd/governing-body/) · [Lending Activities](https://pksf.org.bd/lending-activities/) · [Jagoron](https://pksf.org.bd/our-activities/core-programmes/jagoron/)
 - [PKSF: Digital Transformation](https://pksf.org.bd/digital-transformation/) · [RMTP](https://pksf.org.bd/projects/rural-microenterprise-transformation-project-rmtp/) · [SMART](https://pksf.org.bd/sustainable-microenterprise-and-resilient-transformation-smart/)
 - [PKSF receives Independence Award 2026](https://pksf.org.bd/pksf-receives-independence-award-2026/)

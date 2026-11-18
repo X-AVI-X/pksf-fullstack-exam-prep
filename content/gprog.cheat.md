@@ -1,0 +1,9 @@
+- Answer layout: signature, code, edge cases, main with output comments, one line of complexity.
+- Prime: n < 2 is false, 2 is true, skip evens, odd divisors while {{i * i <= n}}, O(√n).
+- Euclid: {{gcd(a, b) = gcd(b, a % b)}}; LCM = {{a / gcd * b}} (divide first).
+- Fibonacci: iterative O(n); naive recursion O(2ⁿ); long overflows after F(92).
+- Binary search: sorted input; {{while (lo <= hi)}}; {{mid = lo + (hi - lo) / 2}}; return −1 if absent.
+- Palindrome: normalise with {{toLowerCase().replaceAll("[^a-z0-9]", "")}}, then two indices.
+- Brackets: push openers onto an ArrayDeque, pop and match on closers, and the stack must end empty.
+- Letter shift: {{(char) ('a' + (c - 'a' + 1) % 26)}}; use StringBuilder.
+- Second largest: one pass with first and second; skip duplicates of the maximum; don't initialise to 0.

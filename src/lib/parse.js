@@ -18,8 +18,9 @@ export function md(s) {
       h += '<div class="tbl"><table><thead><tr>' + rows[0].map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>' + rows.slice(1).map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>'; continue }
     if (isLi(l)) { h += '<ul>'; while (i < L.length && isLi(L[i])) h += '<li>' + inl(L[i++].replace(/^\s*- /, '')) + '</li>'; h += '</ul>'; continue }
     if (isOl(l)) { h += '<ol>'; while (i < L.length && isOl(L[i])) h += '<li>' + inl(L[i++].replace(/^\d+\. /, '')) + '</li>'; h += '</ol>'; continue }
+    if (/^#{3,4} /.test(l)) { const n = l.startsWith('####') ? 4 : 3; h += `<h${n}>` + inl(l.replace(/^#+ /, '')) + `</h${n}>`; i++; continue }
     if (!l.trim()) { i++; continue }
-    const b = []; while (i < L.length && L[i].trim() && !L[i].startsWith('~~~') && !isLi(L[i]) && !isOl(L[i]) && !isT(L[i])) b.push(L[i++]);
+    const b = []; while (i < L.length && L[i].trim() && !L[i].startsWith('~~~') && !isLi(L[i]) && !isOl(L[i]) && !isT(L[i]) && !/^#{3,4} /.test(L[i])) b.push(L[i++]);
     h += '<p>' + inl(b.join(' ')) + '</p>';
   }
   return h;

@@ -1,0 +1,9 @@
+- Structure: define both sides, then a 5–6 row table of dimensions (both columns answer each row), an example, and when to use which.
+- SOAP: XML envelope, WSDL, WS-Security, legacy and bank integration. REST: resources plus HTTP verbs, usually JSON, cacheable GET.
+- Authentication = who you are (401); authorisation = what you may do (403).
+- Interface: many implements, no state, default/static methods. Abstract class: one extends, fields, constructor, template method.
+- {{==}} compares references, equals compares content; Integer caches −128..127; override equals together with hashCode.
+- PK: one per table, never NULL. UNIQUE: many, NULLs allowed. FK: references a parent, duplicates allowed, index it yourself.
+- DELETE (DML, WHERE, triggers fire), TRUNCATE (DDL, all rows, fast, rollback only in PostgreSQL), DROP (removes the table).
+- Compiler: everything ahead of time. Interpreter: line by line. Java: javac to bytecode, then the JVM interprets and the JIT compiles hot code.
+- SQL vs NoSQL: fixed schema, joins and ACID versus flexible documents and sharding. Money goes in PostgreSQL.

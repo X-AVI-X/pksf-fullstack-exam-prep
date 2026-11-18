@@ -1,0 +1,9 @@
+- Attack answer: what it is, how it works (with the payload), impact for PKSF, and prevention in layers (code, framework, infrastructure, process).
+- SQL injection: {{admin' --}} or {{' OR '1'='1}}. Fix: PreparedStatement or JPA parameters, least privilege, allow-list validation.
+- XSS: stored, reflected or DOM. Fix: framework escaping (avoid dangerouslySetInnerHTML), DOMPurify, CSP, HttpOnly cookies.
+- RSA: n = pq, φ = (p−1)(q−1), e coprime to φ, d = e⁻¹ mod φ, c = mᵉ mod n. Example 5, 11, 3 gives d = 27, and 9 encrypts to 14.
+- Diffie-Hellman: A = gᵃ, B = gᵇ, K = gᵃᵇ mod p. Example 23, 5, 6, 15 gives A = 8, B = 19, K = 2. MITM works because there is no authentication; fix it with certificates.
+- CIA: interception → confidentiality; modification → integrity; masquerade → authenticity/integrity; DoS → availability.
+- Session hijacking: HTTPS, Secure + HttpOnly + SameSite, a new ID at login, timeouts, short-lived JWTs with refresh rotation.
+- Zero-day: find exposure (SBOM), contain (WAF virtual patch, egress block, segmentation), detect, respond, patch through CI/CD.
+- Passwords: bcrypt or Argon2. Traffic: TLS (hybrid). Columns: AES-GCM with keys in a vault. Signatures: RSA or ECDSA.

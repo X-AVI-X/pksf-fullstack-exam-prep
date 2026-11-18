@@ -1,0 +1,62 @@
+Q: According to PKSF's 2026 vacancy notice, what system will the new engineers build?
+- A mobile banking app for members
+* A next-generation Decision Support System (DSS) for real-time insight across PKSF's nationwide operations
+- A national ID verification system
+- An e-commerce marketplace for POs
+E: The notice says PKSF is investing in a DSS that turns nationwide operations into real-time, actionable insight. It lists 27 posts, 16 of them Software Engineer (Full-stack).
+
+Q: In a star schema, numeric measures such as disbursed amount are stored in:
+* The fact table
+- A dimension table
+- The date dimension only
+- A lookup view
+E: Facts hold additive measures plus foreign keys to the dimensions; dimensions hold descriptive attributes for filtering and grouping.
+
+Q: Which workload does OLAP describe?
+- Many short inserts and updates
+* Large read-only aggregations over historical data
+- Real-time payment authorisation
+- Storing user sessions
+E: OLTP runs the business (transactions). OLAP analyses it, using denormalised schemas, aggregates and partitions.
+
+Q: GROUP BY ROLLUP (division, programme) produces which grouping sets?
+- (division, programme) only
+* (division, programme), (division) and ()
+- (division), (programme) and ()
+- Every combination, including (programme)
+E: ROLLUP is hierarchical: detail rows, per-division subtotals and a grand total. CUBE adds (programme) as well.
+
+Q: Which window function returns the previous row's value, for month-over-month change?
+- LEAD
+* LAG
+- FIRST_VALUE
+- NTILE
+E: LAG(total) OVER (ORDER BY month) reads the previous month; LEAD reads the next one.
+
+Q: What does REFRESH MATERIALIZED VIEW CONCURRENTLY require in PostgreSQL?
+- No indexes on the view
+* A unique index on the materialised view
+- An exclusive table lock
+- That the view has no joins
+E: CONCURRENTLY compares the old and new results by the unique key, so readers aren't blocked during the refresh.
+
+Q: What does an incremental (delta) load in ETL do?
+* Loads only rows that are new or changed since the last run, using a watermark or CDC
+- Truncates and reloads the whole warehouse every day
+- Loads data only once
+- Runs only on weekends
+E: Incremental loads scale with change volume rather than history. Make them idempotent with MERGE or ON CONFLICT.
+
+Q: Why use surrogate keys in dimension tables?
+- They take less disk than any natural key
+* They isolate the warehouse from changes to source codes and allow history (slowly changing dimensions)
+- SQL requires them
+- They make queries return sorted results
+E: With SCD type 2, a PO moving district gets a new dimension row (a new surrogate key), so old facts keep their original context.
+
+Q: Which ranking function keeps ties when picking the top PO per division?
+- ROW_NUMBER
+* RANK (or DENSE_RANK)
+- NTILE
+- LAG
+E: ROW_NUMBER always gives 1, 2, 3 and drops tied rows arbitrarily. RANK gives tied rows the same rank.

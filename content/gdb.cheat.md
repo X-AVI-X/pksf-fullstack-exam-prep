@@ -1,0 +1,8 @@
+- Theory answer: definition, then the parts in a list or table, then a finance example, then why it's needed and one drawback.
+- Trigger: runs automatically on INSERT/UPDATE/DELETE, BEFORE or AFTER, per row or per statement, using OLD and NEW. Use it for audit trails; keep business logic out.
+- ACID: Atomicity (undo log), Consistency (constraints), Isolation (locks/MVCC and levels), Durability (WAL).
+- Integrity: entity (PK unique and not null), referential (FK matches a parent; ON DELETE RESTRICT for money), domain (type, CHECK, NOT NULL).
+- 1NF atomic; 2NF no partial dependency; 3NF no transitive dependency; BCNF every determinant is a key.
+- ER method: nouns are entities, verbs are relationships, ask the cardinality both ways, and M:N becomes a junction table.
+- A B-tree index is O(log n) and supports ranges. It isn't used with a function on the column, a leading %, a non-leftmost column, or low selectivity.
+- Every index slows writes. Index FKs and hot WHERE/JOIN columns, and confirm with EXPLAIN ANALYZE.

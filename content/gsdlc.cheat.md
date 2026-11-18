@@ -1,0 +1,8 @@
+- SDLC: planning, requirements (SRS), design (architecture, ERD, API spec), coding, testing, deployment, maintenance. Always name the deliverable.
+- Waterfall suits stable requirements; Agile/Scrum suits evolving ones. The PKSF DSS fits Scrum (the ToR mentions sprint goals).
+- Scrum: Product Owner, Scrum Master, Developers; Sprint, Planning, Daily, Review, Retro; Product Backlog, Sprint Backlog, Increment.
+- Aim for high cohesion and low coupling. Depend on interfaces and inject them (dependency inversion).
+- V(G) = decisions + 1. Count if, else if, loops, case, catch, ?:, && and ||. It is the minimum number of tests to cover every path.
+- BVA: min−1, min, min+1, nominal, max−1, max, max+1. EP: one value per class, including the invalid ones.
+- Levels: unit (JUnit, Mockito), integration (Testcontainers, MockMvc), system (Playwright, JMeter), acceptance (UAT).
+- Verification = building it right (reviews). Validation = building the right thing (testing with users).

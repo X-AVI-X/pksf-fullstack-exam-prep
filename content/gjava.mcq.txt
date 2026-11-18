@@ -1,0 +1,77 @@
+Q: What does this print?
+~~~java
+class Util { static int count = 7; }
+Util u = null;
+System.out.println(u.count);
+~~~
+* 7
+- null
+- It throws NullPointerException
+- Compile error
+E: Static members are resolved through the class, not the object, so the null reference is never dereferenced. An instance field would throw NullPointerException.
+
+Q: What does System.out.println(new int[0].length) print?
+- It doesn't compile
+* 0
+- It throws ArrayIndexOutOfBoundsException
+- null
+E: A zero-length array is legal. Only reading an element, such as a[0], throws ArrayIndexOutOfBoundsException.
+
+Q: Interfaces in Java are meant to be:
+- extended by objects at run time
+* implemented by classes
+- instantiated with new
+- used only for constants
+E: A class implements an interface (and another interface extends it). You can't instantiate an interface directly; an anonymous class or a lambda implements it.
+
+Q: B extends A and both declare static String who(). With A ref = new B(), which version does ref.who() call?
+* A's version, because static methods are hidden, not overridden
+- B's version, because of dynamic dispatch
+- Compile error
+- Whichever was loaded last
+E: Static methods are resolved at compile time from the reference type. That's method hiding.
+
+Q: Class B has void show(String s) and inherits void show(int x) from A. This is:
+- Overriding
+* Overloading
+- Hiding
+- Shadowing
+E: Same name, different parameter types means overloading. Overriding needs the same signature.
+
+Q: Which design best protects a bank balance from invalid changes?
+- A public double balance field
+- A private field with a public setBalance(double)
+* A private field changed only through deposit() and withdraw(), which validate
+- A static balance shared by all accounts
+E: Encapsulation means hiding the state and exposing behaviour that enforces the rules. A plain setter lets callers bypass the rules.
+
+Q: Why should money not be stored in a double?
+- double is too slow
+* Binary floating point cannot represent most decimal fractions exactly (0.1 + 0.2 != 0.3)
+- double cannot hold negative values
+- double uses too much memory
+E: Use BigDecimal (built from strings, or with an explicit scale), or store integer paisa in a long.
+
+Q: Which is a checked exception?
+- NullPointerException
+- ArithmeticException
+* IOException
+- IllegalArgumentException
+E: Checked exceptions extend Exception but not RuntimeException, and the compiler forces you to catch or declare them.
+
+Q: Can an abstract class have a constructor?
+* Yes; it runs when a subclass object is created
+- No, because it cannot be instantiated
+- Only if it has no abstract methods
+- Only a private one
+E: An abstract class's constructor initialises the shared state and is called through super(...) from a subclass constructor.
+
+Q: What does this method return, and what does it print?
+~~~java
+static int f() { try { return 1; } finally { System.out.println("finally"); } }
+~~~
+* It prints "finally" and returns 1
+- It returns 1 without printing
+- It prints "finally" and returns 0
+- Compile error
+E: finally always runs before the method returns. (A return inside finally would replace the value; avoid that.)

@@ -1,0 +1,69 @@
+Q: Which is the desired design goal?
+- High coupling, low cohesion
+* Low coupling, high cohesion
+- High coupling, high cohesion
+- Low coupling, low cohesion
+E: Each module should have one focused purpose (cohesion) and depend little on the others (coupling).
+
+Q: What is the cyclomatic complexity of a method with three if statements, one of which contains an && condition?
+- 3
+- 4
+* 5
+- 6
+E: 3 ifs plus 1 && make 4 decision points, and V(G) = 4 + 1 = 5.
+
+Q: For a valid input range of 1 to 100, which values does boundary value analysis test?
+* 0, 1, 2, 99, 100, 101
+- 1, 50, 100
+- Only 0 and 101
+- 10, 20, … 100
+E: Test the boundaries and their neighbours on both sides; a nominal value is often added.
+
+Q: Testing the interaction between the loan service and the PostgreSQL database is:
+- Unit testing
+* Integration testing
+- Acceptance testing
+- Smoke testing
+E: Integration tests check modules working through real interfaces. Testcontainers starts a real database for them.
+
+Q: "Are we building the product right?" describes:
+* Verification
+- Validation
+- Acceptance
+- Regression
+E: Verification checks against the specification (reviews, inspections). Validation checks against user needs.
+
+Q: An SRS requirement is verifiable when:
+- It is written in a formal language
+* A finite, cost-effective process can check that the software meets it
+- It has been approved by management
+- It cannot change
+E: "The system should be fast" is not verifiable. "95% of report pages load in under 2 s for 500 concurrent users" is.
+
+Q: In Scrum, who owns and prioritises the product backlog?
+- Scrum Master
+* Product Owner
+- Development team lead
+- Project sponsor
+E: The Product Owner maximises value through backlog ordering. The Scrum Master facilitates the process and removes impediments.
+
+Q: Which SDLC model fits a project with fixed, well-understood requirements and a fixed contract?
+* Waterfall
+- Scrum
+- Kanban
+- Spiral
+E: Waterfall suits stable requirements. Agile suits requirements that will evolve with user feedback.
+
+Q: Re-running existing tests after a change to make sure nothing broke is:
+- Smoke testing
+* Regression testing
+- Alpha testing
+- Exploratory testing
+E: Automate regression tests in CI, so every merge runs them.
+
+Q: Which is a black-box test design technique?
+- Statement coverage
+- Branch coverage
+* Equivalence partitioning
+- Basis-path testing
+E: Black-box techniques use the specification (EP, BVA, decision tables). White-box techniques use the code structure.

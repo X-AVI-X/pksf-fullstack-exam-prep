@@ -12,7 +12,7 @@ if (init.wx && !init.wx.items?.every(x => QM[x.id] || WM[x.id])) init.wx = null;
 export const S = $state(init); // q: {id: 1 right | 0 wrong}, f: {flashcard id: 1 known}, mocks: [{s,n,d}]
 export const save = () => { try { localStorage.setItem(K, JSON.stringify($state.snapshot(S))) } catch {} };
 save(); // persist the migrated/initialised state
-export const ui = $state({ sess: null, deck: null, tab: 'quiz', search: '', confirm: null, now: Date.now() });
+export const ui = $state({ preset: null, sess: null, deck: null, tab: 'quiz', search: '', confirm: null, now: Date.now() });
 export const go = h => { location.hash = h };
 export const mastered = t => t.qs.filter(q => S.q[q.id] === 1).length;
 export const wrongs = () => ALLQ.filter(q => S.q[q.id] === 0);
