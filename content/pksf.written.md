@@ -50,3 +50,16 @@ Prepare 2 such stories; be ready to draw the architecture on paper.
 + 1 | About PO users' pain points | pain
 + 1 | About team process (sprints, reviews) | sprint
 + 1 | About success criteria for the role | success
+
+## "What do you know about PKSF?" (viva, or a short written note)
+@concept 6
+- **What it is:** Palli Karma-Sahayak Foundation, an **apex development organisation** set up by the Government of Bangladesh in **1990** as a not-for-profit company. Its mandate is poverty alleviation through sustainable employment.
+- **How it works:** it is a **second-tier** body. It does not lend to people directly; it gives financing, skill training and technical support to more than 200 **Partner Organisations (POs)**, which serve members in the field. Most borrowers are women.
+- **What it offers:** core credit programmes (**Jagoron** general microcredit, **Agrosor** micro-enterprise, **Buniad** ultra-poor, **Sufolon** seasonal/agriculture) and development projects co-funded by the World Bank, ADB and IFAD.
+- **Its technology:** the Information Technology and Digital Solutions Department (**ITDSD**) builds the systems that PKSF and its POs use. POs already report digitally through APIs (the "Amader PKSF" portal and the Online Reporting System), and PKSF is moving towards more automated, data-driven and cashless services.
+- **Where this role fits:** building secure, reliable full-stack systems (Spring Boot, React/Angular, PostgreSQL, Keycloak SSO, Docker/Kubernetes) for sensitive financial, project and PO data.
++ 1.5 | What PKSF is: apex body founded by the Government in 1990, poverty alleviation | 1990, apex/poverty
++ 1.5 | Second-tier model: works through 200+ Partner Organisations | Partner Organisation/PO, second-tier
++ 1 | Names programmes or the kinds of service (financing, training) | Jagoron/Agrosor/Buniad/training
++ 1 | PKSF's digital systems and the ITDSD | ITDSD/digital/API
++ 1 | Links the role to PKSF's needs (secure handling of financial data) | secure/financial

@@ -119,3 +119,34 @@ Q: Which version-control hosts does the ToR name for a public code portfolio?
 - Google Drive
 - Any zip file
 E: It wants clean structure, modular full-stack projects, unit/integration tests and deployment docs (README.md, docker-compose).
+
+Q: What is PKSF's legal form?
+- A government ministry
+- A commercial bank licensed by Bangladesh Bank
+* A not-for-profit company established by the Government of Bangladesh in 1990
+- An international NGO
+E: PKSF was set up by the Government in 1990 as a not-for-profit company registered under the Companies Act. It is an apex development organisation, not a bank or a ministry.
+Q: PKSF is called an "apex" or "second-tier" organisation because:
+- It only works in hill districts
+* It does not lend to individuals directly; it finances Partner Organisations, which serve the members
+- It is the second-largest NGO in Bangladesh
+- It reports to two ministries
+E: PKSF channels funds, training and technical support through more than 200 Partner Organisations (POs). The POs run the field operations with member groups.
+Q: Which PKSF core credit programme serves the ultra-poor?
+- Agrosor
+- Jagoron
+* Buniad
+- Sufolon
+E: Buniad targets the ultra-poor, Jagoron is general rural and urban microcredit, Agrosor finances micro-enterprises and Sufolon gives seasonal and agricultural loans.
+Q: Which PKSF core credit programme finances micro-enterprises?
+* Agrosor
+- Buniad
+- Sufolon
+- Jagoron
+E: Agrosor is the micro-enterprise loan programme. Buniad serves the ultra-poor, Sufolon is seasonal/agricultural and Jagoron is general microcredit.
+Q: How do Partner Organisations mainly send their operational data to PKSF today?
+- By posting paper ledgers every quarter
+* Digitally, through PKSF's online reporting systems and APIs (the "Amader PKSF" portal, OLRS)
+- By fax
+- They do not report to PKSF
+E: PKSF describes almost 100% digital reporting from POs, with PO systems reporting through APIs to the "Amader PKSF" portal. This is why the ToR stresses REST APIs, bulk uploads, batch processing and secure integration.

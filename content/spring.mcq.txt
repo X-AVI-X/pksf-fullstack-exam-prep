@@ -63,7 +63,7 @@ Q: A @RequestBody annotated with @Valid fails validation. Which exception is thr
 * MethodArgumentNotValidException
 - BindException only
 - ValidationException
-E: Handle it in your @RestControllerAdvice to return field errors as 400 Bad Request. ConstraintViolationException comes from @Validated on method parameters like @PathVariable.
+E: Handle it in your @RestControllerAdvice to return field errors as 400 Bad Request. Constraints placed directly on @PathVariable/@RequestParam parameters raise ConstraintViolationException (class-level @Validated) or, from Spring 6.1 with built-in method validation, HandlerMethodValidationException.
 Q: Two beans implement the same interface. How do you choose one at injection?
 - @Primary only
 - @Qualifier only

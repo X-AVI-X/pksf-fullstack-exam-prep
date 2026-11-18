@@ -2,8 +2,11 @@
   import { TOPICS, ALLQ, ALLW, TM, GROUPS, pct, md, inl } from '../lib/bank.js';
   import { S, ui, mastered, wrongs } from '../lib/state.svelte.js';
   import Resume from './Resume.svelte'; import Lines from './Lines.svelte';
-  const tot = ALLQ.length, ok = $derived(ALLQ.filter(q => S.q[q.id] === 1).length), seen = $derived(ALLQ.filter(q => q.id in S.q).length);
-  const w = $derived(wrongs().length), last = $derived(S.mocks.at(-1)), p = $derived(pct(ok, tot));
+  const tot = ALLQ.length, ok = $derived(ALLQ.filter(q => S.q[q.id] === 1).length);
+  const w = $derived(wrongs().length), last = $derived(S.mocks.at(-1));
+  // Readiness: the exam is written, so MCQ mastery and written marks earned count equally.
+  const wTot = ALLW.reduce((s, x) => s + x.marks, 0), wDone = $derived(ALLW.filter(x => S.w[x.id]));
+  const wp = $derived(pct(wDone.reduce((s, x) => s + x.marks * S.w[x.id].s / (S.w[x.id].m || 1), 0), wTot)), p = $derived(Math.round((pct(ok, tot) + wp) / 2));
   const r = 52, c = 2 * Math.PI * r;
   let term = $state(ui.search), to;
   const s = $derived(term.trim().toLowerCase());
@@ -16,10 +19,10 @@
     <p class="mute">{tot} exam-style MCQs with explanations, {ALLW.length} written questions across 11 formats (SQL, output prediction, bug-finding, design, scenarios…) with model answers and marking rubrics, plus a cheat sheet per topic.</p>
     <div class="row" style="margin-top:18px"><a class="btn pri" href="#guide">Start here: study plan</a><a class="btn ghost" href="#wexam">Timed written exam</a><a class="btn ghost" href="#write">Written practice</a><a class="btn ghost" href="#mock">MCQ mock</a><a class="btn ghost" href="#cards">Flashcards</a>{#if w}<a class="btn ghost" href="#weak">Fix {w} weak spots</a>{/if}</div></div>
   <div class="dial">
-    <svg viewBox="0 0 130 130" role="img" aria-label="Readiness {p}%"><circle cx="65" cy="65" {r} fill="none" stroke="#ffffff22" stroke-width="12" /><circle cx="65" cy="65" {r} fill="none" stroke="#e6f5c8" stroke-width="12" stroke-linecap={p ? 'round' : 'butt'} stroke-dasharray="{c * p / 100} {c}" transform="rotate(-90 65 65)" /><text x="65" y="66" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-family="Inter Tight, Inter, sans-serif" font-weight="800" font-size="30">{p}%</text><text x="65" y="92" text-anchor="middle" fill="#b9d6cc" font-family="Inter, sans-serif" font-size="11">ready</text></svg>
+    <svg viewBox="0 0 130 130" role="img" aria-label="Readiness {p}%: average of MCQ mastery and written marks earned"><title>Average of MCQ mastery and written marks earned</title><circle cx="65" cy="65" {r} fill="none" stroke="#ffffff22" stroke-width="12" /><circle cx="65" cy="65" {r} fill="none" stroke="#e6f5c8" stroke-width="12" stroke-linecap={p ? 'round' : 'butt'} stroke-dasharray="{c * p / 100} {c}" transform="rotate(-90 65 65)" /><text x="65" y="66" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-family="Inter Tight, Inter, sans-serif" font-weight="800" font-size="30">{p}%</text><text x="65" y="92" text-anchor="middle" fill="#b9d6cc" font-family="Inter, sans-serif" font-size="11">ready</text></svg>
     <div>
-      <div class="stat"><span>Questions mastered</span><b>{ok} / {tot}</b></div>
-      <div class="stat"><span>Attempted</span><b>{seen}</b></div>
+      <div class="stat"><span>MCQs mastered</span><b>{ok} / {tot}</b></div>
+      <div class="stat"><span>Written answered</span><b>{wDone.length} / {ALLW.length}{wDone.length ? ` (${wp}% of all marks)` : ''}</b></div>
       <div class="stat"><span>Currently wrong</span><b>{w}</b></div>
       <div class="stat"><span>Last mock</span><b>{last ? `${last.s} / ${last.n} (${pct(last.s, last.n)}%)` : 'not taken'}</b></div>
     </div></div></div>

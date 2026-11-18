@@ -37,7 +37,13 @@
     const miss = rows.filter(r => r.x.k === 'w').flatMap(r => rubricOf(r.q).filter((_, i) => (X.marks[r.x.id]?.[i] ?? 0) < 1).map(p => [r.q.q, p.t]));
     return { rows, got, max, byF: by(r => F[r.f].n), byT: by(r => TM[r.q.topic].name), miss, unmarked: rows.filter(r => r.x.k === 'w' && (X.marks[r.x.id] || []).some(v => v == null) || r.x.k === 'w' && !X.marks[r.x.id]).length };
   });
-  function finishMarking() { S.wx.phase = 'done'; S.wxh = [...S.wxh, { d: Date.now(), got: res.got, max: res.max }].slice(-20); save(); scrollTo(0, 0) }
+  function finishMarking() {
+    for (const r of res.rows) { // record every result, so the paper counts towards weak spots and readiness
+      if (r.x.k === 'm') S.q[r.x.id] = r.got;
+      else if ((X.marks[r.x.id] || []).some(v => v != null)) S.w[r.x.id] = { s: r.got, m: r.max, d: Date.now() };
+    }
+    S.wx.phase = 'done'; S.wxh = [...S.wxh, { d: Date.now(), got: res.got, max: res.max }].slice(-20); save(); scrollTo(0, 0);
+  }
   const wIdx = $derived(X ? X.items.map((x, i) => [x, i]).filter(([x]) => x.k === 'w').map(([, i]) => i) : []);
   $effect(() => { if (X?.phase === 'mark' && !wIdx.length) finishMarking() });
 </script>

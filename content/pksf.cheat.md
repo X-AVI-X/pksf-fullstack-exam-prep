@@ -5,3 +5,9 @@
 - Mandatory stack: Java (Spring Boot) + React and/or Angular.
 - Named tech: Material Design, Spring Batch, JPA/Hibernate, PostgreSQL/Oracle/MySQL/MongoDB, Redis, OAuth2/JWT/Keycloak, REST + SOAP, Docker, Kubernetes, GitLab CI/GitHub Actions/Jenkins, ELK/Prometheus/Grafana.
 - Preferred: public repo with tests, README, docker-compose; microservices; PL/SQL; cloud (optional).
+- PKSF legal form: a **not-for-profit company** set up by the Government in **1990**, registered under the Companies Act (1913, now 1994). Run by a General Body and a Governing Body; a Chairman and a Managing Director lead it.
+- "Apex" / "second-tier" means PKSF does not lend to people directly: it funds **Partner Organisations (POs)**, mostly NGO microfinance institutions, which lend to members organised in groups. More than 90% of borrowers are women.
+- Core credit programmes: **Jagoron** (general rural and urban microcredit), **Agrosor** (micro-enterprise), **Buniad** (the ultra-poor), **Sufolon** (seasonal and agricultural loans). Projects are co-funded by the World Bank, ADB and IFAD (for example RMTP, SMART).
+- PKSF's digital systems (your department builds these): POs report to PKSF almost fully digitally; the **"Amader PKSF" portal** (2023-24) receives PO data **through APIs**; **OLRS** is the Online Reporting System for POs. Stated goals: AI-driven credit, digital banking, a cashless ecosystem.
+- 2026 news to know for the viva: PKSF received the **Independence Award 2026**; its FY2026-27 financing target is about **Tk 160 billion** (up 45%), aimed at skills and decent employment. Check pksf.org.bd for the current Chairman and Managing Director before the viva.
+- Use the PKSF setting in open questions: "a PO submits monthly loan data through a REST API; a Spring Batch job validates it; PostgreSQL stores it; Redis caches dashboards; Keycloak separates PO users from PKSF officers."

@@ -48,12 +48,29 @@ SecurityFilterChain api(HttpSecurity http) throws Exception {
 
 ## Design an RBAC data model.
 ~~~sql
-users(id, username, password_hash, enabled, partner_org_id)
-roles(id, name)                 -- ADMIN, PO_MANAGER, FIELD_OFFICER
-permissions(id, code)           -- LOAN_READ, LOAN_APPROVE, REPORT_SUBMIT
-user_roles(user_id, role_id)
-role_permissions(role_id, permission_id)
+CREATE TABLE users (
+  id             BIGSERIAL PRIMARY KEY,
+  username       VARCHAR(60)  NOT NULL UNIQUE,
+  password_hash  VARCHAR(100) NOT NULL,            -- BCrypt, never plain text
+  enabled        BOOLEAN NOT NULL DEFAULT TRUE,
+  partner_org_id BIGINT REFERENCES partner_org(id) -- NULL for PKSF staff
+);
+CREATE TABLE roles       (id SERIAL PRIMARY KEY, name VARCHAR(40) NOT NULL UNIQUE);   -- ADMIN, PO_MANAGER, FIELD_OFFICER
+CREATE TABLE permissions (id SERIAL PRIMARY KEY, code VARCHAR(60) NOT NULL UNIQUE);   -- LOAN_READ, LOAN_APPROVE, REPORT_SUBMIT
+CREATE TABLE user_roles (
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  role_id INT    NOT NULL REFERENCES roles(id),
+  PRIMARY KEY (user_id, role_id)                   -- junction table: users M:N roles
+);
+CREATE TABLE role_permissions (
+  role_id       INT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+  permission_id INT NOT NULL REFERENCES permissions(id),
+  PRIMARY KEY (role_id, permission_id)             -- junction table: roles M:N permissions
+);
+CREATE INDEX ON user_roles(role_id);
+CREATE INDEX ON users(partner_org_id);
 ~~~
+- A user has many roles and a role has many permissions, so both relationships need a **junction table** with a composite primary key.
 Load permissions as authorities at login; protect endpoints with {{hasAuthority('LOAN_APPROVE')}}. Add **data-level** checks too (a PO user may only see their own PO's rows), e.g. filter queries by {{partner_org_id}} taken from the token, never from the request body.
 + 2.5 | users, roles, permissions tables | role, permission
 + 2.5 | Junction tables user_role and role_permission (M:N) | user_role, role_permission

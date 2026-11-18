@@ -4,9 +4,9 @@ Study app for the PKSF **Software Engineer (Full-stack)** written exam. The syll
 
 Built for a **written** exam: the goal is to reproduce accurate answers, not just recognise them.
 
-- **Written practice:** 148 questions in 11 written formats (short answer, descriptive, explain-the-concept, compare & contrast, write SQL, predict Java/JS output, find the error, write a program, schema design, system architecture, troubleshooting scenario). Answer in an exam-style editor, then mark yourself against the answer key with a question-specific rubric: full, half or no marks per criterion, a list of missing concepts, and structure tips per format.
+- **Written practice:** 179 questions in 11 written formats (short answer, descriptive, explain-the-concept, compare & contrast, write SQL, predict Java/JS output, find the error, write a program, schema design, system architecture, troubleshooting scenario). Answer in an exam-style editor, then mark yourself against the answer key with a question-specific rubric: full, half or no marks per criterion, a list of missing concepts, and structure tips per format.
 - **Timed written exam:** configurable duration, MCQ count, written count, formats and curriculum. Navigation palette, autosave and resume, countdown, automatic submission, rubric marking, then a report by format and topic. **Paper mode** prints the question paper and lets you mark a handwritten answer sheet, with a suggested time per question based on its marks.
-- **348 MCQs** with explanations, a cheat sheet per topic, MCQ mock exams, flashcards, weak spots and search.
+- **353 MCQs** with explanations, a cheat sheet per topic, MCQ mock exams, flashcards, weak spots and search.
 - **Two curricula, clearly labelled:** ToR topics, and foundational core subjects (DSA, OOP, OS, networking, DBMS, software engineering & testing, security) that are not explicitly listed in the ToR.
 
 **Marking is honest about its sources.** Every model answer is an answer key written for this app; SQL, Java and JavaScript answers marked "executed and verified" were run (PostgreSQL 15, Java 21, Node 22). All 148 written questions have a question-specific rubric; a labelled generic rubric for the format is only a fallback for newly added questions without one. Keyword detection is shown only as a hint and never sets marks. No AI marking is used.

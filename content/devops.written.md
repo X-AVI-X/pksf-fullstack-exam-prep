@@ -157,7 +157,10 @@ jobs:
       - run: cd web && npm ci && npm test -- --watch=false && npm run build
       - if: github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
-        with: { registry: ghcr.io, username: ${{ github.actor }}, password: ${{ secrets.GITHUB_TOKEN }} }
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - if: github.ref == 'refs/heads/main'
         run: docker build -t ghcr.io/pksf/api:${{ github.sha }} . && docker push ghcr.io/pksf/api:${{ github.sha }}
 ~~~

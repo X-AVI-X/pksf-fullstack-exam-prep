@@ -49,7 +49,7 @@ public Po get(@PathVariable Long id) {
   return poRepository.findById(id).orElseThrow();   // Po has @OneToMany(fetch = LAZY) List<Member> members
 }
 ~~~
-**Bug:** the entity is returned outside the transaction and persistence context. When Jackson serialises {{members}}, Hibernate tries to load the lazy collection with **no open session**: {{LazyInitializationException: could not initialize proxy - no Session}}. (With open-in-view enabled it "works" but runs N+1 queries from the view layer.) Returning entities also exposes internal fields and risks infinite recursion with bidirectional relations.
+**Bug:** the entity is returned outside the transaction and persistence context. When Jackson serialises {{members}}, Hibernate tries to load the lazy collection with **no open session**: {{LazyInitializationException: could not initialize proxy - no Session}}. (Spring Boot turns {{spring.jpa.open-in-view}} **on by default**, which keeps the session open during serialisation: then there is no exception, but the lazy queries run from the web layer, N+1 style, and hold a DB connection for the whole request. The exception appears once open-in-view is disabled, as it should be for an API.) Returning entities also exposes internal fields and risks infinite recursion with bidirectional relations.
 
 **Fix:**
 ~~~java

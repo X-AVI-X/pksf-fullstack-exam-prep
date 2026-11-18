@@ -13,7 +13,7 @@
   }
 </script>
 
-<section class="band green"><div class="wrap"><Resume /><h1>Mock exam</h1><p class="mute">Random questions across the topics you pick, one minute per question, no feedback until you submit, like the real written test.</p></div></section>
+<section class="band green"><div class="wrap"><Resume /><h1>Mock exam</h1><p class="mute">Random questions across the topics you pick, one minute per question, no feedback until you submit. Use it for fast recall; the real exam is written, so sit the timed written exam as well.</p></div></section>
 <section class="band"><div class="qwrap">
   <h3>Number of questions</h3><div class="opts-set" style="margin-top:10px">{#each sizes as v}<label><input type="radio" bind:group={cnt} value={v} />{v === max ? 'All ' + v : v}</label>{/each}</div>
   <h3 class="sec">Topics</h3><div class="row" style="margin:10px 0"><button class="btn" onclick={() => (tps = TOPICS.map(t => t.id))}>Select all</button><button class="btn" onclick={() => (tps = [])}>Clear</button></div>
